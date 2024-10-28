@@ -1,0 +1,6 @@
+﻿services:
+  algerianolympiadplatform:
+    image: algerianolympiadplatform
+    build:
+      context: .
+      dockerfile: AlgerianOlympiadPlatform/Dockerfile

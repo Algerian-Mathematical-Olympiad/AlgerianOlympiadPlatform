@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Statistic">
+    <option name="separateTabsFileTypes" value="cs;cshtml" />
+    <option name="excludedDirectories">
+      <list>
+        <option value="$PROJECT_DIR$/AlgerianOlympiadPlatform/Properties" />
+        <option value="$PROJECT_DIR$/AlgerianOlympiadPlatform/obj" />
+        <option value="$PROJECT_DIR$/AlgerianOlympiadPlatform/bin" />
+        <option value="$PROJECT_DIR$/AopsUtilities/bin" />
+        <option value="$PROJECT_DIR$/AopsUtilities/obj" />
+        <option value="$PROJECT_DIR$/OlympTrain/bin" />
+        <option value="$PROJECT_DIR$/OlympTrain/obj" />
+        <option value="$PROJECT_DIR$/RaoufsConsole/bin" />
+        <option value="$PROJECT_DIR$/RaoufsConsole/obj" />
+      </list>
+    </option>
+  </component>
+</project>

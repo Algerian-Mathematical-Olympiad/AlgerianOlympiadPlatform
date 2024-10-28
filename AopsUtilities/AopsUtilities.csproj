@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OlympTrain\OlympTrain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.70" />
+      <PackageReference Include="HtmlAgilityPack.CssSelectors.NetCore" Version="1.2.1" />
+      <PackageReference Include="Selenium.WebDriver" Version="4.25.0" />
+      <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="130.0.6723.6900" />
+    </ItemGroup>
+
+</Project>
