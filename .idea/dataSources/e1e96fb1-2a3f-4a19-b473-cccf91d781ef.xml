@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="@localhost">
+  <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.53">
+    <root id="1">
+      <ServerVersion>8.0.1</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="AlgerianMO">
+      <LastIntrospectionLocalTimestamp>2024-10-29.18:33:57</LastIntrospectionLocalTimestamp>
+    </schema>
+    <schema id="3" parent="1" name="admin"/>
+    <schema id="4" parent="1" name="config"/>
+    <schema id="5" parent="1" name="local"/>
+    <schema id="6" parent="1" name="test">
+      <Current>1</Current>
+      <LastIntrospectionLocalTimestamp>2024-10-29.17:21:52</LastIntrospectionLocalTimestamp>
+    </schema>
+    <table id="7" parent="2" name="IdKeys"/>
+    <table id="8" parent="2" name="users"/>
+    <table id="9" parent="6" name="potatoes"/>
+    <column id="10" parent="7" name="_id">
+      <Position>1</Position>
+      <StoredType>ObjectId|12s</StoredType>
+    </column>
+    <column id="11" parent="7" name="k">
+      <Position>1</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="12" parent="7" name="v">
+      <Position>2</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="13" parent="8" name="_id">
+      <Position>1</Position>
+      <StoredType>ObjectId|12s</StoredType>
+    </column>
+    <column id="14" parent="8" name="ArabicName">
+      <Position>1</Position>
+      <StoredType>Object|4999544s</StoredType>
+    </column>
+    <column id="15" parent="8" name="ArabicName.FirstName">
+      <Position>2</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="16" parent="8" name="ArabicName.LastName">
+      <Position>3</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="17" parent="8" name="Birthday">
+      <Position>4</Position>
+      <StoredType>ISODate|91s</StoredType>
+    </column>
+    <column id="18" parent="8" name="Email">
+      <Position>5</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="19" parent="8" name="EnglishName">
+      <Position>6</Position>
+      <StoredType>Object|4999544s</StoredType>
+    </column>
+    <column id="20" parent="8" name="EnglishName.FirstName">
+      <Position>7</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="21" parent="8" name="EnglishName.LastName">
+      <Position>8</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="22" parent="8" name="HasPassport">
+      <Position>9</Position>
+      <StoredType>Boolean|12s</StoredType>
+    </column>
+    <column id="23" parent="8" name="School">
+      <Position>10</Position>
+      <StoredType>Object|4999544s</StoredType>
+    </column>
+    <column id="24" parent="8" name="School.Name">
+      <Position>11</Position>
+      <StoredType>Object|4999544s</StoredType>
+    </column>
+    <column id="25" parent="8" name="School.Name.Content">
+      <Position>12</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="26" parent="8" name="School.Name.IsRtl">
+      <Position>13</Position>
+      <StoredType>Boolean|12s</StoredType>
+    </column>
+    <column id="27" parent="8" name="School.Name.Language">
+      <Position>14</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="28" parent="8" name="School.Type">
+      <Position>15</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="29" parent="8" name="School.Wilaya">
+      <Position>16</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="30" parent="8" name="SchoolYear">
+      <Position>17</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="31" parent="8" name="TshirtSize">
+      <Position>18</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="32" parent="9" name="_id">
+      <Position>1</Position>
+      <StoredType>ObjectId|12s</StoredType>
+    </column>
+    <column id="33" parent="9" name="Age">
+      <Position>2</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="34" parent="9" name="History">
+      <Position>3</Position>
+      <StoredType>Array|2003s</StoredType>
+    </column>
+    <column id="35" parent="9" name="Name">
+      <Position>4</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+  </database-model>
+</dataSource>

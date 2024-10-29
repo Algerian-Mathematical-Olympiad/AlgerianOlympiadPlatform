@@ -2,7 +2,14 @@ namespace OlympTrain;
 
 public class School
 {
-    public string Name { get; set; }
+    public School(Description name, Wilaya wilaya, SchoolType type)
+    {
+        Name = name;
+        Wilaya = wilaya;
+        Type = type;
+    }
+
+    public Description Name { get; set; }
     public Wilaya Wilaya { get; set; }
     public SchoolType Type { get; set; }
 }

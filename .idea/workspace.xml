@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e9b777a4-5b17-47af-ac6f-b40da64c64e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector/DbInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector/Models/DbUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlgerianOlympiadPlatform.sln" beforeDir="false" afterPath="$PROJECT_DIR$/AlgerianOlympiadPlatform.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlgerianOlympiadPlatform.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/AlgerianOlympiadPlatform.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OlympTrain/Users/School.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OlympTrain/Users/School.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OlympTrain/Users/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/OlympTrain/Users/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaoufsConsole/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RaoufsConsole/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RaoufsConsole/RaoufsConsole.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RaoufsConsole/RaoufsConsole.csproj" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2o7KJGxkxIaqLB4adbdCCzVwN96" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/raouf/RiderProjects/AlgerianOlympiadPlatform",
+    "settings.editor.selected.configurable": "database.query.execution"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mongo"
+    ]
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+</project>
