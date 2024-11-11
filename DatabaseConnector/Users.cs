@@ -13,19 +13,19 @@ public class UserManager(IMongoDatabase database)
         users.InsertOne(user);
     }
 
-    public DetailedUser GetUserDetails(string email)
+    public DetailedUser GetUserDetails(string emailOrUsername)
     {
         var users = _database.GetCollection<DetailedUser>("users");
-        var user = users.Find(new ExpressionFilterDefinition<DetailedUser>(details => details.Email == email)).ToList();
-        if(user == null || user.Count == 0) throw new Exception($"User with email {email} does not exist");
+        var user = users.Find(new ExpressionFilterDefinition<DetailedUser>(details => details.Email == emailOrUsername || details.Id == emailOrUsername)).ToList();
+        if(user == null || user.Count == 0) throw new InvalidOperationException($"User {emailOrUsername} does not exist");
         return user[0];
     }
     
-    public User GetUser(string email)
+    public User GetUser(string emailOrUsername)
     {
         var users = _database.GetCollection<User>("users");
-        var user = users.Find(new ExpressionFilterDefinition<User>(details => details.Email == email)).ToList();
-        if(user == null || user.Count == 0) throw new Exception($"User with email {email} does not exist");
+        var user = users.Find(new ExpressionFilterDefinition<User>(details => details.Email == emailOrUsername || details.Id == emailOrUsername)).ToList();
+        if(user == null || user.Count == 0) throw new InvalidOperationException($"User {emailOrUsername} does not exist");
         return user[0];
     }
 
@@ -45,10 +45,9 @@ public class UserManager(IMongoDatabase database)
         return userList;
     }
 
-    public void ThrowUser(string email)
+    public void ThrowUser(string emailOrUsername)
     {
-        Console.WriteLine($"User with email {email} does not exist");
         var users = _database.GetCollection<User>("users");
-        users.DeleteOne(new ExpressionFilterDefinition<User>(details => details.Email == email));
+        users.DeleteOne(new ExpressionFilterDefinition<User>(details => details.Email == emailOrUsername || details.Id == emailOrUsername));
     }
 }

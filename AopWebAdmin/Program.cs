@@ -1,3 +1,7 @@
+using AopWebAdmin.Pages;
+
+AopsImporter.Init();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

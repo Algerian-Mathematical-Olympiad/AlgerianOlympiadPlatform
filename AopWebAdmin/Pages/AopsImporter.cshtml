@@ -1,0 +1,28 @@
+@page
+@using DatabaseConnector.Models
+@model AopsImporter
+@{
+    ViewData["Title"] = "AoPS Problem Scraping";
+}
+
+<h1>Search for a problem on AoPS</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Search">Source Name of the Problem</label>
+        <input asp-for="Search" class="form-control" />
+        <span asp-validation-for="Search" class="text-danger"></span>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<br>
+<br>
+@if (!Model.DidntFindProblem && Model.Problem != null)
+{
+    @Model.Problem.Descriptions.GetDescription(Language.English).Content
+}else if (Model.DidntFindProblem)
+{
+    <span class="text-danger">Problem not found :/</span>
+}
+
+

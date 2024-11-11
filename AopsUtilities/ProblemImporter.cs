@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Web;
 using HtmlAgilityPack;
 using DatabaseConnector.Models;
 using OpenQA.Selenium;
@@ -11,14 +12,15 @@ public class ProblemImporter
 {
     private readonly IWebDriver _driver;
     private bool _active = true;
-    public ProblemImporter()
+    public ProblemImporter(bool headless)
     {
         ChromeDriverService service = ChromeDriverService.CreateDefaultService();
         service.HideCommandPromptWindow = true;
         service.SuppressInitialDiagnosticInformation = true; 
         
         var options = new ChromeOptions();
-        options.AddArguments("headless", "--silent", "log-level=3");
+        if(headless)
+            options.AddArguments("headless", "--silent", "log-level=3");
         
         _driver = new ChromeDriver(service, options);
     }
@@ -27,37 +29,6 @@ public class ProblemImporter
     {
         _active = false;
         _driver.Quit();
-    }
-    
-    private static string ReplaceImagesWithAltTextAndRemoveOthers(string html)
-    {
-        var doc = new HtmlDocument();
-        doc.LoadHtml(html);
-        
-        var output = new StringBuilder();
-        TurnHtmlNodeIntoPlainText(doc.DocumentNode, output);
-        
-        return output.ToString();
-    }
-
-    private static void TurnHtmlNodeIntoPlainText(HtmlNode node, StringBuilder output)
-    {
-        foreach (var child in node.ChildNodes)
-        {
-            if (child.Name == "img")
-            {
-                var altText = child.GetAttributeValue("alt", string.Empty);
-                output.Append(altText);
-            }
-            else if (child.NodeType == HtmlNodeType.Text)
-            {
-                output.Append(child.InnerText);
-            }
-            else
-            {
-                TurnHtmlNodeIntoPlainText(child, output);
-            }
-        }
     }
     
     public Problem ScrapProblemFromAops(string url, IProblemIdGenerator problemIdGenerator)
@@ -82,4 +53,36 @@ public class ProblemImporter
             new Difficulty(1,1));
 
     }
+    
+    private static string ReplaceImagesWithAltTextAndRemoveOthers(string html)
+    {
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        
+        var output = new StringBuilder();
+        TurnHtmlNodeIntoPlainText(doc.DocumentNode, output);
+        
+        return HttpUtility.HtmlDecode(output.ToString());
+    }
+
+    private static void TurnHtmlNodeIntoPlainText(HtmlNode node, StringBuilder output)
+    {
+        foreach (var child in node.ChildNodes)
+        {
+            if (child.Name == "img")
+            {
+                var altText = child.GetAttributeValue("alt", string.Empty);
+                output.Append(altText);
+            }
+            else if (child.NodeType == HtmlNodeType.Text)
+            {
+                output.Append(child.InnerText);
+            }
+            else
+            {
+                TurnHtmlNodeIntoPlainText(child, output);
+            }
+        }
+    }
+    
 }

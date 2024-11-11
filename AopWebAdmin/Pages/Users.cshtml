@@ -7,6 +7,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Users</h1>
+    <a class="text-end" asp-page="/AddUser">Add a user</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -16,6 +17,7 @@
             <th>Birthdate</th>
             <th>Email</th>
             <th>School Year</th>
+            <th>School</th>
             <th>Wilaya</th>
             <th>Actions</th>
         </tr>
@@ -30,6 +32,7 @@
                 <td>@u.Birthday</td>
                 <td>@u.Email</td>
                 <td>@u.SchoolYear</td>
+                <td>@u.School.Name.Content</td>
                 <td>@u.School.Wilaya</td>
                 <td>
                     <form method="post">
@@ -44,4 +47,3 @@
     </table>
     
 </div>
-<a asp-page="/AddUser">Add a user</a>

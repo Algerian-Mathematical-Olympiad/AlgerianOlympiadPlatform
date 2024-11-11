@@ -7,12 +7,10 @@ namespace AopWebAdmin.Pages;
 
 public class AddUserModel : PageModel
 {
-    [BindProperty]
-    public DetailedUserInputModel UserInput { get; set; } = new DetailedUserInputModel();
+    [BindProperty] public DetailedUserInputModel UserInput { get; set; } = new DetailedUserInputModel();
 
     public async Task<IActionResult> OnPostAsync()
     {
-        
         var detailedUser = new DetailedUser(
             id: UserInput.Username,
             englishName: new UserName(UserInput.EnglishFirstName, UserInput.EnglishLastName),
@@ -26,10 +24,41 @@ public class AddUserModel : PageModel
         );
 
         var u = new UserManager(new TestDataBaseProvider().GetDatabase());
-        
+
+
+        if (IsUsernameUsed(u)) return RedirectToPage("Error", new { errorMessage = "Username already exists" });
+
+        if (IsEmailUsed(u)) return RedirectToPage("Error", new { errorMessage = "Email already exists" });
+
         u.CreateUser(detailedUser);
 
-        return RedirectToPage("Users"); 
+        return RedirectToPage("Users");
+    }
+
+    private bool IsUsernameUsed(UserManager userManager)
+    {
+        try
+        {
+            userManager.GetUser(UserInput.Username);
+            return true;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private bool IsEmailUsed(UserManager userManager)
+    {
+        try
+        {
+            userManager.GetUser(UserInput.Email);
+            return true;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
     }
 
     public class DetailedUserInputModel

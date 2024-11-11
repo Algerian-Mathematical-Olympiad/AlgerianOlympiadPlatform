@@ -1,3 +1,4 @@
+using System.Web;
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using DatabaseConnector.Models;
@@ -39,7 +40,7 @@ public class ProblemSearcher
         var node = document.DocumentNode.QuerySelector("code");
         if(node == null)
             throw new Exception($"The webpage scanned does not correspond to the expectations.");
-        return node.InnerHtml;
+        return HttpUtility.HtmlDecode(node.InnerHtml);
     }
     
     private string GetProblemLink(HtmlDocument document)

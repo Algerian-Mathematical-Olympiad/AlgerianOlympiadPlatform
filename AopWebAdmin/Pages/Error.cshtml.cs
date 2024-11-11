@@ -8,6 +8,7 @@ namespace AopWebAdmin.Pages;
 [IgnoreAntiforgeryToken]
 public class ErrorModel : PageModel
 {
+    public string ErrorMessage { get; set; } = "An error has occurred.";
     public string? RequestId { get; set; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
@@ -22,5 +23,7 @@ public class ErrorModel : PageModel
     public void OnGet()
     {
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        if(HttpContext.Request.Query.ContainsKey("errorMessage"))
+            ErrorMessage = HttpContext.Request.Query["errorMessage"]!;
     }
 }
