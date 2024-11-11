@@ -7,13 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlympTrain", "OlympTrain\OlympTrain.csproj", "{0B71591A-8BEF-4317-8E7C-DBB96C67723D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnector.Models", "DatabaseConnector.Models\DatabaseConnector.Models.csproj", "{0B71591A-8BEF-4317-8E7C-DBB96C67723D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaoufsConsole", "RaoufsConsole\RaoufsConsole.csproj", "{0E8D3EA2-39C3-483A-B9C6-489474FBC0F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopsUtilities", "AopsUtilities\AopsUtilities.csproj", "{733AD326-24D6-4721-BAB8-B1533FF40E4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnector", "DatabaseConnector\DatabaseConnector.csproj", "{2CB89441-2103-4B35-B9FB-97D45B021E88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopWebAdmin", "AopWebAdmin\AopWebAdmin.csproj", "{58AF8123-B561-4C51-818E-E423160F3420}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{2CB89441-2103-4B35-B9FB-97D45B021E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CB89441-2103-4B35-B9FB-97D45B021E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CB89441-2103-4B35-B9FB-97D45B021E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58AF8123-B561-4C51-818E-E423160F3420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58AF8123-B561-4C51-818E-E423160F3420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58AF8123-B561-4C51-818E-E423160F3420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58AF8123-B561-4C51-818E-E423160F3420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0E8D3EA2-39C3-483A-B9C6-489474FBC0F8} = {B2EC92A4-D59A-4C80-AE04-36901D33D253}
@@ -48,5 +54,6 @@ Global
 		{0B71591A-8BEF-4317-8E7C-DBB96C67723D} = {B2EC92A4-D59A-4C80-AE04-36901D33D253}
 		{733AD326-24D6-4721-BAB8-B1533FF40E4F} = {B2EC92A4-D59A-4C80-AE04-36901D33D253}
 		{2CB89441-2103-4B35-B9FB-97D45B021E88} = {B2EC92A4-D59A-4C80-AE04-36901D33D253}
+		{58AF8123-B561-4C51-818E-E423160F3420} = {B2EC92A4-D59A-4C80-AE04-36901D33D253}
 	EndGlobalSection
 EndGlobal

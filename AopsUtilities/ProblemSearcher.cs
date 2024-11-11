@@ -1,6 +1,6 @@
 using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using OlympTrain;
+using DatabaseConnector.Models;
 
 namespace AopsUtilities;
 

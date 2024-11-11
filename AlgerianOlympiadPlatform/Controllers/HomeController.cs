@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AlgerianOlympiadPlatform.Models;
+using DatabaseConnector;
 
 namespace AlgerianOlympiadPlatform.Controllers;
 
@@ -15,7 +16,9 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var u = new UserManager(new TestDataBaseProvider().GetDatabase());
+        var users = u.GetUsers();
+        return View(users);
     }
     
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -11,7 +11,7 @@
       <ProjectReference Include="..\AlgerianOlympiadPlatform\AlgerianOlympiadPlatform.csproj" />
       <ProjectReference Include="..\AopsUtilities\AopsUtilities.csproj" />
       <ProjectReference Include="..\DatabaseConnector\DatabaseConnector.csproj" />
-      <ProjectReference Include="..\OlympTrain\OlympTrain.csproj" />
+      <ProjectReference Include="..\DatabaseConnector.Models\DatabaseConnector.Models.csproj" />
     </ItemGroup>
 
 </Project>

@@ -74,7 +74,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OlympTrain\OlympTrain.csproj" />
+      <ProjectReference Include="..\DatabaseConnector\DatabaseConnector.csproj" />
+      <ProjectReference Include="..\DatabaseConnector.Models\DatabaseConnector.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MongoDB.Driver">
+        <HintPath>..\..\..\.nuget\packages\mongodb.driver\3.0.0\lib\net6.0\MongoDB.Driver.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

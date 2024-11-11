@@ -1,0 +1,47 @@
+@page
+@using DatabaseConnector.Models
+@model UsersModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Users</h1>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Username</th>
+            <th>English Name</th>
+            <th>Arabic Name</th>
+            <th>Birthdate</th>
+            <th>Email</th>
+            <th>School Year</th>
+            <th>Wilaya</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (DetailedUser u in Model.AopUsers)
+        {
+            <tr>
+                <td>@u.Id</td>
+                <td>@u.EnglishName.FirstName @u.EnglishName.LastName</td>
+                <td>@u.ArabicName.FirstName @u.ArabicName.LastName</td>
+                <td>@u.Birthday</td>
+                <td>@u.Email</td>
+                <td>@u.SchoolYear</td>
+                <td>@u.School.Wilaya</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email"/>
+                        <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete"/>
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+</div>
+<a asp-page="/AddUser">Add a user</a>

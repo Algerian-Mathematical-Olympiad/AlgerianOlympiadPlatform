@@ -1,4 +1,4 @@
-using OlympTrain;
+using DatabaseConnector.Models;
 namespace RaoufsConsole;
 
 public class ProblemDisplayer(Problem problem)

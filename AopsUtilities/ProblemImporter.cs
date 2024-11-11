@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using HtmlAgilityPack;
-using OlympTrain;
+using DatabaseConnector.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
