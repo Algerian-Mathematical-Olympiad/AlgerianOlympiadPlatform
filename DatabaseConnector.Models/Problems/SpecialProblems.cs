@@ -11,7 +11,8 @@ public class ProblemWithPredefinedAnswer(string id, ProblemSource source, Descri
     {
         foreach (var description in possibleAnswers)
         {
-            if (description.GetDescription(language).Content == answer) return true;
+            if ((language == Language.English ? description.EnglishDescription : description.ArabicDescription).Content == answer)
+                return true;
         }
         return false;
     }

@@ -1,9 +1,14 @@
 namespace DatabaseConnector.Models;
 
-public struct Difficulty(int category, int hardness)
+public class Difficulty(int category, int hardness)
 {
-    private int Category { get; set; } = category;
-    private int Hardness { get; set; } = hardness;
+    public int Category { get; set; } = category;
+    public int Hardness { get; set; } = hardness;
+
+    public Difficulty() : this(1,1)
+    {
+        
+    }
 
     public new string ToString()
     {

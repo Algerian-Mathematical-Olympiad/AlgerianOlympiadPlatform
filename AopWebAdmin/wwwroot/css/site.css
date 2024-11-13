@@ -20,3 +20,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar{
+  background-color: maroon!important;
+}
+
+.nav-link, .navbar-brand{
+  color: #ddd!important;
+}
+
+.katex{
+  display: inline-block;
+}

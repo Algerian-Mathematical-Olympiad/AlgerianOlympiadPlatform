@@ -7,7 +7,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Users</h1>
-    <a class="text-end" asp-page="/AddUser">Add a user</a>
+    <a class="text-end" href="/Users/new_user">Add a user</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -17,8 +17,6 @@
             <th>Birthdate</th>
             <th>Email</th>
             <th>School Year</th>
-            <th>School</th>
-            <th>Wilaya</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -26,24 +24,25 @@
         @foreach (DetailedUser u in Model.AopUsers)
         {
             <tr>
-                <td>@u.Id</td>
+                <td>
+                    <a href="/Users/@u.Id">@u.Id</a>
+                </td>
                 <td>@u.EnglishName.FirstName @u.EnglishName.LastName</td>
                 <td>@u.ArabicName.FirstName @u.ArabicName.LastName</td>
                 <td>@u.Birthday</td>
                 <td>@u.Email</td>
                 <td>@u.SchoolYear</td>
-                <td>@u.School.Name.Content</td>
-                <td>@u.School.Wilaya</td>
                 <td>
-                    <form method="post">
+                    <form method="post" class="d-inline">
                         <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email"/>
                         <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                     </form>
+                    <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
             </tr>
         }
         </tbody>
     </table>
-    
+
 </div>

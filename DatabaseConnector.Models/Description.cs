@@ -2,11 +2,22 @@ using System.Globalization;
 
 namespace DatabaseConnector.Models;
 
-public class Description(string content, bool isRtl = false, Language language = Language.English)
+public class Description
 {
-    public bool IsRtl { get; set; } = isRtl;
-    public Language Language { get; set; } = language;
-    public string Content { get; set; } = content;
+    public Description()
+    {
+        
+    }
+    public Description(string content, bool isRtl = false, Language language = Language.English)
+    {
+        IsRtl = isRtl;
+        Language = language;
+        Content = content;
+    }
+
+    public bool IsRtl { get; set; }
+    public Language Language { get; set; }
+    public string? Content { get; set; } = "";
 
     protected bool Equals(Description other)
     {
@@ -38,16 +49,10 @@ public class Description(string content, bool isRtl = false, Language language =
     }
 }
 
-public class DescriptionCollection(List<Description> descriptions)
+public class DescriptionCollection
 {
-
-    public Description GetDescription(Language language)
-    {
-        foreach (var d in descriptions.Where(d => d.Language == language))
-            return d;
-        
-        throw new CultureNotFoundException($"Language {language} not found.");
-    }
+    public Description EnglishDescription { get; set; } = new("");
+    public Description ArabicDescription { get; set; } = new("");
     
     protected bool Equals(DescriptionCollection other)
     {
@@ -69,12 +74,12 @@ public class DescriptionCollection(List<Description> descriptions)
     
     public static bool operator ==(DescriptionCollection a, DescriptionCollection b)
     {
-        return a.GetDescription(Language.English) == b.GetDescription(Language.English);
+        return a.EnglishDescription == b.EnglishDescription;
     }
     
     public static bool operator !=(DescriptionCollection a, DescriptionCollection b)
     {
-        return a.GetDescription(Language.English) != b.GetDescription(Language.English);
+        return a.EnglishDescription != b.EnglishDescription;
     }
 
 }

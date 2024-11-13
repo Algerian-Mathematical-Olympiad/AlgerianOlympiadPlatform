@@ -39,6 +39,11 @@ public class DetailedUser(
     TshirtSize tshirtSize,
     bool hasPassport) : User(id, englishName, arabicName, schoolYear, email)
 {
+    public DetailedUser() : this("",new(), new(), DateOnly.MinValue, "", new School(), SchoolYear.Other, TshirtSize.M, false)
+    {
+        
+    }
+    
     public DateOnly Birthday { get; set; } = birthday;
     public School School { get; set; } = school;
     public TshirtSize TshirtSize { get; set; } = tshirtSize;
@@ -51,8 +56,13 @@ public class DetailedUser(
 }
 
 [BsonIgnoreExtraElements]
-public struct UserName(string firstName, string lastName)
+public class UserName(string firstName, string lastName)
 {
     public string FirstName { get; set; } = firstName;
     public string LastName { get; set; } = lastName;
+
+    public UserName() : this("", "")
+    {
+        
+    }
 }

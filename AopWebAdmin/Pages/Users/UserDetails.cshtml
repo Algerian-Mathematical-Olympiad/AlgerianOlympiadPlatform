@@ -1,0 +1,123 @@
+@page "/Users/{RequestedUser}"
+@using DatabaseConnector.Models
+@model UserModel
+@{
+ViewData["Title"] = Model.RequestedUser == "new_user" ? "Add user" : "User " + Model.RequestedUser;
+}
+@if (Model.RequestedUser == "new_user")
+{
+    <h2>Add User</h2>
+}
+else
+{
+    <h2>User [@Model.RequestedUser]</h2>
+    
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <input type="hidden" value="@UserModel.Actions.Delete" asp-for="Action"/>
+    </form>
+}
+
+<form method="post">
+    <button type="submit" class="btn btn-success">@(Model.RequestedUser == "new_user" ? "Add user" : "Update")</button>
+    <input type="hidden" value="@UserModel.Actions.Update" asp-for="Action"/>
+    <div class="form-group">
+        <label asp-for="UserInput.Id">Username</label>
+        <input asp-for="UserInput.Id" class="form-control" />
+        <span asp-validation-for="UserInput.Id" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserInput.EnglishName.FirstName">English First Name</label>
+        <input asp-for="UserInput.EnglishName.FirstName" class="form-control" />
+        <span asp-validation-for="UserInput.EnglishName.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.EnglishName.LastName">English Last Name</label>
+        <input asp-for="UserInput.EnglishName.LastName" class="form-control" />
+        <span asp-validation-for="UserInput.EnglishName.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.ArabicName.FirstName">Arabic First Name</label>
+        <input asp-for="UserInput.ArabicName.FirstName" class="form-control" />
+        <span asp-validation-for="UserInput.ArabicName.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.ArabicName.LastName">Arabic Last Name</label>
+        <input asp-for="UserInput.ArabicName.LastName" class="form-control" />
+        <span asp-validation-for="UserInput.ArabicName.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.Birthday">Birthday</label>
+        <input asp-for="UserInput.Birthday" type="date" class="form-control" />
+        <span asp-validation-for="UserInput.Birthday" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.Email">Email</label>
+        <input asp-for="UserInput.Email" type="email" class="form-control" />
+        <span asp-validation-for="UserInput.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.School.Name.Content">School Name</label>
+        <input asp-for="UserInput.School.Name.Content" class="form-control" />
+        <span asp-validation-for="UserInput.School.Name.Content" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.School.Wilaya">Wilaya</label>
+        <select asp-for="UserInput.School.Wilaya" class="form-control">
+            @foreach (var wilaya in Enum.GetValues(typeof(Wilaya)))
+            {
+            <option value="@wilaya">@wilaya</option>
+            }
+        </select>
+        <span asp-validation-for="UserInput.School.Wilaya" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.School.Type">School Type</label>
+        <select asp-for="UserInput.School.Type" class="form-control">
+            @foreach (var schoolType in Enum.GetValues(typeof(SchoolType)))
+            {
+                <option value="@schoolType">@schoolType</option>
+            }
+        </select>
+        <span asp-validation-for="UserInput.School.Type" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.SchoolYear">School Year</label>
+        <select asp-for="UserInput.SchoolYear" class="form-control">
+            @foreach (var schoolYear in Enum.GetValues(typeof(SchoolYear)))
+            {
+                <option value="@schoolYear">@schoolYear</option>
+            }
+        </select>
+        <span asp-validation-for="UserInput.SchoolYear" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UserInput.TshirtSize">T-shirt Size</label>
+        <select asp-for="UserInput.TshirtSize" class="form-control">
+            @foreach (var tshirtSize in Enum.GetValues(typeof(TshirtSize)))
+            {
+                <option value="@tshirtSize">@tshirtSize</option>
+            }
+        </select>
+        <span asp-validation-for="UserInput.TshirtSize" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="UserInput.HasPassport" class="form-check-input" />
+        <label asp-for="UserInput.HasPassport" class="form-check-label">Has Passport</label>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

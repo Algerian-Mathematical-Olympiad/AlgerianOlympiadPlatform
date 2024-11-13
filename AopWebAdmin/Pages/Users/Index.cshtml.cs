@@ -40,7 +40,7 @@ public class UsersModel : PageModel
         {
             case Actions.Delete:
                 var u = new UserManager(new TestDataBaseProvider().GetDatabase());
-                u.ThrowUser(UserEmailToAffect);
+                u.DeleteUser(UserEmailToAffect);
                 break;
         }
         

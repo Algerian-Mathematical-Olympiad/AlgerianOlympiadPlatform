@@ -49,7 +49,11 @@ public class ProblemImporter
         return new Problem(
             problemIdGenerator.GenerateFromStatement(source.Name, description.Content),
             source,
-            new DescriptionCollection([description]),
+            new DescriptionCollection()
+            {
+                EnglishDescription = description,
+                ArabicDescription = new("", true, Language.Arabic)
+            },
             new Difficulty(1,1));
 
     }

@@ -1,4 +1,5 @@
 using AopsUtilities;
+using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,7 +14,7 @@ public class AopsImporter : PageModel
     public static void Init()
     {
         _problemSearcher = new();
-        _problemScraper = new(true);
+        //_problemScraper = new(true);
     }
     public Problem? Problem { get; set; }
 
@@ -23,7 +24,9 @@ public class AopsImporter : PageModel
     
     [BindProperty]
     public string Search { get; set; } = string.Empty;
-    
+
+    public bool ProblemAreadyInDb { get; set; }
+
     private readonly ILogger<ErrorModel> _logger;
 
     public AopsImporter(ILogger<ErrorModel> logger)
@@ -32,7 +35,7 @@ public class AopsImporter : PageModel
     }
 
 
-    public void OnPost()
+    public IActionResult? OnPost()
     {
         if (!String.IsNullOrEmpty(Search))
         {
@@ -40,11 +43,11 @@ public class AopsImporter : PageModel
             {
                 if(Search.Contains("http"))
                 {
-                    Problem = _problemScraper.ScrapProblemFromAops(Search, new HashGenerator());
+                    Problem = _problemScraper.ScrapProblemFromAops(Search, new FromSourceIdGenerator());
                 }
                 else
                 {
-                    Problem = _problemSearcher.GetFromAops(Search, new HashGenerator());
+                    Problem = _problemSearcher.GetFromAops(Search, new FromSourceIdGenerator());
                 }
             }
             catch(Exception e)
@@ -52,6 +55,22 @@ public class AopsImporter : PageModel
                 _logger.LogError(e.Message);
                 DidntFindProblem = true;
             }
+
+            if (!DidntFindProblem)
+            {
+                try
+                {
+                    new ProblemManager(new TestDataBaseProvider().GetDatabase()).CreateProblem(Problem);
+                    return Redirect("/Problems/" + Problem.Id);
+                }
+                catch(InvalidOperationException)
+                {   
+                    _logger.LogError("The problem is already in the database.");
+                    ProblemAreadyInDb = true;
+                }
+            }
         }
+
+        return null;
     }
 }

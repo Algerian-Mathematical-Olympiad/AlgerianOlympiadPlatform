@@ -9,7 +9,7 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="Search">Source Name of the Problem</label>
-        <input asp-for="Search" class="form-control" />
+        <input asp-for="Search" class="form-control"/>
         <span asp-validation-for="Search" class="text-danger"></span>
     </div>
     <br>
@@ -17,12 +17,11 @@
 </form>
 <br>
 <br>
-@if (!Model.DidntFindProblem && Model.Problem != null)
+@if (Model.ProblemAreadyInDb)
 {
-    @Model.Problem.Descriptions.GetDescription(Language.English).Content
-}else if (Model.DidntFindProblem)
+    <span class="text-danger">Problem already in the database</span>
+}
+else if (Model.DidntFindProblem)
 {
     <span class="text-danger">Problem not found :/</span>
 }
-
-

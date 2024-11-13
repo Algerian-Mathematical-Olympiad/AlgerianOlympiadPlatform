@@ -9,6 +9,11 @@ public class School
         Type = type;
     }
 
+    public School() : this(new Description(), 0,0)
+    {
+        
+    }
+
     public Description Name { get; set; }
     public Wilaya Wilaya { get; set; }
     public SchoolType Type { get; set; }

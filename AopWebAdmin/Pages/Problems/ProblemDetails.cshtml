@@ -1,0 +1,128 @@
+@page "/Problems/{RequestedProblem}"
+@using DatabaseConnector.Models
+@using ProblemDetails = AopWebAdmin.Pages.ProblemDetails
+@model AopWebAdmin.Pages.ProblemDetails
+@{
+    ViewData["Title"] = Model.RequestedProblem == "new_problem" ? "New Problem" : "Problem : " + Model.RequestedProblem;
+}
+
+@if (Model.RequestedProblem == "new_problem")
+{
+    <h1>Add New Problem</h1>
+
+}
+else
+{
+    <h1>Problem [@Model.Problem.Id]</h1>
+    <form method="post">
+        <input type="hidden" asp-for="Action" value="@ProblemDetails.Actions.Delete"></input>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+}
+
+<form method="post">
+    <button type="submit" class="btn btn-success">
+        @if (Model.RequestedProblem == "new_problem")
+        {
+            <span>Add</span>
+        }
+        else
+        {
+            <span>Update</span>
+        }
+    </button>
+    <input type="hidden" asp-for="Action" value="@ProblemDetails.Actions.Update"></input>
+    <div class="form-group">
+        <label asp-for="Problem.Id">Problem ID</label>
+        <input asp-for="Problem.Id" class="form-control"></input>
+        <span asp-validation-for="Problem.Id" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problem.Source.Name">Source Name</label>
+        <input asp-for="Problem.Source.Name" class="form-control"></input>
+        <span asp-validation-for="Problem.Source.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problem.Source.Url">Source Link</label>
+        <input asp-for="Problem.Source.Url" class="form-control"></input>
+        <span asp-validation-for="Problem.Source.Url" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problem.Points">Points</label>
+        <input asp-for="Problem.Points" class="form-control"></input>
+        <span asp-validation-for="Problem.Points" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm">
+            <label asp-for="Problem.Difficulty.Category">Difficulty Category</label>
+            <input asp-for="Problem.Difficulty.Category" class="form-control"></input>
+            <span asp-validation-for="Problem.Difficulty.Category" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm">
+            <label asp-for="Problem.Difficulty.Hardness">Hardness</label>
+            <input asp-for="Problem.Difficulty.Hardness" class="form-control"></input>
+            <span asp-validation-for="Problem.Difficulty.Hardness" class="text-danger"></span>
+        </div>
+    </div>
+    <br>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md">
+                <label asp-for="Problem.Descriptions.EnglishDescription.Content">English Statement</label>
+                <textarea oninput="textAreaAdjust(this)" style="overflow:hidden" id="englishStatement" asp-for="Problem.Descriptions.EnglishDescription.Content" class="form-control"></textarea>
+                <span asp-validation-for="Problem.Descriptions.EnglishDescription.Content" class="text-danger"></span>
+            </div>
+            <div class="col-md">
+                <label>Preview</label>
+                <div class="card">
+                    <div class="card-body" id="englishStatementPreview">
+                        @Model.Problem.Descriptions.EnglishDescription.Content
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let englishStatementPreview = document.getElementById("englishStatementPreview");
+            let englishStatementInput = document.getElementById("englishStatement");
+            textAreaAdjust(englishStatementInput);
+            englishStatementInput.addEventListener("input",()=>{
+                englishStatementPreview.innerHTML = englishStatementInput.value.replace('\n','<br>');
+                renderMathInElement(englishStatementPreview, {
+                    delimiters: katexDelimiters,
+                    throwOnError : false
+                });
+            });
+        </script>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md">
+                <label asp-for="Problem.Descriptions.ArabicDescription.Content">Arabic Statement</label>
+                <textarea  oninput="textAreaAdjust(this)" style="direction: rtl;overflow:hidden" id="arabicStatement" asp-for="Problem.Descriptions.ArabicDescription.Content" class="form-control"></textarea>
+                <span asp-validation-for="Problem.Descriptions.ArabicDescription.Content" class="text-danger"></span>
+            </div>
+            <div class="col-md">
+                <label>Preview</label>
+                <div class="card">
+                    <div class="card-body text-end" id="arabicStatementPreview">
+                        @Model.Problem.Descriptions.ArabicDescription.Content
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let arabicStatementPreview = document.getElementById("arabicStatementPreview");
+            let arabicStatementInput = document.getElementById("arabicStatement");
+            textAreaAdjust(arabicStatementInput);
+            arabicStatementInput.addEventListener("input",()=>{
+                arabicStatementPreview.innerHTML = arabicStatementInput.value.replace('\n','<br>');
+                renderMathInElement(arabicStatementPreview, {
+                    delimiters: katexDelimiters,
+                    throwOnError : false
+                });
+            });
+        </script>
+    </div>
+
+</form>

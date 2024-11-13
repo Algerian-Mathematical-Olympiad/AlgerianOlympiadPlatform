@@ -45,9 +45,24 @@ public class UserManager(IMongoDatabase database)
         return userList;
     }
 
-    public void ThrowUser(string emailOrUsername)
+    public void DeleteUser(string emailOrUsername)
     {
         var users = _database.GetCollection<User>("users");
         users.DeleteOne(new ExpressionFilterDefinition<User>(details => details.Email == emailOrUsername || details.Id == emailOrUsername));
+    }
+
+    public bool DoesUserExist(string id)
+    {
+        var users = _database.GetCollection<User>("users");
+        var user = users.Find(new ExpressionFilterDefinition<User>(u => u.Id == id)).ToList();
+        if (user == null || user.Count == 0) return false;
+        return true;
+
+    }
+
+    public void UpdateUser(DetailedUser user, string id)
+    {
+        _database.GetCollection<DetailedUser>("users").ReplaceOne(u => u.Id == id, user);
+
     }
 }

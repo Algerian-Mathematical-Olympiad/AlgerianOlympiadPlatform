@@ -1,23 +1,41 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DatabaseConnector.Models;
 
-public class Problem(string id, ProblemSource source, DescriptionCollection descriptions, Difficulty difficulty)
+public class Problem
 {
-    public ProblemSource Source { get; set; } = source;
-    
-    public DescriptionCollection Descriptions { get; set; } = descriptions;
-    
-    public Difficulty Difficulty { get; set; } = difficulty;
+    public Problem() { }
 
-    public string GetId()
+    public Problem(string id, ProblemSource source, DescriptionCollection descriptions, Difficulty difficulty, int points = 30)
     {
-        return id;
+        Id = id;
+        Source = source;
+        Descriptions = descriptions;
+        Difficulty = difficulty;
+        Points = points;
     }
-    public new string ToString() => this.GetId();
+    
+    [Required]
+    public string Id { get; set; }
+    public ProblemSource Source { get; set; }
+    
+    public DescriptionCollection Descriptions { get; set; }
+    
+    public Difficulty Difficulty { get; set; }
+
+    public int Points { get; set; } = 30;
+
 }
 
-public struct ProblemSource(string name, string url)
+public class ProblemSource(string name, string url)
 {
     public string Name { get; set; } = name;
     public string Url { get; set; } = url;
+
+    public ProblemSource() : this("", "")
+    {
+        
+    }
+    
 }
 
