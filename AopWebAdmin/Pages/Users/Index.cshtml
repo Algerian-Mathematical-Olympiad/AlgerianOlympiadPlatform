@@ -8,7 +8,12 @@
 <div class="text-center">
     <h1 class="display-4">Users</h1>
     <a class="text-end" href="/Users/new_user">Add a user</a>
-    <table class="table table-bordered table-hover">
+
+    <div class="mb-3">
+        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search for a user..." />
+    </div>
+    
+    <table class="table table-bordered table-hover" id="usersTable">
         <thead class="thead-dark">
         <tr>
             <th>Username</th>
@@ -36,7 +41,7 @@
                     <form method="post" class="d-inline">
                         <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email"/>
                         <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete"/>
-                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                     <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
@@ -46,3 +51,31 @@
     </table>
 
 </div>
+
+<script>
+    const table = document.getElementById("usersTable");
+    const rows = table.getElementsByTagName("tr");
+
+    let contents = new Array(rows.length);
+    for (let i = 1; i < rows.length; i++) {
+        contents[i] = "";
+        Array.prototype.slice.call(rows[i].getElementsByTagName("td")).forEach(element =>{
+            contents[i] += element.innerText + " ";
+        });
+
+        contents[i] = contents[i].toLowerCase();
+    }
+    
+    
+    function filterTable() {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        for (let i = 1; i < rows.length; i++) { 
+            if (contents[i].includes(searchInput)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+</script>

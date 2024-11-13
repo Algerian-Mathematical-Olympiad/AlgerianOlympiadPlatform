@@ -62,7 +62,12 @@ public class UserManager(IMongoDatabase database)
 
     public void UpdateUser(DetailedUser user, string id)
     {
-        _database.GetCollection<DetailedUser>("users").ReplaceOne(u => u.Id == id, user);
+        var filter = Builders<DetailedUser>.Filter
+            .Eq(p => p.Id, id);
+        
+        var update = UpdateMaker.Make(user);
+        
+        _database.GetCollection<DetailedUser>("users").UpdateOne(filter, update);
 
     }
 }

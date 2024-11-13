@@ -32,7 +32,11 @@ public class ProblemManager(IMongoDatabase database)
 
     public void UpdateProblem(Problem problem, string id)
     {
-        _database.GetCollection<Problem>("problems").ReplaceOne(pb => pb.Id == id, problem);
+        var filter = Builders<Problem>.Filter
+            .Eq(p => p.Id, id);
+        var update = UpdateMaker.Make(problem);
+        
+        _database.GetCollection<Problem>("problems").UpdateOne(filter, update);
     }
 
     public void DeleteProblem(string id)

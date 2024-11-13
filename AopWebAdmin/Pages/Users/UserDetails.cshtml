@@ -21,11 +21,7 @@ else
 <form method="post">
     <button type="submit" class="btn btn-success">@(Model.RequestedUser == "new_user" ? "Add user" : "Update")</button>
     <input type="hidden" value="@UserModel.Actions.Update" asp-for="Action"/>
-    <div class="form-group">
-        <label asp-for="UserInput.Id">Username</label>
-        <input asp-for="UserInput.Id" class="form-control" />
-        <span asp-validation-for="UserInput.Id" class="text-danger"></span>
-    </div>
+    <input asp-for="UserInput.Id" type="hidden" class="form-control" />
     <div class="form-group">
         <label asp-for="UserInput.EnglishName.FirstName">English First Name</label>
         <input asp-for="UserInput.EnglishName.FirstName" class="form-control" />
