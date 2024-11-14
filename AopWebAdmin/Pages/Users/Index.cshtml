@@ -30,7 +30,7 @@
         {
             <tr>
                 <td>
-                    <a href="/Users/@u.Id">@u.Id</a>
+                    <a href="/Users/@u.Id" style="color:@(u.Gender == Gender.Male ? "blue" : "fuchsia")">@u.Id</a>
                 </td>
                 <td>@u.EnglishName.FirstName @u.EnglishName.LastName</td>
                 <td>@u.ArabicName.FirstName @u.ArabicName.LastName</td>
@@ -44,6 +44,9 @@
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                     <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
+                </td>
+                <td style="display: none">
+                    @u.Gender
                 </td>
             </tr>
         }

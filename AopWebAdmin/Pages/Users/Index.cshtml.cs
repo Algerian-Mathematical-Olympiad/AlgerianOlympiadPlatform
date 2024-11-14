@@ -44,7 +44,7 @@ public class UsersModel : PageModel
                 break;
         }
         
-        return RedirectToPage("Users"); 
+        return RedirectToPage("/Users/Index"); 
     }
 
 

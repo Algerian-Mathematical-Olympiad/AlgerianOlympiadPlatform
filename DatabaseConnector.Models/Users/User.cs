@@ -37,9 +37,9 @@ public class DetailedUser(
     School school,
     SchoolYear schoolYear,
     TshirtSize tshirtSize,
-    bool hasPassport) : User(id, englishName, arabicName, schoolYear, email)
+    bool hasPassport, Gender gender) : User(id, englishName, arabicName, schoolYear, email)
 {
-    public DetailedUser() : this("",new(), new(), DateOnly.MinValue, "", new School(), SchoolYear.Other, TshirtSize.M, false)
+    public DetailedUser() : this("",new(), new(), DateOnly.MinValue, "", new School(), SchoolYear.Other, TshirtSize.M, false, Gender.Male)
     {
         
     }
@@ -48,6 +48,8 @@ public class DetailedUser(
     public School School { get; set; } = school;
     public TshirtSize TshirtSize { get; set; } = tshirtSize;
     public bool HasPassport { get; set; } = hasPassport;
+
+    public Gender Gender { get; set; } = gender;
 
     public User ToUndetailedUser()
     {
@@ -65,4 +67,9 @@ public class UserName(string firstName, string lastName)
     {
         
     }
+}
+
+public enum Gender{
+    Male,
+    Female
 }

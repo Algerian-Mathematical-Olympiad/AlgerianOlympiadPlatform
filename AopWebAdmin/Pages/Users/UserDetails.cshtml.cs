@@ -33,7 +33,7 @@ public class UserModel : PageModel
                 }
                 else
                 {
-                    Update();
+                    return Update();
                 }
                 break;
             case Actions.Delete:
@@ -56,7 +56,7 @@ public class UserModel : PageModel
         if (IsUsernameUsed(manager)) throw new Exception("Username is already used");
         if (IsEmailUsed(manager)) throw new Exception("Email is already used");
         manager.CreateUser(UserInput);
-        return null;
+        return RedirectToPage("/Users/Index");
     }
 
     private IActionResult? Update()
