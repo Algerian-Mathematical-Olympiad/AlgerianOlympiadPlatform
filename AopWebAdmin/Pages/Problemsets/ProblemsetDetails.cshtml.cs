@@ -2,11 +2,19 @@ using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Problemsets;
 
 public class ProblemsetDetails : PageModel
 {
+    private readonly IMongoDatabase _database;
+    
+    public ProblemsetDetails(IMongoDatabase database)
+    {
+        _database = database;
+    }
+    
     [BindProperty(SupportsGet = true)]
     public string RequestedProblemset { get; set; }
     [BindProperty(SupportsGet = false)]
@@ -22,13 +30,13 @@ public class ProblemsetDetails : PageModel
         if (RequestedProblemset == "new")
         {
             Problemset = new();
-            AvailableItems = new ProblemManager(new TestDataBaseProvider().GetDatabase()).GetProblemsIds();
+            AvailableItems = new ProblemManager(_database).GetProblemsIds();
             return;
         }
         
-        Problemset = new ProblemsetManager(new TestDataBaseProvider().GetDatabase()).GetProblemsetById(RequestedProblemset);
+        Problemset = new ProblemsetManager(_database).GetProblemsetById(RequestedProblemset);
 
-        AvailableItems = new ProblemManager(new TestDataBaseProvider().GetDatabase()).GetProblemsIds().Where(only => !Problemset.ProblemsIds.Contains(only.Id)).ToList();
+        AvailableItems = new ProblemManager(_database).GetProblemsIds().Where(only => !Problemset.ProblemsIds.Contains(only.Id)).ToList();
     }
 
     public IActionResult? OnPost()
@@ -46,7 +54,7 @@ public class ProblemsetDetails : PageModel
 
     private IActionResult Delete()
     {
-        new ProblemsetManager(new TestDataBaseProvider().GetDatabase()).DeleteProblemset(RequestedProblemset);
+        new ProblemsetManager(_database).DeleteProblemset(RequestedProblemset);
         return Redirect("/Problemsets");
     }
 
@@ -56,12 +64,12 @@ public class ProblemsetDetails : PageModel
         
         if (RequestedProblemset == Problemset.Id)
         {
-            new ProblemsetManager(new TestDataBaseProvider().GetDatabase()).UpdateProblemset(Problemset, RequestedProblemset);
+            new ProblemsetManager(_database).UpdateProblemset(Problemset, RequestedProblemset);
             return null;
         }
         else
         {
-            var manager = new ProblemsetManager(new TestDataBaseProvider().GetDatabase());
+            var manager = new ProblemsetManager(_database);
             if (manager.ProblemsetExists(Problemset.Id))
             {
                 throw new Exception($"Problemset with id {Problemset.Id} already exists");

@@ -1,4 +1,7 @@
+using AopWebAdmin.CloudStorage;
 using AopWebAdmin.Pages;
+using DatabaseConnector;
+using MongoDB.Driver;
 
 AopsImporter.Init();
 
@@ -6,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+builder.Services.AddSingleton<IMongoDatabase>(new TestDataBaseProvider().GetDatabase());
 
 var app = builder.Build();
 

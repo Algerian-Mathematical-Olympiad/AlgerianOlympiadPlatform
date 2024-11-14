@@ -2,11 +2,19 @@ using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
 public class UserModel : PageModel
 {
+    private readonly IMongoDatabase _database;
+    
+    public UserModel(IMongoDatabase database)
+    {
+        _database = database;
+    }
+    
     [BindProperty(SupportsGet = true)]
     public string RequestedUser { get; set; }
     [BindProperty] public DetailedUser UserInput { get; set; }
@@ -17,7 +25,7 @@ public class UserModel : PageModel
         if(RequestedUser == "new") UserInput = new DetailedUser();
         else
         {
-            UserInput = new UserManager(new TestDataBaseProvider().GetDatabase()).GetUserDetails(RequestedUser);
+            UserInput = new UserManager(_database).GetUserDetails(RequestedUser);
         }
     }
 
@@ -46,13 +54,13 @@ public class UserModel : PageModel
 
     private void Delete()
     {
-        var manager = new UserManager(new TestDataBaseProvider().GetDatabase());
+        var manager = new UserManager(_database);
         manager.DeleteUser(RequestedUser);
     }
 
     private IActionResult? Create()
     {
-        var manager = new UserManager(new TestDataBaseProvider().GetDatabase());
+        var manager = new UserManager(_database);
         if (IsUsernameUsed(manager)) throw new Exception("Username is already used");
         if (IsEmailUsed(manager)) throw new Exception("Email is already used");
         manager.CreateUser(UserInput);
@@ -61,7 +69,7 @@ public class UserModel : PageModel
 
     private IActionResult? Update()
     {
-        var manager = new UserManager(new TestDataBaseProvider().GetDatabase());
+        var manager = new UserManager(_database);
 
         if (IsUsernameUsed(manager)) throw new Exception("Username is already used");
         if (IsEmailUsed(manager)) throw new Exception("Email is already used");

@@ -12,4 +12,8 @@
       <ProjectReference Include="..\DatabaseConnector\DatabaseConnector.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
+    </ItemGroup>
+
 </Project>

@@ -2,18 +2,22 @@ using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
 public class UsersModel : PageModel
 {
+    private readonly IMongoDatabase _database;
+    
     private readonly ILogger<UsersModel> _logger;
 
     public List<DetailedUser> AopUsers { get; set; }
 
-    public UsersModel(ILogger<UsersModel> logger)
+    public UsersModel(ILogger<UsersModel> logger, IMongoDatabase database)
     {
         _logger = logger;
+        _database = database;
     }
 
     public void OnGet()
@@ -23,7 +27,7 @@ public class UsersModel : PageModel
 
     private void GetUsers()
     {
-        var u = new UserManager(new TestDataBaseProvider().GetDatabase());
+        var u = new UserManager(_database);
 
         var users = u.GetUsersWithDetails();
         AopUsers = users;
@@ -39,7 +43,7 @@ public class UsersModel : PageModel
         switch (Action)
         {
             case Actions.Delete:
-                var u = new UserManager(new TestDataBaseProvider().GetDatabase());
+                var u = new UserManager(_database);
                 u.DeleteUser(UserEmailToAffect);
                 break;
         }

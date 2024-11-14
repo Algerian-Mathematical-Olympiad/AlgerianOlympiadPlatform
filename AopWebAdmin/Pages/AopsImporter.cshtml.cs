@@ -1,8 +1,10 @@
 using AopsUtilities;
+using AopWebAdmin.CloudStorage;
 using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 using OpenQA.Selenium.Interactions;
 
 namespace AopWebAdmin.Pages;
@@ -11,6 +13,9 @@ public class AopsImporter : PageModel
 {
     private static ProblemSearcher _problemSearcher;
     private static ProblemImporter _problemScraper;
+    private readonly IMongoDatabase _database;
+    
+
 
     public static void Init()
     {
@@ -20,8 +25,6 @@ public class AopsImporter : PageModel
     public Problem? Problem { get; set; }
 
     public bool DidntFindProblem { get; set; } = false;
-    
-    public ProblemSearcher ProblemSearcher { get{return _problemSearcher;} }
     
     [BindProperty]
     public string Search { get; set; } = string.Empty;
@@ -41,8 +44,9 @@ public class AopsImporter : PageModel
     [BindProperty]
     public int NumberOfProblemsPerContest {get; set;}
 
-    public AopsImporter(ILogger<ErrorModel> logger)
+    public AopsImporter(ILogger<ErrorModel> logger,IMongoDatabase database)
     {
+        _database = database;
         _logger = logger;
     }
 
@@ -59,7 +63,7 @@ public class AopsImporter : PageModel
 
     private RedirectToPageResult? ImportWholeContest()
     {
-        var manager = new ProblemManager(new TestDataBaseProvider().GetDatabase());
+        var manager = new ProblemManager(_database);
         for (int year = FirstYear; year <= LastYear; year++)
         {
             for (int p = 1; p <= NumberOfProblemsPerContest; p++)
@@ -100,7 +104,7 @@ public class AopsImporter : PageModel
             {
                 try
                 {
-                    new ProblemManager(new TestDataBaseProvider().GetDatabase()).CreateProblem(Problem);
+                    new ProblemManager(_database).CreateProblem(Problem);
                     return Redirect("/Problems/" + Problem.Id);
                 }
                 catch(InvalidOperationException)

@@ -2,11 +2,19 @@ using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
 public class ProblemDetails : PageModel
 {
+    private readonly IMongoDatabase _database;
+    
+    public ProblemDetails(IMongoDatabase database)
+    {
+        _database = database;
+    }
+    
     [BindProperty(SupportsGet = true)]
     public string RequestedProblem { get; set; }
     [BindProperty(SupportsGet = false)]
@@ -33,7 +41,7 @@ public class ProblemDetails : PageModel
             return;
         }
         
-        Problem = new ProblemManager(new TestDataBaseProvider().GetDatabase()).GetProblemById(RequestedProblem);
+        Problem = new ProblemManager(_database).GetProblemById(RequestedProblem);
     }
 
     public IActionResult? OnPost()
@@ -51,7 +59,7 @@ public class ProblemDetails : PageModel
 
     private IActionResult Delete()
     {
-        new ProblemManager(new TestDataBaseProvider().GetDatabase()).DeleteProblem(RequestedProblem);
+        new ProblemManager(_database).DeleteProblem(RequestedProblem);
         return Redirect("/Problems");
     }
 
@@ -61,12 +69,12 @@ public class ProblemDetails : PageModel
         
         if (RequestedProblem == Problem.Id)
         {
-            new ProblemManager(new TestDataBaseProvider().GetDatabase()).UpdateProblem(Problem, RequestedProblem);
+            new ProblemManager(_database).UpdateProblem(Problem, RequestedProblem);
             return null;
         }
         else
         {
-            var manager = new ProblemManager(new TestDataBaseProvider().GetDatabase());
+            var manager = new ProblemManager(_database);
             if (manager.ProblemExists(Problem.Id))
             {
                 throw new Exception($"Problem with id {Problem.Id} already exists");
