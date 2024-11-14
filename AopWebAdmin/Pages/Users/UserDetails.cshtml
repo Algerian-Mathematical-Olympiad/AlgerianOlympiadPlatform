@@ -2,9 +2,9 @@
 @using DatabaseConnector.Models
 @model UserModel
 @{
-ViewData["Title"] = Model.RequestedUser == "new_user" ? "Add user" : "User " + Model.RequestedUser;
+ViewData["Title"] = Model.RequestedUser == "new" ? "Add user" : "User " + Model.RequestedUser;
 }
-@if (Model.RequestedUser == "new_user")
+@if (Model.RequestedUser == "new")
 {
     <h2>Add User</h2>
 }
@@ -19,7 +19,7 @@ else
 }
 
 <form method="post">
-    <button type="submit" class="btn btn-success">@(Model.RequestedUser == "new_user" ? "Add user" : "Update")</button>
+    <button type="submit" class="btn btn-success">@(Model.RequestedUser == "new" ? "Add user" : "Update")</button>
     <input type="hidden" value="@UserModel.Actions.Update" asp-for="Action"/>
     <input asp-for="UserInput.Id" type="hidden" class="form-control" />
     <div class="form-group">

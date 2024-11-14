@@ -7,6 +7,7 @@
 
 <h1>Search for a problem on AoPS</h1>
 <form method="post">
+    <input asp-for="Batch" class="form-control" type="hidden" value="@false"/>
     <div class="form-group">
         <label asp-for="Search">Source Name of the Problem</label>
         <input asp-for="Search" class="form-control"/>
@@ -25,3 +26,31 @@ else if (Model.DidntFindProblem)
 {
     <span class="text-danger">Problem not found :/</span>
 }
+
+<h2>Import a whole contest</h2>
+<p>USE THIS WISELY (please)</p>
+<form method="post">
+    <input asp-for="Batch" class="form-control" type="hidden" value="@true"/>
+    <div class="form-group">
+        <label asp-for="ContestName">Contest Name</label>
+        <input asp-for="ContestName" class="form-control"/>
+        <span asp-validation-for="ContestName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstYear">First Year</label>
+        <input asp-for="FirstYear" type="number" class="form-control"/>
+        <span asp-validation-for="FirstYear" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastYear">Last Year</label>
+        <input asp-for="LastYear" type="number" class="form-control"/>
+        <span asp-validation-for="LastYear" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumberOfProblemsPerContest">Number of problems per contest</label>
+        <input asp-for="NumberOfProblemsPerContest" type="number" class="form-control"/>
+        <span asp-validation-for="NumberOfProblemsPerContest" class="text-danger"></span>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Add All</button>
+</form>

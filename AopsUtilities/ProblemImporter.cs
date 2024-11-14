@@ -47,7 +47,7 @@ public class ProblemImporter
         Description description = new Description(ReplaceImagesWithAltTextAndRemoveOthers(element.GetAttribute("innerHTML")));
         
         return new Problem(
-            problemIdGenerator.GenerateFromStatement(source.Name, description.Content),
+            problemIdGenerator.GenerateFromStatement(source.Name, description.Content).Replace("\\\\", "\n"),
             source,
             new DescriptionCollection()
             {

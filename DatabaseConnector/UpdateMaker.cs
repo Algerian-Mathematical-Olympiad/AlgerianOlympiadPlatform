@@ -5,7 +5,7 @@ namespace DatabaseConnector;
 
 public static class UpdateMaker
 {
-    public static UpdateDefinition<T> Make<T>(T element)
+    public static UpdateDefinition<T> MakeUpdateDefinition<T>(T element)
     {
         var updateDefinition = new List<UpdateDefinition<T>>();
         var updateBuilder = Builders<T>.Update;

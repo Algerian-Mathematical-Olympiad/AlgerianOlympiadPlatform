@@ -3,19 +3,17 @@ using DatabaseConnector.Models;
 
 namespace DatabaseConnector;
 
-public class UserManager(IMongoDatabase database)
+public class UserManager(IMongoDatabase database) : DatabaseManager(database)
 {
-    private IMongoDatabase _database = database;
-
     public void CreateUser(DetailedUser user)
     {
-        var users = _database.GetCollection<DetailedUser>("users");
+        var users = Database.GetCollection<DetailedUser>("users");
         users.InsertOne(user);
     }
 
     public DetailedUser GetUserDetails(string emailOrUsername)
     {
-        var users = _database.GetCollection<DetailedUser>("users");
+        var users = Database.GetCollection<DetailedUser>("users");
         var user = users.Find(new ExpressionFilterDefinition<DetailedUser>(details => details.Email == emailOrUsername || details.Id == emailOrUsername)).ToList();
         if(user == null || user.Count == 0) throw new InvalidOperationException($"User {emailOrUsername} does not exist");
         return user[0];
@@ -23,15 +21,23 @@ public class UserManager(IMongoDatabase database)
     
     public User GetUser(string emailOrUsername)
     {
-        var users = _database.GetCollection<User>("users");
+        var users = Database.GetCollection<User>("users");
         var user = users.Find(new ExpressionFilterDefinition<User>(details => details.Email == emailOrUsername || details.Id == emailOrUsername)).ToList();
         if(user == null || user.Count == 0) throw new InvalidOperationException($"User {emailOrUsername} does not exist");
         return user[0];
     }
 
+    public List<IdOnly> GetUsersIds()
+    {
+        var users = Database.GetCollection<IdOnly>("users");
+        var userList = users.Find(new ExpressionFilterDefinition<IdOnly>(details => true)).ToList();
+        
+        return userList;
+    }
+    
     public List<User> GetUsers()
     {
-        var users = _database.GetCollection<User>("users");
+        var users = Database.GetCollection<User>("users");
         var userList = users.Find(new ExpressionFilterDefinition<User>(details => true)).ToList();
         
         return userList;
@@ -39,7 +45,7 @@ public class UserManager(IMongoDatabase database)
     
     public List<DetailedUser> GetUsersWithDetails()
     {
-        var users = _database.GetCollection<DetailedUser>("users");
+        var users = Database.GetCollection<DetailedUser>("users");
         var userList = users.Find(new ExpressionFilterDefinition<DetailedUser>(details => true)).ToList();
         
         return userList;
@@ -47,13 +53,13 @@ public class UserManager(IMongoDatabase database)
 
     public void DeleteUser(string emailOrUsername)
     {
-        var users = _database.GetCollection<User>("users");
+        var users = Database.GetCollection<User>("users");
         users.DeleteOne(new ExpressionFilterDefinition<User>(details => details.Email == emailOrUsername || details.Id == emailOrUsername));
     }
 
     public bool DoesUserExist(string id)
     {
-        var users = _database.GetCollection<User>("users");
+        var users = Database.GetCollection<User>("users");
         var user = users.Find(new ExpressionFilterDefinition<User>(u => u.Id == id)).ToList();
         if (user == null || user.Count == 0) return false;
         return true;
@@ -65,9 +71,11 @@ public class UserManager(IMongoDatabase database)
         var filter = Builders<DetailedUser>.Filter
             .Eq(p => p.Id, id);
         
-        var update = UpdateMaker.Make(user);
+        var update = UpdateMaker.MakeUpdateDefinition(user);
         
-        _database.GetCollection<DetailedUser>("users").UpdateOne(filter, update);
+        Database.GetCollection<DetailedUser>("users").UpdateOne(filter, update);
 
     }
+    
+    
 }

@@ -14,7 +14,7 @@ public class UserModel : PageModel
 
     public void OnGet()
     {
-        if(RequestedUser == "new_user") UserInput = new DetailedUser();
+        if(RequestedUser == "new") UserInput = new DetailedUser();
         else
         {
             UserInput = new UserManager(new TestDataBaseProvider().GetDatabase()).GetUserDetails(RequestedUser);
@@ -27,7 +27,7 @@ public class UserModel : PageModel
         switch (Action)
         {
             case Actions.Update:
-                if (RequestedUser == "new_user")
+                if (RequestedUser == "new")
                 {
                     return Create();
                 }
@@ -66,7 +66,7 @@ public class UserModel : PageModel
         if (IsUsernameUsed(manager)) throw new Exception("Username is already used");
         if (IsEmailUsed(manager)) throw new Exception("Email is already used");
 
-        if (!ModelState.IsValid || UserInput.Id == "new_problem") return Page();
+        if (!ModelState.IsValid || UserInput.Id == "new") return Page();
         
         if (RequestedUser == UserInput.Id)
         {
@@ -79,7 +79,7 @@ public class UserModel : PageModel
             {
                 throw new Exception($"User with id {UserInput.Id} already exists");
             }
-            if(RequestedUser != "new_user") manager.DeleteUser(RequestedUser);
+            if(RequestedUser != "new") manager.DeleteUser(RequestedUser);
             manager.CreateUser(UserInput);
             return Redirect("/Users/"+UserInput.Id);
         }

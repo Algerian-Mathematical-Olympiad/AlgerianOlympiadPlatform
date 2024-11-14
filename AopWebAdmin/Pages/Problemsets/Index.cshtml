@@ -1,49 +1,43 @@
 @page
-@using DatabaseConnector.Models
-@model UsersModel
+@using DatabaseConnector
+@model AopWebAdmin.Pages.Problemsets.ProblemsetsModel
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Problemsets";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Users</h1>
-    <a class="text-end" href="/Users/new">Add a user</a>
+    <h1 class="display-4">Problemsets</h1>
+    <a class="text-end" href="/Problemsets/new" style="margin-right: 10px;">Add a problemset</a>
 
     <div class="mb-3">
-        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search for a user..." />
+        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..."/>
     </div>
-    
-    <table class="table table-bordered table-hover" id="usersTable">
+
+    <table class="table table-bordered table-hover" id="problemsTable">
         <thead class="thead-dark">
         <tr>
-            <th>Username</th>
-            <th>English Name</th>
-            <th>Arabic Name</th>
-            <th>Birthdate</th>
-            <th>Email</th>
-            <th>School Year</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Problems</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (DetailedUser u in Model.AopUsers)
+        @foreach (MathProblemset p in Model.AopProblemsets)
         {
             <tr>
                 <td>
-                    <a href="/Users/@u.Id">@u.Id</a>
+                    <a href="/Problemsets/@p.Id" type="submit">@p.Id</a>
                 </td>
-                <td>@u.EnglishName.FirstName @u.EnglishName.LastName</td>
-                <td>@u.ArabicName.FirstName @u.ArabicName.LastName</td>
-                <td>@u.Birthday</td>
-                <td>@u.Email</td>
-                <td>@u.SchoolYear</td>
+                <td>@p.Name.EnglishDescription.Content</td>
+                <td>@p.ProblemsIds.Count</td>
                 <td>
                     <form method="post" class="d-inline">
-                        <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email"/>
-                        <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete"/>
+                        <input type="hidden" asp-for="ProblemsetToAffect" value="@p.Id"/>
+                        <input type="hidden" asp-for="Action" value="@ProblemsetsModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
-                    <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
+                    <a href="/Problemsets/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
             </tr>
         }
@@ -53,7 +47,7 @@
 </div>
 
 <script>
-    const table = document.getElementById("usersTable");
+    const table = document.getElementById("problemsTable");
     const rows = table.getElementsByTagName("tr");
 
     let contents = new Array(rows.length);

@@ -22,7 +22,7 @@ public class ProblemSearcher
         Description description = new Description(statement);
         
         return new Problem(
-            problemIdGenerator.GenerateFromStatement(problemSource, statement),
+            problemIdGenerator.GenerateFromStatement(problemSource, statement).Replace("\\\\", "\n"),
             source,
             new DescriptionCollection()
             {

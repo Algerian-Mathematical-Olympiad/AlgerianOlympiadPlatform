@@ -3,10 +3,10 @@
 @using ProblemDetails = AopWebAdmin.Pages.ProblemDetails
 @model AopWebAdmin.Pages.ProblemDetails
 @{
-    ViewData["Title"] = Model.RequestedProblem == "new_problem" ? "New Problem" : "Problem : " + Model.RequestedProblem;
+    ViewData["Title"] = Model.RequestedProblem == "new" ? "New Problem" : "Problem : " + Model.RequestedProblem;
 }
 
-@if (Model.RequestedProblem == "new_problem")
+@if (Model.RequestedProblem == "new")
 {
     <h1>Add New Problem</h1>
 
@@ -22,7 +22,7 @@ else
 
 <form method="post">
     <button type="submit" class="btn btn-success">
-        @if (Model.RequestedProblem == "new_problem")
+        @if (Model.RequestedProblem == "new")
         {
             <span>Add</span>
         }
@@ -86,7 +86,7 @@ else
             let englishStatementInput = document.getElementById("englishStatement");
             textAreaAdjust(englishStatementInput);
             englishStatementInput.addEventListener("input",()=>{
-                englishStatementPreview.innerHTML = englishStatementInput.value.replace('\n','<br>');
+                englishStatementPreview.innerHTML = englishStatementInput.value.replaceAll('\n','<br>');
                 renderMathInElement(englishStatementPreview, {
                     delimiters: katexDelimiters,
                     throwOnError : false
@@ -116,7 +116,7 @@ else
             let arabicStatementInput = document.getElementById("arabicStatement");
             textAreaAdjust(arabicStatementInput);
             arabicStatementInput.addEventListener("input",()=>{
-                arabicStatementPreview.innerHTML = arabicStatementInput.value.replace('\n','<br>');
+                arabicStatementPreview.innerHTML = arabicStatementInput.value.replaceAll('\n','<br>');
                 renderMathInElement(arabicStatementPreview, {
                     delimiters: katexDelimiters,
                     throwOnError : false

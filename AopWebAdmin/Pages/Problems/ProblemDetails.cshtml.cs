@@ -17,7 +17,7 @@ public class ProblemDetails : PageModel
     
     public void OnGet()
     {
-        if (RequestedProblem == "new_problem")
+        if (RequestedProblem == "new")
         {
             Problem = new(
             
@@ -57,7 +57,7 @@ public class ProblemDetails : PageModel
 
     private IActionResult? Update()
     {
-        if (!ModelState.IsValid || Problem.Id == "new_problem") return Page();
+        if (!ModelState.IsValid || Problem.Id == "new") return Page();
         
         if (RequestedProblem == Problem.Id)
         {
@@ -71,7 +71,7 @@ public class ProblemDetails : PageModel
             {
                 throw new Exception($"Problem with id {Problem.Id} already exists");
             }
-            if(RequestedProblem != "new_problem") manager.DeleteProblem(RequestedProblem);
+            if(RequestedProblem != "new") manager.DeleteProblem(RequestedProblem);
             manager.CreateProblem(Problem);
             return Redirect("/Problems/"+Problem.Id);
         }

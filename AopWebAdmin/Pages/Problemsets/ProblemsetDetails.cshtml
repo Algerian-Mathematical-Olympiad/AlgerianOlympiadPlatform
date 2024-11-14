@@ -1,0 +1,115 @@
+@page "/Problemsets/{RequestedProblemset}"
+@using DatabaseConnector.Models
+@model ProblemsetDetails
+@{
+    ViewData["Title"] = Model.RequestedProblemset == "new" ? "New Problemset" : "Problemset : " + Model.RequestedProblemset;
+}
+
+@if (Model.RequestedProblemset == "new")
+{
+    <h1>Add New Problemset</h1>
+
+}
+else
+{
+    <h1>Problemset [@Model.Problemset.Id]</h1>
+    <form method="post">
+        <input type="hidden" asp-for="Action" value="@ProblemsetDetails.Actions.Delete"></input>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+}
+
+<form method="post">
+    <button type="submit" class="btn btn-success">
+        @if (Model.RequestedProblemset == "new")
+        {
+            <span>Add</span>
+        }
+        else
+        {
+            <span>Update</span>
+        }
+    </button>
+    <input type="hidden" asp-for="Action" value="@ProblemsetDetails.Actions.Update"></input>
+    <div class="form-group">
+        <label asp-for="Problemset.Id">Problemset ID</label>
+        <input asp-for="Problemset.Id" class="form-control"></input>
+        <span asp-validation-for="Problemset.Id" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problemset.Name.EnglishDescription.Content">English Name</label>
+        <input asp-for="Problemset.Name.EnglishDescription.Content" class="form-control"></input>
+        <span asp-validation-for="Problemset.Name.EnglishDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problemset.Name.ArabicDescription.Content">Arabic Name</label>
+        <input asp-for="Problemset.Name.ArabicDescription.Content" class="form-control"></input>
+        <span asp-validation-for="Problemset.Name.ArabicDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problemset.Description.EnglishDescription.Content">English Description</label>
+        <textarea asp-for="Problemset.Description.EnglishDescription.Content" class="form-control"></textarea>
+        <span asp-validation-for="Problemset.Description.EnglishDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Problemset.Description.ArabicDescription.Content">Arabic Description</label>
+        <textarea asp-for="Problemset.Description.ArabicDescription.Content" class="form-control"></textarea>
+        <span asp-validation-for="Problemset.Description.ArabicDescription.Content" class="text-danger"></span>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-5">
+            <label>Available Problems</label>
+            <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
+            <select id="availableItems" multiple="multiple" class="form-control" size="8">
+                @foreach (var item in Model.AvailableItems)
+                {
+                    <option value="@item">@item.Id</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <button type="button" id="addItem" class="btn btn-primary m-1">&gt;</button>
+            <button type="button" id="removeItem" class="btn btn-primary m-1">&lt;</button>
+        </div>
+        <div class="col-md-5">
+            <label>Problemset</label>
+            <select id="selectedItems" asp-for="Problemset.ProblemsIds" multiple="multiple" class="form-control" size="8">
+                @foreach (var item in Model.Problemset.ProblemsIds)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchAvailableItems").addEventListener("input", function() {
+            const filter = this.value.toLowerCase();
+            const availableItems = document.getElementById("availableItems");
+
+            Array.from(availableItems.options).forEach(option => {
+                const text = option.text.toLowerCase();
+                option.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+        
+        document.getElementById("addItem").addEventListener("click", function() {
+            moveItems("availableItems", "selectedItems");
+        });
+
+        document.getElementById("removeItem").addEventListener("click", function() {
+            moveItems("selectedItems", "availableItems");
+        });
+
+        function moveItems(sourceId, targetId) {
+            const sourceList = document.getElementById(sourceId);
+            const targetList = document.getElementById(targetId);
+
+            Array.from(sourceList.selectedOptions).forEach(option => {
+                targetList.appendChild(option);
+            });
+        }
+    
+    </script>
+</form>

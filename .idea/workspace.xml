@@ -5,14 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9b777a4-5b17-47af-ac6f-b40da64c64e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DatabaseConnector/UpdateMaker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problemsets/Index.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problemsets/Index.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problemsets/ProblemsetDetails.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problemsets/ProblemsetDetails.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector.Models/IdOnly.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector/IDatabaseManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector/MathProblemset.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector/Problemsets.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e1e96fb1-2a3f-4a19-b473-cccf91d781ef.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e1e96fb1-2a3f-4a19-b473-cccf91d781ef.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AlgerianOlympiadPlatform.sln" beforeDir="false" afterPath="$PROJECT_DIR$/AlgerianOlympiadPlatform.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/AopsImporter.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/AopsImporter.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/AopsImporter.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/AopsImporter.cshtml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/ProblemDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/ProblemDetails.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/ProblemDetails.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/ProblemDetails.cshtml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Shared/_Layout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Users/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Users/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Users/UserDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Users/UserDetails.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Users/UserDetails.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Users/UserDetails.cshtml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopsUtilities/ProblemImporter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AopsUtilities/ProblemImporter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopsUtilities/ProblemSearcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AopsUtilities/ProblemSearcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatabaseConnector.Models/Problems/IProblemset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseConnector.Models/Problems/IProblemset.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DatabaseConnector/Problems.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseConnector/Problems.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatabaseConnector/UpdateMaker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseConnector/UpdateMaker.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DatabaseConnector/Users.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseConnector/Users.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

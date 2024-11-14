@@ -3,6 +3,7 @@ using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OpenQA.Selenium.Interactions;
 
 namespace AopWebAdmin.Pages;
 
@@ -28,6 +29,17 @@ public class AopsImporter : PageModel
     public bool ProblemAreadyInDb { get; set; }
 
     private readonly ILogger<ErrorModel> _logger;
+    
+    [BindProperty]
+    public bool Batch {get; set;}
+    [BindProperty]
+    public string ContestName {get; set;} = string.Empty;
+    [BindProperty]
+    public int FirstYear {get; set;}
+    [BindProperty]
+    public int LastYear {get; set;}
+    [BindProperty]
+    public int NumberOfProblemsPerContest {get; set;}
 
     public AopsImporter(ILogger<ErrorModel> logger)
     {
@@ -36,6 +48,34 @@ public class AopsImporter : PageModel
 
 
     public IActionResult? OnPost()
+    {
+        if (!Batch)
+        {
+            return ImportOneProblem();
+        }
+
+        return ImportWholeContest();
+    }
+
+    private RedirectToPageResult? ImportWholeContest()
+    {
+        var manager = new ProblemManager(new TestDataBaseProvider().GetDatabase());
+        for (int year = FirstYear; year <= LastYear; year++)
+        {
+            for (int p = 1; p <= NumberOfProblemsPerContest; p++)
+            {
+                try
+                {
+                    var pb = _problemSearcher.GetFromAops(ContestName + " " + year + " P" + p, new FromSourceIdGenerator());
+                    manager.CreateProblem(pb);
+                }catch{}
+            }
+        }
+        
+        return RedirectToPage("/Problems/Index");
+    }
+
+    private IActionResult? ImportOneProblem()
     {
         if (!String.IsNullOrEmpty(Search))
         {
