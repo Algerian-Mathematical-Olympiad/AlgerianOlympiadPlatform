@@ -1,0 +1,138 @@
+@page "/Quizzes/{RequestedQuiz}"
+@model QuizDetails
+@{
+    ViewData["Title"] = Model.RequestedQuiz == "new" ? "New Quiz" : "Quiz : " + Model.RequestedQuiz;
+}
+
+@if (Model.RequestedQuiz == "new")
+{
+    <h1>Add New Quiz</h1>
+}
+else
+{
+    <h1>Quiz [@Model.Quiz.Id]</h1>
+    <form method="post">
+        <input type="hidden" asp-for="Action" value="@QuizDetails.Actions.Delete"></input>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+}
+
+<form method="post">
+    <button type="submit" class="btn btn-success">
+        @if (Model.RequestedQuiz == "new")
+        {
+            <span>Add</span>
+        }
+        else
+        {
+            <span>Update</span>
+        }
+    </button>
+    <input type="hidden" asp-for="Action" value="@QuizDetails.Actions.Update"></input>
+    <div class="form-group">
+        <label asp-for="Quiz.Id">Quiz ID</label>
+        <input asp-for="Quiz.Id" class="form-control"></input>
+        <span asp-validation-for="Quiz.Id" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quiz.Name.EnglishDescription.Content">English Name</label>
+        <input asp-for="Quiz.Name.EnglishDescription.Content" class="form-control"></input>
+        <span asp-validation-for="Quiz.Name.EnglishDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quiz.Statement.EnglishDescription.Content">English Description</label>
+        <textarea asp-for="Quiz.Statement.EnglishDescription.Content" class="form-control"></textarea>
+        <span asp-validation-for="Quiz.Statement.EnglishDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quiz.Name.ArabicDescription.Content">Arabic Name</label>
+        <input asp-for="Quiz.Name.ArabicDescription.Content" class="form-control"></input>
+        <span asp-validation-for="Quiz.Name.ArabicDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quiz.Statement.ArabicDescription.Content">Arabic Description</label>
+        <textarea asp-for="Quiz.Statement.ArabicDescription.Content" class="form-control"></textarea>
+        <span asp-validation-for="Quiz.Statement.ArabicDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quiz.Points">Points</label>
+        <input asp-for="Quiz.Points" type="number" class="form-control"></input>
+        <span asp-validation-for="Quiz.Points" class="text-danger"></span>
+    </div>
+    <br>
+    <div id="answers-container">
+        @foreach (var answer in Model.Quiz.Answers)
+        {
+            <div class="row mb-3 align-items-center" id="answer-@answer.Key">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" asp-for="Quiz.Answers[answer.Key].Descriptions.EnglishDescription.Content" placeholder="English Answer" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" asp-for="Quiz.Answers[answer.Key].Descriptions.ArabicDescription.Content" placeholder="Arabic Answer" required>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="Quiz.Answers[answer.Key].IsCorrect"  id="isCorrect-@answer.Key">
+                        <label class="form-check-label" for="isCorrect-@answer.Key">Correct</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger remove-answer" data-id="@answer.Key">Remove</button>
+                </div>
+            </div>
+        }
+    </div>
+    <button type="button" class="btn btn-primary mt-3" id="add-answer">Add Answer</button>
+
+    
+</form>
+
+<script>
+    let answerCount = @(Model.Quiz.Answers.Count == 0 ? 0 : Model.Quiz.Answers.Max((e) => int.Parse(e.Key)));
+
+    function createAnswerItem() {
+        answerCount++;
+        const answerItem = document.createElement('div');
+        answerItem.classList.add('row', 'mb-3', 'align-items-center');
+        answerItem.setAttribute('id', `answer-${answerCount}`);
+
+        answerItem.innerHTML = `
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="Quiz.Answers[${answerCount}].Descriptions.EnglishDescription.Content" placeholder="English Answer" required>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="Quiz.Answers[${answerCount}].Descriptions.ArabicDescription.Content" placeholder="Arabic Answer" required>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="Quiz.Answers[${answerCount}].IsCorrect" id="isCorrect-${answerCount}">
+                    <label class="form-check-label" for="isCorrect-${answerCount}">Correct</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger remove-answer" data-id="${answerCount}">Remove</button>
+            </div>
+        `;
+
+        return answerItem;
+    }
+
+    document.getElementById('add-answer').addEventListener('click', () => {
+        const container = document.getElementById('answers-container');
+        container.appendChild(createAnswerItem());
+    });
+
+    document.getElementById('answers-container').addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-answer')) {
+            const id = e.target.getAttribute('data-id');
+            document.getElementById(`answer-${id}`).remove();
+        }
+    });
+
+    document.getElementById('answers-container').addEventListener('click', (e) => {
+        if (e.target.getAttribute('type') === 'checkbox') {
+            const id = e.target.getAttribute('data-id');
+            e.target.value = e.target.checked;
+        }
+    });
+</script>

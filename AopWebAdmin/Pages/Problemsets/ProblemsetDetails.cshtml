@@ -1,5 +1,4 @@
 @page "/Problemsets/{RequestedProblemset}"
-@using DatabaseConnector.Models
 @model ProblemsetDetails
 @{
     ViewData["Title"] = Model.RequestedProblemset == "new" ? "New Problemset" : "Problemset : " + Model.RequestedProblemset;
