@@ -13,6 +13,14 @@
         <option value="$PROJECT_DIR$/OlympTrain/obj" />
         <option value="$PROJECT_DIR$/RaoufsConsole/bin" />
         <option value="$PROJECT_DIR$/RaoufsConsole/obj" />
+        <option value="$PROJECT_DIR$/RaoufConsole/bin" />
+        <option value="$PROJECT_DIR$/RaoufConsole/obj" />
+        <option value="$PROJECT_DIR$/AopWebAdmin/bin" />
+        <option value="$PROJECT_DIR$/AopWebAdmin/obj" />
+        <option value="$PROJECT_DIR$/DatabaseConnector/bin" />
+        <option value="$PROJECT_DIR$/DatabaseConnector/obj" />
+        <option value="$PROJECT_DIR$/DatabaseConnector.Models/bin" />
+        <option value="$PROJECT_DIR$/DatabaseConnector.Models/obj" />
       </list>
     </option>
   </component>

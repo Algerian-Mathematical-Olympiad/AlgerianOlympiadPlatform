@@ -25,7 +25,7 @@ public class ProblemsetManager(IMongoDatabase database) : DatabaseManager(databa
     {
         var problems = Database.GetCollection<MathProblemset>("MathProblemsets");
         var problem = problems.Find(new ExpressionFilterDefinition<MathProblemset>(pb => pb.Id == id)).ToList();
-        if(problem == null || problem.Count == 0) throw new InvalidOperationException($"Problem does not exist");
+        if(problem == null || problem.Count == 0) throw new InvalidOperationException($"Problemset does not exist");
         return problem[0];
     }
     
@@ -46,7 +46,7 @@ public class ProblemsetManager(IMongoDatabase database) : DatabaseManager(databa
         Database.GetCollection<MathProblemset>("MathProblemsets").UpdateOne(filter, update);
     }
     
-    public List<IdOnly> GetProblemsIds()
+    public List<IdOnly> GetProblemsetsIds()
     {
         var problems = Database.GetCollection<IdOnly>("MathProblemsets");
         return problems.Find(new ExpressionFilterDefinition<IdOnly>(details => true)).ToList();

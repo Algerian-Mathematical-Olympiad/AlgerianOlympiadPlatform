@@ -2,16 +2,21 @@ namespace DatabaseConnector.Models;
 
 public class Unit(
     string id,
-    DescriptionCollection title,
+    DescriptionCollection name,
     DescriptionCollection description,
-    List<Lesson> lessons,
-    IProblemset validationProblems,
-    IProblemset problemset)
+    List<string> lessons,
+    List<string> validationQuizzes,
+    string problemset)
 {
     public string Id { get; set; } = id;
-    public DescriptionCollection Title { get; set; } = title;
+    public DescriptionCollection Name { get; set; } = name;
     public DescriptionCollection Description { get; set; } = description;
-    public List<Lesson> Lessons { get; set; } = lessons;
-    public IProblemset ValidationProblems { get; set; } = validationProblems;
-    public IProblemset Problemset { get; set; } = problemset;
+    public List<string> Lessons { get; set; } = lessons;
+    public List<string> ValidationQuizzes { get; set; } = validationQuizzes;
+    public string Problemset { get; set; } = problemset;
+
+    public Unit() : this("", new(), new(), [], [], "")
+    {
+        
+    }
 }

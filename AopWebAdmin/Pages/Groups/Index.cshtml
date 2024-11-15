@@ -1,0 +1,74 @@
+@page
+@model GroupsModel
+@using DatabaseConnector.Models
+@{
+ViewData["Title"] = "Groups";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Groups</h1>
+    <a class="text-end" href="/Groups/new" style="margin-right: 10px;">Add a Group</a>
+
+    <div class="mb-3">
+        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..."/>
+    </div>
+
+    <table class="table table-bordered table-hover" id="GroupsTable">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Group p in Model.AopGroups)
+        {
+        <tr>
+            <td>
+                <a href="/Groups/@p.Id" type="submit">@p.Id</a>
+            </td>
+            <td>@p.Name.EnglishDescription.Content</td>
+            <td>
+                <form method="post" class="d-inline">
+                    <input type="hidden" asp-for="GroupToAffect" value="@p.Id"/>
+                    <input type="hidden" asp-for="Action" value="@GroupsModel.Actions.Delete"/>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+                <a href="/Groups/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    const table = document.getElementById("GroupsTable");
+    const rows = table.getElementsByTagName("tr");
+
+    let contents = new Array(rows.length);
+    for (let i = 1; i < rows.length; i++) {
+        contents[i] = "";
+        Array.prototype.slice.call(rows[i].getElementsByTagName("td")).forEach(element =>{
+            contents[i] += element.innerText + " ";
+        });
+
+        contents[i] = contents[i].toLowerCase();
+    }
+
+
+    function filterTable() {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        for (let i = 1; i < rows.length; i++) {
+            if (contents[i].includes(searchInput)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+</script>
