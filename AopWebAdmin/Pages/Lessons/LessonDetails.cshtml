@@ -1,0 +1,168 @@
+@page "/Lessons/{RequestedLesson}"
+@model AopWebAdmin.Pages.LessonDetails
+@{
+    ViewData["Title"] = Model.RequestedLesson == "new" ? "New Lesson" : "Lesson : " + Model.RequestedLesson;
+}
+
+@if (Model.RequestedLesson == "new")
+{
+    <h1>Add New Lesson</h1>
+
+}
+else
+{
+    <h1>Lesson [@Model.Lesson.Id]</h1>
+    <form method="post">
+        <input type="hidden" asp-for="Action" value="@LessonDetails.Actions.Delete"></input>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+}
+
+<form method="post">
+    <button type="submit" class="btn btn-success">
+        @if (Model.RequestedLesson == "new")
+        {
+            <span>Add</span>
+        }
+        else
+        {
+            <span>Update</span>
+        }
+    </button>
+    <input type="hidden" asp-for="Action" value="@LessonDetails.Actions.Update"></input>
+    <div class="form-group">
+        <label asp-for="Lesson.Id">Lesson ID</label>
+        <input asp-for="Lesson.Id" class="form-control"></input>
+        <span asp-validation-for="Lesson.Id" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Lesson.Name.EnglishDescription.Content">English Name</label>
+        <input asp-for="Lesson.Name.EnglishDescription.Content" class="form-control"></input>
+        <span asp-validation-for="Lesson.Name.EnglishDescription.Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Lesson.Name.ArabicDescription.Content">Arabic Name</label>
+        <input asp-for="Lesson.Name.ArabicDescription.Content" class="form-control"></input>
+        <span asp-validation-for="Lesson.Name.ArabicDescription.Content" class="text-danger"></span>
+    </div>
+    
+    <br>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md">
+                <label asp-for="Lesson.Content.EnglishDescription.Content">English Content</label>
+                <textarea oninput="textAreaAdjust(this)" style="overflow:hidden" id="englishStatement" asp-for="Lesson.Content.EnglishDescription.Content" class="form-control"></textarea>
+                <span asp-validation-for="Lesson.Content.EnglishDescription.Content" class="text-danger"></span>
+            </div>
+            <div class="col-md">
+                <label>Preview</label>
+                <div class="card">
+                    <div class="card-body" id="englishStatementPreview">
+                        @Model.Lesson.Content.EnglishDescription.Content
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let englishStatementPreview = document.getElementById("englishStatementPreview");
+            let englishStatementInput = document.getElementById("englishStatement");
+            textAreaAdjust(englishStatementInput);
+            englishStatementInput.addEventListener("input",()=>{
+                englishStatementPreview.innerHTML = marked.parse(englishStatementInput.value);
+                renderMathInElement(englishStatementPreview, {
+                    delimiters: katexDelimiters,
+                    throwOnError : false
+                });
+            });
+        </script>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md">
+                <label asp-for="Lesson.Content.ArabicDescription.Content">Arabic Content</label>
+                <textarea  oninput="textAreaAdjust(this)" style="direction: rtl;overflow:hidden" id="arabicStatement" asp-for="Lesson.Content.ArabicDescription.Content" class="form-control"></textarea>
+                <span asp-validation-for="Lesson.Content.ArabicDescription.Content" class="text-danger"></span>
+            </div>
+            <div class="col-md">
+                <label>Preview</label>
+                <div class="card">
+                    <div class="card-body text-end" id="arabicStatementPreview">
+                        @Model.Lesson.Content.ArabicDescription.Content
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let arabicStatementPreview = document.getElementById("arabicStatementPreview");
+            let arabicStatementInput = document.getElementById("arabicStatement");
+            textAreaAdjust(arabicStatementInput);
+            arabicStatementInput.addEventListener("input",()=>{
+                arabicStatementPreview.innerHTML = marked.parse(arabicStatementInput.value);
+                renderMathInElement(arabicStatementPreview, {
+                    delimiters: katexDelimiters,
+                    throwOnError : false
+                });
+            });
+        </script>
+    </div>
+    
+    <h3>Attachements</h3>
+    
+    <div class="form-group row">
+        <div class="col-md-5">
+            <label>Available Attachements</label>
+            <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
+            <select id="availableItems" multiple="multiple" class="form-control" size="8">
+                @foreach (var item in Model.AvailableAttachements)
+                {
+                    <option value="@item.Id">@item.Id</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <button type="button" id="addItem" class="btn btn-primary m-1">&gt;</button>
+            <button type="button" id="removeItem" class="btn btn-primary m-1">&lt;</button>
+        </div>
+        <div class="col-md-5">
+            <label>Lesson Attachements</label>
+            <select id="selectedItems" asp-for="Lesson.Attachments" multiple="multiple" class="form-control" size="8">
+                @foreach (var item in Model.Lesson.Attachments)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchAvailableItems").addEventListener("input", function() {
+            const filter = this.value.toLowerCase();
+            const availableItems = document.getElementById("availableItems");
+
+            Array.from(availableItems.options).forEach(option => {
+                const text = option.text.toLowerCase();
+                option.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+
+        document.getElementById("addItem").addEventListener("click", function() {
+            moveItems("availableItems", "selectedItems");
+        });
+
+        document.getElementById("removeItem").addEventListener("click", function() {
+            moveItems("selectedItems", "availableItems");
+        });
+
+        function moveItems(sourceId, targetId) {
+            const sourceList = document.getElementById(sourceId);
+            const targetList = document.getElementById(targetId);
+
+            Array.from(sourceList.selectedOptions).forEach(option => {
+                targetList.appendChild(option);
+            });
+        }
+
+    </script>
+
+</form>

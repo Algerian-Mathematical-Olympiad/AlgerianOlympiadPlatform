@@ -6,8 +6,7 @@ public class Unit(
     DescriptionCollection description,
     List<Lesson> lessons,
     IProblemset validationProblems,
-    IProblemset problemset,
-    List<IAttachment> attachments)
+    IProblemset problemset)
 {
     public string Id { get; set; } = id;
     public DescriptionCollection Title { get; set; } = title;
@@ -15,5 +14,4 @@ public class Unit(
     public List<Lesson> Lessons { get; set; } = lessons;
     public IProblemset ValidationProblems { get; set; } = validationProblems;
     public IProblemset Problemset { get; set; } = problemset;
-    public List<IAttachment> Attachments { get; set; } = attachments;
 }

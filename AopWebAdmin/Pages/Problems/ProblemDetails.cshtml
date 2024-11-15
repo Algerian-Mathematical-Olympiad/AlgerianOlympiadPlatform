@@ -86,7 +86,7 @@ else
             let englishStatementInput = document.getElementById("englishStatement");
             textAreaAdjust(englishStatementInput);
             englishStatementInput.addEventListener("input",()=>{
-                englishStatementPreview.innerHTML = englishStatementInput.value.replaceAll('\n','<br>');
+                englishStatementPreview.innerHTML = marked.parse(englishStatementInput.value);
                 renderMathInElement(englishStatementPreview, {
                     delimiters: katexDelimiters,
                     throwOnError : false
@@ -116,7 +116,7 @@ else
             let arabicStatementInput = document.getElementById("arabicStatement");
             textAreaAdjust(arabicStatementInput);
             arabicStatementInput.addEventListener("input",()=>{
-                arabicStatementPreview.innerHTML = arabicStatementInput.value.replaceAll('\n','<br>');
+                arabicStatementPreview.innerHTML = marked.parse(arabicStatementInput.value);
                 renderMathInElement(arabicStatementPreview, {
                     delimiters: katexDelimiters,
                     throwOnError : false

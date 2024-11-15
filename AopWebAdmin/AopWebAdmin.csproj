@@ -16,4 +16,9 @@
       <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\Lessons\Index.cshtml" />
+      <AdditionalFiles Include="Pages\Lessons\LessonDetails.cshtml" />
+    </ItemGroup>
+
 </Project>

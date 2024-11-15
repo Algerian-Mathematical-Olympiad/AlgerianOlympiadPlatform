@@ -1,55 +1,52 @@
 @page
-@model ProblemsModel
+@model LessonsModel
 @using DatabaseConnector.Models
 @{
-    ViewData["Title"] = "Problems";
+    ViewData["Title"] = "Lessons";
 }
 
 
 <div class="text-center">
-    <h1 class="display-4">Problems</h1>
-    <a class="text-end" href="/Problems/new" style="margin-right: 10px;">Add a problem</a> 
-    <a asp-page="/AopsImporter">Import a problem from AoPS</a>
+    <h1 class="display-4">Lessons</h1>
+    <a class="text-end" href="/Lessons/new" style="margin-right: 10px;">Add a Lesson</a>
 
     <div class="mb-3">
-        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..." />
+        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..."/>
     </div>
-    
-    <table class="table table-bordered table-hover" id="problemsTable">
+
+    <table class="table table-bordered table-hover" id="LessonsTable">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
-            <th>Source</th>
-            <th>Difficulty</th>
+            <th>Name</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (Problem p in Model.AopProblems)
+        @foreach (Lesson p in Model.AopLessons)
         {
             <tr>
                 <td>
-                    <a href="/Problems/@p.Id" type="submit">@p.Id</a>
+                    <a href="/Lessons/@p.Id" type="submit">@p.Id</a>
                 </td>
-                <td><a href="@p.Source.Url">@p.Source.Name</a></td>
-                <td>@p.Difficulty.ToString()</td>
+                <td>@p.Name.EnglishDescription.Content</td>
                 <td>
                     <form method="post" class="d-inline">
-                        <input type="hidden" asp-for="ProblemToAffect" value="@p.Id"/>
-                        <input type="hidden" asp-for="Action" value="@ProblemsModel.Actions.Delete"/>
+                        <input type="hidden" asp-for="LessonToAffect" value="@p.Id"/>
+                        <input type="hidden" asp-for="Action" value="@LessonsModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
-                    <a href="/Problems/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
+                    <a href="/Lessons/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
             </tr>
         }
         </tbody>
     </table>
-    
+
 </div>
 
 <script>
-    const table = document.getElementById("problemsTable");
+    const table = document.getElementById("LessonsTable");
     const rows = table.getElementsByTagName("tr");
 
     let contents = new Array(rows.length);
