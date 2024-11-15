@@ -23,20 +23,11 @@ public class ProblemsetDetails : PageModel
     [BindProperty(SupportsGet = false)]
     public Actions Action { get; set; }
     
-    public List<IdOnly> AvailableItems { get; set; }
+    public List<IdOnly> AvailableProblems { get; set; }
 
     public void OnGet()
     {
-        if (RequestedProblemset == "new")
-        {
-            Problemset = new();
-            AvailableItems = new ProblemManager(_database).GetProblemsIds();
-            return;
-        }
-        
-        Problemset = new ProblemsetManager(_database).GetProblemsetById(RequestedProblemset);
-
-        AvailableItems = new ProblemManager(_database).GetProblemsIds().Where(only => !Problemset.ProblemsIds.Contains(only.Id)).ToList();
+        FillAvailableProblems();
     }
 
     public IActionResult? OnPost()
@@ -65,6 +56,7 @@ public class ProblemsetDetails : PageModel
         if (RequestedProblemset == Problemset.Id)
         {
             new ProblemsetManager(_database).UpdateProblemset(Problemset, RequestedProblemset);
+            FillAvailableProblems();
             return null;
         }
         else
@@ -78,6 +70,20 @@ public class ProblemsetDetails : PageModel
             manager.CreateProblemset(Problemset);
             return Redirect("/Problemsets/"+Problemset.Id);
         }
+    }
+
+    private void FillAvailableProblems()
+    {
+        if (RequestedProblemset == "new")
+        {
+            Problemset = new();
+            AvailableProblems = new ProblemManager(_database).GetProblemsIds();
+            return;
+        }
+        
+        Problemset = new ProblemsetManager(_database).GetProblemsetById(RequestedProblemset);
+
+        AvailableProblems = new ProblemManager(_database).GetProblemsIds().Where(only => !Problemset.ProblemsIds.Contains(only.Id)).ToList();
     }
 
     public enum Actions
