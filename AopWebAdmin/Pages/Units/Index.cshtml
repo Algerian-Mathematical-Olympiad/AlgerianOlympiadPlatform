@@ -30,12 +30,12 @@ ViewData["Title"] = "Units";
             </td>
             <td>@unit.Name.EnglishDescription.Content</td>
             <td>
+                <a href="/Units/@unit.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 <form method="post" class="d-inline">
                     <input type="hidden" asp-for="UnitToAffect" value="@unit.Id"/>
                     <input type="hidden" asp-for="Action" value="@UnitsModel.Actions.Delete"/>
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
-                <a href="/Units/@unit.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
             </td>
         </tr>
         }

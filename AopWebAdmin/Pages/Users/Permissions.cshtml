@@ -1,0 +1,37 @@
+@page "/Users/Permissions/{RequestedUser}"
+@model PermissionsModel
+@{
+ViewData["Title"] = "User Permissions " + Model.RequestedUser;
+}
+
+
+<h2>Permissions of User [@Model.RequestedUser]</h2>
+
+
+<form method="post">
+    <button type="submit" class="btn btn-success">Update</button>
+    
+    <input asp-for="Permissions.Id" type="hidden" class="form-control" />
+    
+    <div class="form-group">
+        <label asp-for="Permissions.IsStaff">User Type</label>
+        <select asp-for="Permissions.IsStaff" class="form-control">
+            @if (Model.Permissions.IsStaff)
+            {
+                <option value="false">Student</option>
+                <option value="true" selected>Staff</option>
+            }
+            else
+            {
+                <option value="false" selected>Student</option>
+                <option value="true">Staff</option>
+            }
+        </select>
+        <span asp-validation-for="Permissions.IsStaff" class="text-danger"></span>
+    </div>
+    
+</form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

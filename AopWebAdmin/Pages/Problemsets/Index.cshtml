@@ -32,12 +32,12 @@
                 <td>@p.Name.EnglishDescription.Content</td>
                 <td>@p.ProblemsIds.Count</td>
                 <td>
+                    <a href="/Problemsets/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                     <form method="post" class="d-inline">
                         <input type="hidden" asp-for="ProblemsetToAffect" value="@p.Id"/>
                         <input type="hidden" asp-for="Action" value="@ProblemsetsModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
-                    <a href="/Problemsets/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
             </tr>
         }

@@ -34,12 +34,12 @@
                 <td><a href="@p.Source.Url">@p.Source.Name</a></td>
                 <td>@p.Difficulty.ToString()</td>
                 <td>
+                    <a href="/Problems/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                     <form method="post" class="d-inline">
                         <input type="hidden" asp-for="ProblemToAffect" value="@p.Id"/>
                         <input type="hidden" asp-for="Action" value="@ProblemsModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
-                    <a href="/Problems/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
             </tr>
         }

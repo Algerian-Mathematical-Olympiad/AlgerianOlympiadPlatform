@@ -20,7 +20,7 @@ public class UserPermissionsManager(IMongoDatabase database) : DatabaseManager(d
             .Eq(p => p.Id, id);
         var update = UpdateMaker.MakeUpdateDefinition(userPermissions);
         
-        Database.GetCollection<UserPermissions>("UsersPermissions").UpdateOne(filter, update);
+        Database.GetCollection<UserPermissions>("users").UpdateOne(filter, update);
     }
 
     public List<UserPermissions> GetStaff()

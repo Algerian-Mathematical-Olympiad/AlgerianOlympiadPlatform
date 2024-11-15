@@ -38,12 +38,13 @@
                 <td>@u.Email</td>
                 <td>@u.SchoolYear</td>
                 <td>
+                    <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
+                    <a href="/Users/Permissions/@u.Id" class="btn btn-dark btn-sm">Permissions</a>
                     <form method="post" class="d-inline">
                         <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email"/>
                         <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
-                    <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
                 </td>
                 <td style="display: none">
                     @u.Gender

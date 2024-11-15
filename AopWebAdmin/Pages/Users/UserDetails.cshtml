@@ -16,6 +16,8 @@ else
         <button type="submit" class="btn btn-danger">Delete</button>
         <input type="hidden" value="@UserModel.Actions.Delete" asp-for="Action"/>
     </form>
+    
+    <a href="/Users/Permissions/@Model.RequestedUser" class="btn btn-dark">Manage Permissions</a>
 }
 
 <form method="post">
