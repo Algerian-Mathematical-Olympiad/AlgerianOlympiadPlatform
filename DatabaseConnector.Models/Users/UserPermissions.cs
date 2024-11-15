@@ -7,4 +7,5 @@ public class UserPermissions
 {
     public string Id { get; set; }
     public bool IsStaff { get; set; } = false;
+    public bool IsSuperUser { get; set; } = false;
 }

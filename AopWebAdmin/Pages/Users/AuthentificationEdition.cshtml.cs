@@ -6,29 +6,31 @@ using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
-public class PermissionsModel : PageModel
+public class AuthentificationEditionModel : PageModel
 {
     private readonly IMongoDatabase _database;
     
-    public PermissionsModel(IMongoDatabase database)
+    public AuthentificationEditionModel(IMongoDatabase database)
     {
         _database = database;
     }
     
     [BindProperty(SupportsGet = true)]
     public string RequestedUser { get; set; }
-    [BindProperty] public UserPermissions Permissions { get; set; }
+    [BindProperty] public UserAuthInfo AuthInfo { get; set; }
 
     public void OnGet()
     {
-        Permissions = new UserPermissionsManager(_database).GetUserPermissionsById(RequestedUser);
+        AuthInfo = new UserManager(_database).GetUserAuthInfo(RequestedUser);
+        AuthInfo.PasswordHash = "";
     }
 
     public async Task<IActionResult?> OnPostAsync()
     {
-        var manager = new UserPermissionsManager(_database);
+        var manager = new UserManager(_database);
         
-        manager.UpdateUserPermissions(Permissions, RequestedUser);
+        AuthInfo.PasswordHash = PasswordHasher.HashPassword(AuthInfo.PasswordHash);
+        manager.ChangePassword(AuthInfo);
 
         return Page();
     }

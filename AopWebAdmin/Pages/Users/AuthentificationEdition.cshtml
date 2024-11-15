@@ -1,0 +1,27 @@
+@page "/Users/EditPassword/{RequestedUser}"
+@model AuthentificationEditionModel
+@{
+ViewData["Title"] = "User Password " + Model.RequestedUser;
+}
+
+
+<h2>Authentification information of User [@Model.RequestedUser]</h2>
+
+
+<form method="post">
+    <button type="submit" class="btn btn-success">Update</button>
+    
+    <input asp-for="AuthInfo.Id" type="hidden" class="form-control" />
+    
+    <div class="form-group">
+        <label asp-for="AuthInfo.PasswordHash">Password</label>
+        <input asp-for="AuthInfo.PasswordHash" required type="password" class="form-control"/>
+        <span asp-validation-for="AuthInfo.PasswordHash" class="text-danger"></span>
+    </div>
+    
+    
+</form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

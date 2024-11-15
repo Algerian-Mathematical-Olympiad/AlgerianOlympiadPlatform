@@ -26,6 +26,23 @@ public class UserManager(IMongoDatabase database) : DatabaseManager(database)
         if(user == null || user.Count == 0) throw new InvalidOperationException($"User {emailOrUsername} does not exist");
         return user[0];
     }
+    
+    public UserAuthInfo GetUserAuthInfo(string emailOrUsername)
+    {
+        var users = Database.GetCollection<UserAuthInfo>("users");
+        var user = users.Find(new ExpressionFilterDefinition<UserAuthInfo>(details => details.Email == emailOrUsername || details.Id == emailOrUsername)).ToList();
+        if(user == null || user.Count == 0) throw new InvalidOperationException($"User {emailOrUsername} does not exist");
+        return user[0];
+    }
+
+    public void ChangePassword(UserAuthInfo authInfo)
+    {
+        var users = Database.GetCollection<UserAuthInfo>("users");
+        var filter = Builders<UserAuthInfo>.Filter
+            .Eq(p => p.Id, authInfo.Id);
+        var update = Builders<UserAuthInfo>.Update.Set(x => x.PasswordHash, authInfo.PasswordHash);
+        users.UpdateOne(filter, update);
+    }
 
     public List<IdOnly> GetUsersIds()
     {

@@ -29,6 +29,23 @@ ViewData["Title"] = "User Permissions " + Model.RequestedUser;
         </select>
         <span asp-validation-for="Permissions.IsStaff" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label asp-for="Permissions.IsSuperUser">Super User</label>
+        <select asp-for="Permissions.IsSuperUser" class="form-control">
+            @if (Model.Permissions.IsSuperUser)
+            {
+            <option value="false">No</option>
+            <option value="true" selected>Yes</option>
+            }
+            else
+            {
+            <option value="false" selected>No</option>
+            <option value="true">Yes</option>
+            }
+        </select>
+        <span asp-validation-for="Permissions.IsSuperUser" class="text-danger"></span>
+    </div>
     
 </form>
 
