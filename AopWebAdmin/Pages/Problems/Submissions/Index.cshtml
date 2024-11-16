@@ -11,40 +11,42 @@ ViewData["Title"] = "Submissions";
         <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..." />
     </div>
 
-    <table class="table table-bordered table-hover" id="submissionsTable">
-        <thead class="thead-dark">
-        <tr>
-            <th>ID</th>
-            <th>User</th>
-            <th>Group</th>
-            <th>Problem</th>
-            <th>Timestamp</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (StudentSubmission submission in Model.Submissions)
-        {
-        <tr>
-            <td>
-                <a href="/Problems/Submissions/@submission.Id">@submission.Id</a>
-            </td>
-            <td>@submission.User</td>
-            <td>@submission.Group</td>
-            <td>@submission.Problem</td>
-            <td>@submission.Timestamp.ToString("g")</td>
-            <td>
-                <a href="/Problems/Submissions/@submission.Id" class="btn btn-sm btn-info">Edit</a>
-                <form method="post" class="d-inline">
-                    <input type="hidden" asp-for="SubmissionToAffect" value="@submission.Id"/>
-                    <input type="hidden" asp-for="Action" value="@SubmissionsModel.Actions.Delete"/>
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-            </td>
-        </tr>
-        }
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center" id="submissionsTable">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Group</th>
+                <th>Problem</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (StudentSubmission submission in Model.Submissions)
+            {
+                <tr>
+                    <td>
+                        <a href="/Problems/Submissions/@submission.Id">@submission.Id</a>
+                    </td>
+                    <td>@submission.User</td>
+                    <td>@submission.Group</td>
+                    <td>@submission.Problem</td>
+                    <td>@submission.Timestamp.ToString("g")</td>
+                    <td>
+                        <a href="/Problems/Submissions/@submission.Id" class="btn btn-sm btn-info">Edit</a>
+                        <form method="post" class="d-inline">
+                            <input type="hidden" asp-for="SubmissionToAffect" value="@submission.Id"/>
+                            <input type="hidden" asp-for="Action" value="@SubmissionsModel.Actions.Delete"/>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        </div>
 </div>
 
 <script>

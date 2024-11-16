@@ -5,52 +5,69 @@
     ViewData["Title"] = "AoPS Problem Scraping";
 }
 
-<h1>Search for a problem on AoPS</h1>
-<form method="post">
-    <input asp-for="Batch" class="form-control" type="hidden" value="@false"/>
-    <div class="form-group">
-        <label asp-for="Search">Source Name of the Problem</label>
-        <input asp-for="Search" class="form-control"/>
-        <span asp-validation-for="Search" class="text-danger"></span>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-<br>
-<br>
-@if (Model.ProblemAreadyInDb)
-{
-    <span class="text-danger">Problem already in the database</span>
-}
-else if (Model.DidntFindProblem)
-{
-    <span class="text-danger">Problem not found :/</span>
-}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Search for a Problem on AoPS</h1>
 
-<h2>Import a whole contest</h2>
-<p>USE THIS WISELY (please)</p>
-<form method="post">
-    <input asp-for="Batch" class="form-control" type="hidden" value="@true"/>
-    <div class="form-group">
-        <label asp-for="ContestName">Contest Name</label>
-        <input asp-for="ContestName" class="form-control"/>
-        <span asp-validation-for="ContestName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="FirstYear">First Year</label>
-        <input asp-for="FirstYear" type="number" class="form-control"/>
-        <span asp-validation-for="FirstYear" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="LastYear">Last Year</label>
-        <input asp-for="LastYear" type="number" class="form-control"/>
-        <span asp-validation-for="LastYear" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="NumberOfProblemsPerContest">Number of problems per contest</label>
-        <input asp-for="NumberOfProblemsPerContest" type="number" class="form-control"/>
-        <span asp-validation-for="NumberOfProblemsPerContest" class="text-danger"></span>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Add All</button>
-</form>
+    <!-- Search Form -->
+    <form method="post" class="mb-4">
+        <input asp-for="Batch" class="form-control" type="hidden" value="@false"/>
+        <div class="form-group">
+            <label for="Search" class="form-label">Source Name of the Problem</label>
+            <input asp-for="Search" class="form-control" placeholder="Enter problem name"/>
+            <span asp-validation-for="Search" class="text-danger"></span>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary w-100">Search</button>
+    </form>
+
+    <!-- Validation/Error Messages -->
+    @if (Model.ProblemAreadyInDb)
+    {
+        <div class="alert alert-warning" role="alert">
+            Problem already in the database.
+        </div>
+    }
+    else if (Model.DidntFindProblem)
+    {
+        <div class="alert alert-danger" role="alert">
+            Problem not found :/
+        </div>
+    }
+
+    <hr class="my-5">
+
+    <h2 class="text-center mb-4">Import a Whole Contest</h2>
+    <p class="text-center text-muted">USE THIS WISELY (please)</p>
+
+    <!-- Import Contest Form -->
+    <form method="post">
+        <input asp-for="Batch" class="form-control" type="hidden" value="@true"/>
+        
+        <div class="form-group mb-3">
+            <label for="ContestName" class="form-label">Contest Name</label>
+            <input asp-for="ContestName" class="form-control" placeholder="Enter contest name"/>
+            <span asp-validation-for="ContestName" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="FirstYear" class="form-label">First Year</label>
+            <input asp-for="FirstYear" type="number" class="form-control" placeholder="Enter first year"/>
+            <span asp-validation-for="FirstYear" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="LastYear" class="form-label">Last Year</label>
+            <input asp-for="LastYear" type="number" class="form-control" placeholder="Enter last year"/>
+            <span asp-validation-for="LastYear" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="NumberOfProblemsPerContest" class="form-label">Number of Problems per Contest</label>
+            <input asp-for="NumberOfProblemsPerContest" type="number" class="form-control" placeholder="Enter number of problems"/>
+            <span asp-validation-for="NumberOfProblemsPerContest" class="text-danger"></span>
+        </div>
+        
+        <br>
+        <button type="submit" class="btn btn-success w-100">Add All</button>
+    </form>
+</div>
