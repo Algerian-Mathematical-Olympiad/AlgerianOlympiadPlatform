@@ -1,26 +1,26 @@
 @page "/Users/EditPassword/{RequestedUser}"
 @model AuthentificationEditionModel
 @{
-ViewData["Title"] = "User Password " + Model.RequestedUser;
+ViewData["Title"] = "Edit Password - " + Model.RequestedUser;
 }
 
+<div class="container mt-5">
+    <h2 class="mb-4">Authentication Information for User [@Model.RequestedUser]</h2>
 
-<h2>Authentification information of User [@Model.RequestedUser]</h2>
+    <form method="post">
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Update Password</button>
+        </div>
 
+        <input asp-for="AuthInfo.Id" type="hidden" />
 
-<form method="post">
-    <button type="submit" class="btn btn-success">Update</button>
-    
-    <input asp-for="AuthInfo.Id" type="hidden" class="form-control" />
-    
-    <div class="form-group">
-        <label asp-for="AuthInfo.PasswordHash">Password</label>
-        <input asp-for="AuthInfo.PasswordHash" required type="password" class="form-control"/>
-        <span asp-validation-for="AuthInfo.PasswordHash" class="text-danger"></span>
-    </div>
-    
-    
-</form>
+        <div class="form-group">
+            <label asp-for="AuthInfo.PasswordHash">New Password</label>
+            <input asp-for="AuthInfo.PasswordHash" type="password" class="form-control" required />
+            <span asp-validation-for="AuthInfo.PasswordHash" class="text-danger"></span>
+        </div>
+    </form>
+</div>
 
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />

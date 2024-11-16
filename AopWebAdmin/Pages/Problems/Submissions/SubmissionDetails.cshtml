@@ -1,0 +1,72 @@
+@page "/Problems/Submissions/{RequestedSubmission}"
+@using CloudStorage = global::CloudStorage
+@model AopWebAdmin.Pages.SubmissionDetails
+@{
+    ViewData["Title"] = "Submission: " + Model.RequestedSubmission;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Submission [@Model.Submission.Id]</h1>
+        <form method="post" class="d-inline">
+            <input type="hidden" asp-for="Action" value="@SubmissionDetails.Actions.Delete"></input>
+            <button type="submit" class="btn btn-danger">Delete Submission</button>
+        </form>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr>
+                <th scope="row">User</th>
+                <td><a href="/Users/@Model.Submission.User">@Model.Submission.User</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Problem</th>
+                <td><a href="/Problems/@Model.Submission.Problem">@Model.Submission.Problem</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Group</th>
+                <td><a href="/Groups/@Model.Submission.Group">@Model.Submission.Group</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Timestamp</th>
+                <td>@Model.Submission.Timestamp.ToString("f")</td>
+            </tr>
+            <tr>
+                <th scope="row">Attachments</th>
+                <td>
+                    <ul class="list-unstyled">
+                        @foreach (var att in Model.Submission.Attachments)
+                        {
+                            <li><a href="@(CloudStorage.GetUrlPrefix() + att)" target="_blank" class="text-primary">@att</a></li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 class="mt-4">Answer</h2>
+    <div id="mainAnswer" class="border p-3 bg-light">
+    </div>
+
+    <h2 class="mt-4">Conversation</h2>
+    <div class="conversation border p-3 bg-light">
+        @foreach (var m in Model.Submission.Conversation)
+        {
+            <div class="mb-3">
+                <strong>@m.User</strong> <span class="text-muted"> - @m.Timestamp.ToString("f")</span>
+                <div id="msg-@m.Timestamp.ToString("yyyy-MM-dd-HH-mm-ss")" class="mt-2"></div>
+            </div>
+            <script>
+                document.getElementById("msg-@m.Timestamp.ToString("yyyy-MM-dd-HH-mm-ss")")
+                    .innerHTML = marked.parse(`@m.Description.Content`.replaceAll("&#xA;", "\n"));
+            </script>
+        }
+    </div>
+</div>
+
+<script>
+    // Render the main answer using Marked.js
+    document.getElementById("mainAnswer").innerHTML = marked.parse(`@Model.Submission.Description.Content`.replaceAll("&#xA;", "\n"));
+</script>

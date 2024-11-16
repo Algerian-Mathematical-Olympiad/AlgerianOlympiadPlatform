@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9b777a4-5b17-47af-ac6f-b40da64c64e1" name="Changes" comment="" />
+    <list default="true" id="e9b777a4-5b17-47af-ac6f-b40da64c64e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Submissions/Index.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Submissions/Index.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Submissions/SubmissionDetails.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Submissions/SubmissionDetails.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector.Models/Problems/Message.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DatabaseConnector/SubmissionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e1e96fb1-2a3f-4a19-b473-cccf91d781ef.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e1e96fb1-2a3f-4a19-b473-cccf91d781ef.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/AopWebAdmin.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/AopWebAdmin.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatabaseConnector.Models/Languages.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseConnector.Models/Languages.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatabaseConnector.Models/Problems/StudentSubmission.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DatabaseConnector.Models/Problems/StudentSubmission.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

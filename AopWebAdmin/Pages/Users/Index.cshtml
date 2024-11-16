@@ -2,84 +2,75 @@
 @using DatabaseConnector.Models
 @model UsersModel
 @{
-    ViewData["Title"] = "Users";
+ViewData["Title"] = "Users";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Users</h1>
-    <a class="text-end" href="/Users/new">Add a user</a>
-
-    <div class="mb-3">
-        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..." />
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Users</h1>
     </div>
-    
-    <table class="table table-bordered table-hover" id="usersTable">
-        <thead class="thead-dark">
-        <tr>
-            <th>Username</th>
-            <th>English Name</th>
-            <th>Arabic Name</th>
-            <th>Birthdate</th>
-            <th>Email</th>
-            <th>School Year</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (DetailedUser u in Model.AopUsers)
-        {
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="/Users/new" class="btn btn-primary">Add User</a>
+        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control w-50" placeholder="Search users..." />
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center" id="usersTable">
+            <thead class="thead-dark">
+            <tr>
+                <th>Username</th>
+                <th>English Name</th>
+                <th>Arabic Name</th>
+                <th>Birthdate</th>
+                <th>Email</th>
+                <th>School Year</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (DetailedUser u in Model.AopUsers)
+            {
             <tr>
                 <td>
-                    <a href="/Users/@u.Id" style="color:@(u.Gender == Gender.Male ? "blue" : "fuchsia")">@u.Id</a>
+                    <a href="/Users/@u.Id" class="text-@(u.Gender == Gender.Male ? "primary" : "danger")">
+                        @u.Id
+                    </a>
                 </td>
                 <td>@u.EnglishName.FirstName @u.EnglishName.LastName</td>
                 <td>@u.ArabicName.FirstName @u.ArabicName.LastName</td>
-                <td>@u.Birthday</td>
+                <td>@u.Birthday.ToShortDateString()</td>
                 <td>@u.Email</td>
                 <td>@u.SchoolYear</td>
                 <td>
-                    <a href="/Users/@u.Id" class="btn btn-sm btn-info d-inline">Edit</a>
-                    <a href="/Users/Permissions/@u.Id" class="btn btn-dark btn-sm">Permissions</a>
+                    <a href="/Users/@u.Id" class="btn btn-sm btn-info">Edit</a>
+                    <a href="/Users/Permissions/@u.Id" class="btn btn-sm btn-secondary">Permissions</a>
                     <form method="post" class="d-inline">
-                        <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email"/>
-                        <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete"/>
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email" />
+                        <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete" />
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </td>
-                <td style="display: none">
-                    @u.Gender
-                </td>
             </tr>
-        }
-        </tbody>
-    </table>
-
+            }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
     const table = document.getElementById("usersTable");
     const rows = table.getElementsByTagName("tr");
 
-    let contents = new Array(rows.length);
-    for (let i = 1; i < rows.length; i++) {
-        contents[i] = "";
-        Array.prototype.slice.call(rows[i].getElementsByTagName("td")).forEach(element =>{
-            contents[i] += element.innerText + " ";
-        });
+    let contents = Array.from(rows).map((row, i) =>
+        i > 0 ? Array.from(row.getElementsByTagName("td")).map(td => td.innerText.toLowerCase()).join(" ") : ""
+    );
 
-        contents[i] = contents[i].toLowerCase();
-    }
-    
-    
     function filterTable() {
         const searchInput = document.getElementById("searchInput").value.toLowerCase();
-        for (let i = 1; i < rows.length; i++) { 
-            if (contents[i].includes(searchInput)) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
+        Array.from(rows).forEach((row, i) => {
+            if (i === 0) return; // Skip header
+            row.style.display = contents[i].includes(searchInput) ? "" : "none";
+        });
     }
-
 </script>
