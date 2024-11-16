@@ -1,0 +1,42 @@
+@page
+@using DatabaseConnector.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SendEmailModel
+@{
+ViewData["Title"] = "Send Email";
+}
+<div class="container mt-4">
+    <h1 class="mb-4">Send Email</h1>
+    <form method="post" class="needs-validation" novalidate>
+        <div class="form-group mb-3">
+            <label asp-for="ToEmail" class="form-label">Recipient</label>
+            <select asp-for="ToEmail" class="form-control" required>
+                @foreach (User u in Model.Users)
+                {
+                    <option value="@u.Email">@u.EnglishName.FirstName @u.EnglishName.LastName (@u.Id)</option>
+                }
+            </select>
+            <span asp-validation-for="ToEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Subject" class="form-label">Subject</label>
+            <input asp-for="Subject" type="text" class="form-control" placeholder="Enter email subject" required />
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label asp-for="Message" class="form-label">Message</label>
+            <textarea asp-for="Message" class="form-control" rows="5" placeholder="Enter your message here" required></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary w-100">Send Email</button>
+        </div>
+    </form>
+
+    @if (Model.ErrorMessage != null)
+    {
+    <div class="alert alert-info mt-4">
+        <p>@Model.ErrorMessage</p>
+    </div>
+    }
+</div>

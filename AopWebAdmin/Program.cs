@@ -1,7 +1,6 @@
 using AopWebAdmin;
 using AopWebAdmin.CloudStorage;
 using AopWebAdmin.Pages;
-using DatabaseConnector;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using MongoDB.Driver;
@@ -13,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+builder.Services.AddSingleton<EmailService>();
 builder.Services.AddSingleton<IMongoDatabase>(new MongoDbProvider()
     .GetDatabase(builder.Configuration.GetValue<string>("DatabaseConnectionString")!, builder.Configuration.GetValue<string>("DatabaseName")!));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

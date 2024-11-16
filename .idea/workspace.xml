@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9b777a4-5b17-47af-ac6f-b40da64c64e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AopWebAdmin/DbInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/AopsImporter.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/AopsImporter.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Lessons/LessonDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Lessons/LessonDetails.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/ProblemDetails.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/ProblemDetails.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Submissions/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Pages/Problems/Submissions/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AopWebAdmin/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AopWebAdmin/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AopWebAdmin/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AopWebAdmin/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
