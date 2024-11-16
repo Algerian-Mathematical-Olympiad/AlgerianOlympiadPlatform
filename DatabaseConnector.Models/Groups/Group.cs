@@ -14,6 +14,9 @@ public class Group(
     public List<string> Coaches { get; set; } = coaches;
     public List<string> Students { get; set; } = students;
     public List<string> Units { get; set; } = units;
+    
+    public bool PublicForStudents { get; set; } = false;
+    public bool PublicForCoaches { get; set; } = false;
 
     public Group() : this("", new(), new(), [],[],[])
     {

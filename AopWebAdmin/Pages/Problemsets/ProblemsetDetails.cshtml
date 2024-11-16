@@ -60,7 +60,7 @@ else
         <div class="col-md-5">
             <label>Available Problems</label>
             <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
-            <select id="availableItems" multiple="multiple" class="form-control" size="8">
+            <select id="availableItems" data-val="false" multiple="multiple" class="form-control" size="8">
                 @foreach (var item in Model.AvailableProblems)
                 {
                     <option value="@item.Id">@item.Id</option>
@@ -73,7 +73,7 @@ else
         </div>
         <div class="col-md-5">
             <label>Problemset</label>
-            <select id="selectedItems" asp-for="Problemset.ProblemsIds" multiple="multiple" class="form-control" size="8">
+            <select id="selectedItems" data-val="false" asp-for="Problemset.ProblemsIds" multiple="multiple" class="form-control" size="8">
                 @foreach (var item in Model.Problemset.ProblemsIds)
                 {
                     <option value="@item">@item</option>
@@ -83,32 +83,9 @@ else
     </div>
 
     <script>
-        document.getElementById("searchAvailableItems").addEventListener("input", function() {
-            const filter = this.value.toLowerCase();
-            const availableItems = document.getElementById("availableItems");
-
-            Array.from(availableItems.options).forEach(option => {
-                const text = option.text.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
-            });
-        });
-        
-        document.getElementById("addItem").addEventListener("click", function() {
-            moveItems("availableItems", "selectedItems");
-        });
-
-        document.getElementById("removeItem").addEventListener("click", function() {
-            moveItems("selectedItems", "availableItems");
-        });
-
-        function moveItems(sourceId, targetId) {
-            const sourceList = document.getElementById(sourceId);
-            const targetList = document.getElementById(targetId);
-
-            Array.from(sourceList.selectedOptions).forEach(option => {
-                targetList.appendChild(option);
-            });
-        }
-    
+        setupSearchAndMove("searchAvailableItems", "availableItems", "selectedItems", "addItem", "removeItem");
     </script>
 </form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

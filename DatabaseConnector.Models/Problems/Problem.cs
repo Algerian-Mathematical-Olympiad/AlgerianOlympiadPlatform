@@ -29,8 +29,8 @@ public class Problem
 
 public class ProblemSource(string name, string url)
 {
-    public string Name { get; set; } = name;
-    public string Url { get; set; } = url;
+    public string? Name { get; set; } = name;
+    public string? Url { get; set; } = url;
 
     public ProblemSource() : this("", "")
     {

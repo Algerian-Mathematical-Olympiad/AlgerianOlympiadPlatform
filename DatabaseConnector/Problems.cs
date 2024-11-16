@@ -25,7 +25,6 @@ public class ProblemManager(IMongoDatabase database) : DatabaseManager(database)
     public void CreateProblem(Problem problem)
     {
         if(ProblemExists(problem.Id)) throw new InvalidOperationException($"Problem with same ID already exists");
-        if(DoesProblemWithSourceLinkExist(problem.Source.Url)) throw new InvalidOperationException($"Problem with source link {problem.Source.Url} already exists");
         Database.GetCollection<Problem>("problems").InsertOne(problem);
     }
 

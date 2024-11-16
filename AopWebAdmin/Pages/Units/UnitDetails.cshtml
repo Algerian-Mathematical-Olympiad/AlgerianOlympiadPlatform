@@ -84,7 +84,7 @@ else
             <div class="col-md-5">
                 <label>Available Lessons</label>
                 <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
-                <select id="availableItems" multiple="multiple" class="form-control" size="8">
+                <select id="availableItems" data-val="false" multiple="multiple" class="form-control" size="8">
                     @foreach (var item in Model.AvailableLessons)
                     {
                         <option value="@item.Id">@item.Id</option>
@@ -97,7 +97,7 @@ else
             </div>
             <div class="col-md-5">
                 <label>Unit Lessons</label>
-                <select id="selectedItems" asp-for="Unit.Lessons" multiple="multiple" class="form-control" size="8">
+                <select id="selectedItems" data-val="false" asp-for="Unit.Lessons" multiple="multiple" class="form-control" size="8">
                     @foreach (var item in Model.Unit.Lessons)
                     {
                         <option value="@item">@item</option>
@@ -115,7 +115,7 @@ else
             <div class="col-md-5">
                 <label>Available Quizzes</label>
                 <input type="text" id="searchAvailableItems-1" class="form-control mb-2" placeholder="Search...">
-                <select id="availableItems-1" multiple="multiple" class="form-control" size="8">
+                <select id="availableItems-1" data-val="false" multiple="multiple" class="form-control" size="8">
                     @foreach (var item in Model.AvailableQuizzes)
                     {
                         <option value="@item.Id">@item.Id</option>
@@ -128,7 +128,7 @@ else
             </div>
             <div class="col-md-5">
                 <label>Unit Quizzes</label>
-                <select id="selectedItems-1" asp-for="Unit.ValidationQuizzes" multiple="multiple" class="form-control" size="8">
+                <select id="selectedItems-1" data-val="false" asp-for="Unit.ValidationQuizzes" multiple="multiple" class="form-control" size="8">
                     @foreach (var item in Model.Unit.ValidationQuizzes)
                     {
                         <option value="@item">@item</option>
@@ -142,50 +142,9 @@ else
 
 
 <script>
-        document.getElementById("searchAvailableItems").addEventListener("input", function() {
-            const filter = this.value.toLowerCase();
-            const availableItems = document.getElementById("availableItems");
-
-            Array.from(availableItems.options).forEach(option => {
-                const text = option.text.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
-            });
-        });
-        
-        document.getElementById("addItem").addEventListener("click", function() {
-            moveItems("availableItems", "selectedItems");
-        });
-
-        document.getElementById("removeItem").addEventListener("click", function() {
-            moveItems("selectedItems", "availableItems");
-        });
-
-        function moveItems(sourceId, targetId) {
-            const sourceList = document.getElementById(sourceId);
-            const targetList = document.getElementById(targetId);
-
-            Array.from(sourceList.selectedOptions).forEach(option => {
-                targetList.appendChild(option);
-            });
-        }
-
-
-        document.getElementById("searchAvailableItems-1").addEventListener("input", function() {
-            const filter = this.value.toLowerCase();
-            const availableItems = document.getElementById("availableItems-1");
-
-            Array.from(availableItems.options).forEach(option => {
-                const text = option.text.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
-            });
-        });
-
-        document.getElementById("addItem-1").addEventListener("click", function() {
-            moveItems("availableItems-1", "selectedItems-1");
-        });
-
-        document.getElementById("removeItem-1").addEventListener("click", function() {
-            moveItems("selectedItems-1", "availableItems-1");
-        });
-    
+    setupSearchAndMove("searchAvailableItems", "availableItems", "selectedItems", "addItem", "removeItem");
+    setupSearchAndMove("searchAvailableItems-1", "availableItems-1", "selectedItems-1", "addItem-1", "removeItem-1");
 </script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

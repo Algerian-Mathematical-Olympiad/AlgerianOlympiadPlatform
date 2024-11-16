@@ -1,198 +1,180 @@
 @page "/Groups/{RequestedGroup}"
 @model AopWebAdmin.Pages.GroupDetails
 @{
-ViewData["Title"] = Model.RequestedGroup == "new" ? "New Group" : "Group : " + Model.RequestedGroup;
+    ViewData["Title"] = Model.RequestedGroup == "new" ? "New Group" : "Group : " + Model.RequestedGroup;
 }
 
-@if (Model.RequestedGroup == "new")
-{
-<h1>Add New Group</h1>
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="text-primary">
+                @if (Model.RequestedGroup == "new")
+                {
+                    <span>Add New Group</span>
+                }
+                else
+                {
+                    <span>Group @Model.Group.Id</span>
+                }
+            </h1>
+        </div>
+        <div class="col text-end">
+            @if (Model.RequestedGroup != "new")
+            {
+                <form method="post" class="d-inline">
+                    <input type="hidden" asp-for="Action" value="@GroupDetails.Actions.Delete"/>
+                    <button type="submit" class="btn btn-danger">Delete Group</button>
+                </form>
+            }
+        </div>
+    </div>
 
+    <!-- Group Form -->
+    <form method="post">
+        <div class="border p-4 rounded bg-light shadow-sm">
+            <input type="hidden" asp-for="Action" value="@GroupDetails.Actions.Update"/>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Group.Id" class="form-label">Group ID</label>
+                    <input asp-for="Group.Id" class="form-control"/>
+                    <span asp-validation-for="Group.Id" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Group.Name.EnglishDescription.Content" class="form-label">English Name</label>
+                    <input asp-for="Group.Name.EnglishDescription.Content" class="form-control"/>
+                    <span asp-validation-for="Group.Name.EnglishDescription.Content" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Group.Name.ArabicDescription.Content" class="form-label">Arabic Name</label>
+                    <input asp-for="Group.Name.ArabicDescription.Content" class="form-control"/>
+                    <span asp-validation-for="Group.Name.ArabicDescription.Content" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="form-check me-4">
+                        <input asp-for="Group.PublicForStudents" class="form-check-input" type="checkbox"/>
+                        <label asp-for="Group.PublicForStudents" class="form-check-label">Public for Students</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Group.PublicForCoaches" class="form-check-input" type="checkbox"/>
+                        <label asp-for="Group.PublicForCoaches" class="form-check-label">Public for Coaches</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-2">
+                @if (Model.RequestedGroup == "new")
+                {
+                    <span>Create Group</span>
+                }
+                else
+                {
+                    <span>Update Group</span>
+                }
+            </button>
+        </div>
+        <!-- Units Section -->
+        <div class="mt-5">
+            <h3 class="text-secondary mb-3">Units</h3>
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label for="searchAvailableUnits" class="form-label">Available Units</label>
+                    <input type="text" id="searchAvailableUnits" class="form-control mb-2" placeholder="Search units..."/>
+                    <select id="availableUnits" data-val="false" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.AvailableUnits)
+                        {
+                            <option value="@item.Id">@item.Id</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center d-flex flex-column align-items-center justify-content-center">
+                    <button type="button" id="addUnit" class="btn btn-primary mb-2">&gt;</button>
+                    <button type="button" id="removeUnit" class="btn btn-primary">&lt;</button>
+                </div>
+                <div class="col-md-5">
+                    <label for="selectedUnits" class="form-label">Group Units</label>
+                    <select id="selectedUnits" data-val="false" asp-for="Group.Units" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.Group.Units)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Section -->
+        <div class="mt-5">
+            <h3 class="text-secondary mb-3">Students</h3>
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label for="searchAvailableStudents" class="form-label">Available Students</label>
+                    <input type="text" id="searchAvailableStudents" class="form-control mb-2" placeholder="Search students..."/>
+                    <select id="availableStudents" data-val="false" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.AvailableStudents)
+                        {
+                            <option value="@item.Id">@item.Id</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center d-flex flex-column align-items-center justify-content-center">
+                    <button type="button" id="addStudent" class="btn btn-primary mb-2">&gt;</button>
+                    <button type="button" id="removeStudent" class="btn btn-primary">&lt;</button>
+                </div>
+                <div class="col-md-5">
+                    <label for="selectedStudents" class="form-label">Group Students</label>
+                    <select id="selectedStudents" data-val="false" asp-for="Group.Students" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.Group.Students)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coaches Section -->
+        <div class="mt-5">
+            <h3 class="text-secondary mb-3">Coaches</h3>
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label for="searchAvailableCoaches" class="form-label">Available Coaches</label>
+                    <input type="text" id="searchAvailableCoaches" class="form-control mb-2" placeholder="Search coaches..."/>
+                    <select id="availableCoaches" data-val="false" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.AvailableStaff)
+                        {
+                            <option value="@item.Id">@item.Id</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center d-flex flex-column align-items-center justify-content-center">
+                    <button type="button" id="addCoach" class="btn btn-primary mb-2">&gt;</button>
+                    <button type="button" id="removeCoach" class="btn btn-primary">&lt;</button>
+                </div>
+                <div class="col-md-5">
+                    <label for="selectedCoaches" class="form-label">Group Coaches</label>
+                    <select id="selectedCoaches" data-val="false" asp-for="Group.Coaches" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.Group.Coaches)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+        setupSearchAndMove("searchAvailableUnits", "availableUnits", "selectedUnits", "addUnit", "removeUnit");
+        setupSearchAndMove("searchAvailableStudents", "availableStudents", "selectedStudents", "addStudent", "removeStudent");
+        setupSearchAndMove("searchAvailableCoaches", "availableCoaches", "selectedCoaches", "addCoach", "removeCoach");
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
-else
-{
-<h1>Group [@Model.Group.Id]</h1>
-<form method="post">
-    <input type="hidden" asp-for="Action" value="@GroupDetails.Actions.Delete"></input>
-    <button type="submit" class="btn btn-danger">Delete</button>
-</form>
-}
-
-<form method="post">
-    <button type="submit" class="btn btn-success">
-        @if (Model.RequestedGroup == "new")
-        {
-        <span>Add</span>
-        }
-        else
-        {
-        <span>Update</span>
-        }
-    </button>
-    <input type="hidden" asp-for="Action" value="@GroupDetails.Actions.Update"></input>
-    <div class="form-group">
-        <label asp-for="Group.Id">Group ID</label>
-        <input asp-for="Group.Id" class="form-control"></input>
-        <span asp-validation-for="Group.Id" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Group.Name.EnglishDescription.Content">English Name</label>
-        <input asp-for="Group.Name.EnglishDescription.Content" class="form-control"></input>
-        <span asp-validation-for="Group.Name.EnglishDescription.Content" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Group.Name.ArabicDescription.Content">Arabic Name</label>
-        <input asp-for="Group.Name.ArabicDescription.Content" class="form-control"></input>
-        <span asp-validation-for="Group.Name.ArabicDescription.Content" class="text-danger"></span>
-    </div>
-    
-    <h3>Units</h3>
-    <div class="form-group row">
-        <div class="col-md-5">
-            <label>Available Units</label>
-            <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
-            <select id="availableItems" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.AvailableUnits)
-                {
-                <option value="@item.Id">@item.Id</option>
-                }
-            </select>
-        </div>
-        <div class="col-md-2 d-flex align-items-center justify-content-center">
-            <button type="button" id="addItem" class="btn btn-primary m-1">&gt;</button>
-            <button type="button" id="removeItem" class="btn btn-primary m-1">&lt;</button>
-        </div>
-        <div class="col-md-5">
-            <label>Group Units</label>
-            <select id="selectedItems" asp-for="Group.Units" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.Group.Units)
-                {
-                <option value="@item">@item</option>
-                }
-            </select>
-        </div>
-    </div>
-
-    <h3>Students</h3>
-    <div class="form-group row">
-        <div class="col-md-5">
-            <label>Available Students</label>
-            <input type="text" id="searchAvailableItems-1" class="form-control mb-2" placeholder="Search...">
-            <select id="availableItems-1" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.AvailableStudents)
-                {
-                    <option value="@item.Id">@item.Id</option>
-                }
-            </select>
-        </div>
-        <div class="col-md-2 d-flex align-items-center justify-content-center">
-            <button type="button" id="addItem-1" class="btn btn-primary m-1">&gt;</button>
-            <button type="button" id="removeItem-1" class="btn btn-primary m-1">&lt;</button>
-        </div>
-        <div class="col-md-5">
-            <label>Group Students</label>
-            <select id="selectedItems-1" asp-for="Group.Students" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.Group.Students)
-                {
-                    <option value="@item">@item</option>
-                }
-            </select>
-        </div>
-    </div>
-
-    <h3>Coaches</h3>
-    <div class="form-group row">
-        <div class="col-md-5">
-            <label>Available Staff</label>
-            <input type="text" id="searchAvailableItems-2" class="form-control mb-2" placeholder="Search...">
-            <select id="availableItems-2" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.AvailableStaff)
-                {
-                <option value="@item.Id">@item.Id</option>
-                }
-            </select>
-        </div>
-        <div class="col-md-2 d-flex align-items-center justify-content-center">
-            <button type="button" id="addItem-2" class="btn btn-primary m-1">&gt;</button>
-            <button type="button" id="removeItem-2" class="btn btn-primary m-1">&lt;</button>
-        </div>
-        <div class="col-md-5">
-            <label>Group Staff</label>
-            <select id="selectedItems-2" asp-for="Group.Coaches" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.Group.Coaches)
-                {
-                <option value="@item">@item</option>
-                }
-            </select>
-        </div>
-    </div>
-    
-
-    <script>
-        document.getElementById("searchAvailableItems").addEventListener("input", function() {
-            const filter = this.value.toLowerCase();
-            const availableItems = document.getElementById("availableItems");
-
-            Array.from(availableItems.options).forEach(option => {
-                const text = option.text.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
-            });
-        });
-
-        document.getElementById("addItem").addEventListener("click", function() {
-            moveItems("availableItems", "selectedItems");
-        });
-
-        document.getElementById("removeItem").addEventListener("click", function() {
-            moveItems("selectedItems", "availableItems");
-        });
-
-        function moveItems(sourceId, targetId) {
-            const sourceList = document.getElementById(sourceId);
-            const targetList = document.getElementById(targetId);
-
-            Array.from(sourceList.selectedOptions).forEach(option => {
-                targetList.appendChild(option);
-            });
-        }
-
-
-        document.getElementById("searchAvailableItems-1").addEventListener("input", function() {
-            const filter = this.value.toLowerCase();
-            const availableItems = document.getElementById("availableItems-1");
-
-            Array.from(availableItems.options).forEach(option => {
-                const text = option.text.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
-            });
-        });
-
-        document.getElementById("addItem-1").addEventListener("click", function() {
-            moveItems("availableItems-1", "selectedItems-1");
-        });
-
-        document.getElementById("removeItem-1").addEventListener("click", function() {
-            moveItems("selectedItems-1", "availableItems-1");
-        });
-        
-        document.getElementById("searchAvailableItems-2").addEventListener("input", function() {
-        const filter = this.value.toLowerCase();
-        const availableItems = document.getElementById("availableItems-2");
-
-        Array.from(availableItems.options).forEach(option => {
-            const text = option.text.toLowerCase();
-            option.style.display = text.includes(filter) ? "" : "none";
-        });
-        });
-
-        document.getElementById("addItem-2").addEventListener("click", function() {
-            moveItems("availableItems-2", "selectedItems-2");
-        });
-
-        document.getElementById("removeItem-1").addEventListener("click", function() {
-            moveItems("selectedItems-2", "availableItems-2");
-        });
-
-    </script>
-
-</form>

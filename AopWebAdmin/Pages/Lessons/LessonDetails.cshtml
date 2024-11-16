@@ -64,16 +64,7 @@ else
             </div>
         </div>
         <script>
-            let englishStatementPreview = document.getElementById("englishStatementPreview");
-            let englishStatementInput = document.getElementById("englishStatement");
-            textAreaAdjust(englishStatementInput);
-            englishStatementInput.addEventListener("input",()=>{
-                englishStatementPreview.innerHTML = marked.parse(englishStatementInput.value);
-                renderMathInElement(englishStatementPreview, {
-                    delimiters: katexDelimiters,
-                    throwOnError : false
-                });
-            });
+            ConfigurePreview("englishStatementPreview","englishStatement");
         </script>
     </div>
 
@@ -86,7 +77,7 @@ else
             </div>
             <div class="col-md">
                 <label>Preview</label>
-                <div class="card" style="direction: rtl">
+                <div class="card">
                     <div class="card-body text-end" id="arabicStatementPreview">
                         @Model.Lesson.Content.ArabicDescription.Content
                     </div>
@@ -94,16 +85,7 @@ else
             </div>
         </div>
         <script>
-            let arabicStatementPreview = document.getElementById("arabicStatementPreview");
-            let arabicStatementInput = document.getElementById("arabicStatement");
-            textAreaAdjust(arabicStatementInput);
-            arabicStatementInput.addEventListener("input",()=>{
-                arabicStatementPreview.innerHTML = marked.parse(arabicStatementInput.value);
-                renderMathInElement(arabicStatementPreview, {
-                    delimiters: katexDelimiters,
-                    throwOnError : false
-                });
-            });
+            ConfigurePreview("arabicStatementPreview","arabicStatement");
         </script>
     </div>
     
@@ -113,7 +95,7 @@ else
         <div class="col-md-5">
             <label>Available Attachements</label>
             <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
-            <select id="availableItems" multiple="multiple" class="form-control" size="8">
+            <select id="availableItems" data-val="false" multiple="multiple" class="form-control" size="8">
                 @foreach (var item in Model.AvailableAttachements)
                 {
                     <option value="@item.Id">@item.Id</option>
@@ -126,7 +108,7 @@ else
         </div>
         <div class="col-md-5">
             <label>Lesson Attachements</label>
-            <select id="selectedItems" asp-for="Lesson.Attachments" multiple="multiple" class="form-control" size="8">
+            <select id="selectedItems" data-val="false" asp-for="Lesson.Attachments" multiple="multiple" class="form-control" size="8">
                 @foreach (var item in Model.Lesson.Attachments)
                 {
                     <option value="@item">@item</option>
@@ -136,33 +118,10 @@ else
     </div>
 
     <script>
-        document.getElementById("searchAvailableItems").addEventListener("input", function() {
-            const filter = this.value.toLowerCase();
-            const availableItems = document.getElementById("availableItems");
-
-            Array.from(availableItems.options).forEach(option => {
-                const text = option.text.toLowerCase();
-                option.style.display = text.includes(filter) ? "" : "none";
-            });
-        });
-
-        document.getElementById("addItem").addEventListener("click", function() {
-            moveItems("availableItems", "selectedItems");
-        });
-
-        document.getElementById("removeItem").addEventListener("click", function() {
-            moveItems("selectedItems", "availableItems");
-        });
-
-        function moveItems(sourceId, targetId) {
-            const sourceList = document.getElementById(sourceId);
-            const targetList = document.getElementById(targetId);
-
-            Array.from(sourceList.selectedOptions).forEach(option => {
-                targetList.appendChild(option);
-            });
-        }
-
+        setupSearchAndMove("searchAvailableItems", "availableItems", "selectedItems", "addItem", "removeItem");
     </script>
 
 </form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
