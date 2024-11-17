@@ -4,21 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Groups;
 
-public class GroupsModel : PageModel
+public class GroupsModel(IMongoDatabase database) : PageModel
 {
-    private readonly IMongoDatabase _database;
-    
-    private readonly ILogger<GroupsModel> _logger;
-
-    public List<Group> AopGroups { get; set; }
-
-    public GroupsModel(ILogger<GroupsModel> logger, IMongoDatabase database)
-    {
-        _logger = logger;
-        _database = database;
-    }
+    public List<Group> Groups { get; set; } = [];
 
     public void OnGet()
     {
@@ -27,22 +17,22 @@ public class GroupsModel : PageModel
 
     private void GetGroups()
     {
-        var u = new GroupManager(_database);
-        AopGroups = u.GetAllGroups();
+        var u = new GroupManager(database);
+        Groups = u.GetAllGroups();
         
     }
     
     [BindProperty]
-    public string GroupToAffect { get; set; }
+    public required string GroupToAffect { get; set; }
     [BindProperty]
     public Actions Action { get; set; }
 
-    public async Task<IActionResult> OnPostAsync()
+    public IActionResult OnPostAsync()
     {
         switch (Action)
         {
             case Actions.Delete:
-                var u = new GroupManager(_database);
+                var u = new GroupManager(database);
                 u.DeleteGroup(GroupToAffect);
                 break;
         }

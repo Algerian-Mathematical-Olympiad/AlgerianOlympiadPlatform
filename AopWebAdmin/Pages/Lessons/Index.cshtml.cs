@@ -12,7 +12,7 @@ public class LessonsModel : PageModel
     
     private readonly ILogger<LessonsModel> _logger;
 
-    public List<Lesson> AopLessons { get; set; }
+    public List<Lesson> Lessons { get; set; }
 
     public LessonsModel(ILogger<LessonsModel> logger, IMongoDatabase database)
     {
@@ -28,7 +28,7 @@ public class LessonsModel : PageModel
     private void GetLessons()
     {
         var u = new LessonManager(_database);
-        AopLessons = u.GetAllLessons();
+        Lessons = u.GetAllLessons();
         
     }
     

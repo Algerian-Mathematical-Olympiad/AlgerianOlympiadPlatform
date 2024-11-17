@@ -11,7 +11,7 @@ public class UnitsModel : PageModel
     private readonly IMongoDatabase _database;
     private readonly ILogger<UnitsModel> _logger;
 
-    public List<Unit> AopUnits { get; set; }
+    public List<Unit> Units { get; set; }
 
     public UnitsModel(ILogger<UnitsModel> logger, IMongoDatabase database)
     {
@@ -27,7 +27,7 @@ public class UnitsModel : PageModel
     private void GetUnits()
     {
         var unitManager = new UnitManager(_database);
-        AopUnits = unitManager.GetUnits();
+        Units = unitManager.GetUnits();
     }
 
     [BindProperty]

@@ -1,0 +1,163 @@
+@page "/Exams/{RequestedExam}"
+@model AopWebAdmin.Pages.ExamDetails
+@{
+ViewData["Title"] = Model.RequestedExam == "new" ? "New Exam" : "Exam : " + Model.RequestedExam;
+}
+
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="text-primary">
+                @if (Model.RequestedExam == "new")
+                {
+                <span>Add New Exam</span>
+                }
+                else
+                {
+                <span>Exam @Model.Exam.Id</span>
+                }
+            </h1>
+        </div>
+        <div class="col text-end">
+            @if (Model.RequestedExam != "new")
+            {
+            <form method="post" class="d-inline">
+                <input type="hidden" asp-for="Action" value="@ExamDetails.Actions.Delete"/>
+                <button type="submit" class="btn btn-danger">Delete Exam</button>
+            </form>
+            }
+        </div>
+    </div>
+
+    <!-- Exam Form -->
+    <form method="post">
+        <div class="border p-4 rounded bg-light shadow-sm">
+            <input type="hidden" asp-for="Action" value="@ExamDetails.Actions.Update"/>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Exam.Id" class="form-label">Exam ID</label>
+                    <input asp-for="Exam.Id" class="form-control"/>
+                    <span asp-validation-for="Exam.Id" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Exam.Name.EnglishDescription.Content" class="form-label">English Name</label>
+                    <input asp-for="Exam.Name.EnglishDescription.Content" class="form-control"/>
+                    <span asp-validation-for="Exam.Name.EnglishDescription.Content" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Exam.Name.ArabicDescription.Content" class="form-label">Arabic Name</label>
+                    <input asp-for="Exam.Name.ArabicDescription.Content" class="form-control"/>
+                    <span asp-validation-for="Exam.Name.ArabicDescription.Content" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Exam.StartTime" class="form-label">Start Time</label>
+                    <input asp-for="Exam.StartTime" type="datetime-local" class="form-control"/>
+                    <span asp-validation-for="Exam.StartTime" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="Exam.DurationInMinutes" class="form-label">Duration (minutes)</label>
+                    <input asp-for="Exam.DurationInMinutes" class="form-control"/>
+                    <span asp-validation-for="Exam.DurationInMinutes" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Exam.Problemset" class="form-label">Problemset</label>
+                    <select asp-for="Exam.Problemset" class="form-control">
+                        @foreach (var p in Model.AvailableProblemsets)
+                        {
+                            <option value="@p.Id" selected="@(p.Id==@Model.Exam.Problemset)">@p.Id</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Exam.Problemset" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-success w-100 py-2">
+                @if (Model.RequestedExam == "new")
+                {
+                <span>Create Exam</span>
+                }
+                else
+                {
+                <span>Update Exam</span>
+                }
+            </button>
+        </div>
+
+        <!-- Correctors Section -->
+        <div class="mt-5">
+            <h3 class="text-secondary mb-3">Correctors</h3>
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label for="searchAvailableCorrectors" class="form-label">Available Correctors</label>
+                    <input type="text" id="searchAvailableCorrectors" class="form-control mb-2" placeholder="Search correctors..."/>
+                    <select id="availableCorrectors" data-val="false" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.AvailableCorrectors)
+                        {
+                            <option value="@item.Id">@item.Id</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center d-flex flex-column align-items-center justify-content-center">
+                    <button type="button" id="addCorrector" class="btn btn-primary mb-2">&gt;</button>
+                    <button type="button" id="removeCorrector" class="btn btn-primary">&lt;</button>
+                </div>
+                <div class="col-md-5">
+                    <label for="selectedCorrectors" class="form-label">Exam Correctors</label>
+                    <select id="selectedCorrectors" data-val="false" asp-for="Exam.Correctors" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.Exam.Correctors)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups Section -->
+        <div class="mt-5">
+            <h3 class="text-secondary mb-3">Student Groups</h3>
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label for="searchAvailableGroups" class="form-label">Available Groups</label>
+                    <input type="text" id="searchAvailableGroups" class="form-control mb-2" placeholder="Search groups..."/>
+                    <select id="availableGroups" data-val="false" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.AvailableGroups)
+                        {
+                        <option value="@item.Id">@item.Id</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center d-flex flex-column align-items-center justify-content-center">
+                    <button type="button" id="addGroup" class="btn btn-primary mb-2">&gt;</button>
+                    <button type="button" id="removeGroup" class="btn btn-primary">&lt;</button>
+                </div>
+                <div class="col-md-5">
+                    <label for="selectedGroups" class="form-label">Exam Groups</label>
+                    <select id="selectedGroups" data-val="false" asp-for="Exam.GroupsConcerned" multiple="multiple" class="form-select" size="8">
+                        @foreach (var item in Model.Exam.GroupsConcerned)
+                        {
+                        <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    setupSearchAndMove("searchAvailableCorrectors", "availableCorrectors", "selectedCorrectors", "addCorrector", "removeCorrector");
+    setupSearchAndMove("searchAvailableGroups", "availableGroups", "selectedGroups", "addGroup", "removeGroup");
+</script>
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

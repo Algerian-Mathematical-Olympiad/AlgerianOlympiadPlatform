@@ -1,39 +1,41 @@
 @page
-@model UnitsModel
+@model ExamsModel
 @using DatabaseConnector.Models
 @{
-ViewData["Title"] = "Units";
+ViewData["Title"] = "Exams";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Units</h1>
-    <a class="text-end" href="/Units/new" style="margin-right: 10px;">Add a Unit</a>
+    <h1 class="display-4">Exams</h1>
+    <a class="text-end" href="/Exams/new" style="margin-right: 10px;">Add an Exam</a>
 
     <div class="mb-3">
         <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..."/>
     </div>
 
-    <table class="table table-bordered table-hover" id="UnitsTable">
+    <table class="table table-bordered table-hover" id="ExamsTable">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Start Time</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (Unit unit in Model.Units)
+        @foreach (Exam e in Model.Exams)
         {
         <tr>
             <td>
-                <a href="/Units/@unit.Id" type="submit">@unit.Id</a>
+                <a href="/Exams/@e.Id" type="submit">@e.Id</a>
             </td>
-            <td>@unit.Name.EnglishDescription.Content</td>
+            <td>@e.Name.EnglishDescription.Content</td>
+            <td>@e.StartTime.ToString("g")</td>
             <td>
-                <a href="/Units/@unit.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
+                <a href="/Exams/@e.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 <form method="post" class="d-inline">
-                    <input type="hidden" asp-for="UnitToAffect" value="@unit.Id"/>
-                    <input type="hidden" asp-for="Action" value="@UnitsModel.Actions.Delete"/>
+                    <input type="hidden" asp-for="ExamToAffect" value="@e.Id"/>
+                    <input type="hidden" asp-for="Action" value="@ExamsModel.Actions.Delete"/>
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>
@@ -41,16 +43,17 @@ ViewData["Title"] = "Units";
         }
         </tbody>
     </table>
+
 </div>
 
 <script>
-    const table = document.getElementById("UnitsTable");
+    const table = document.getElementById("ExamsTable");
     const rows = table.getElementsByTagName("tr");
 
     let contents = new Array(rows.length);
     for (let i = 1; i < rows.length; i++) {
         contents[i] = "";
-        Array.prototype.slice.call(rows[i].getElementsByTagName("td")).forEach(element => {
+        Array.prototype.slice.call(rows[i].getElementsByTagName("td")).forEach(element =>{
             contents[i] += element.innerText + " ";
         });
 

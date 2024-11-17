@@ -13,7 +13,7 @@ public class ProblemsetsModel : PageModel
         _database = database;
     }
 
-    public List<MathProblemset> AopProblemsets { get; set; }
+    public List<MathProblemset> Problemsets { get; set; }
     public string ProblemsetToAffect { get; set; }
     
     public Actions Action { get; set; }
@@ -26,7 +26,7 @@ public class ProblemsetsModel : PageModel
     private void GetProblemsets()
     {
         var u = new ProblemsetManager(_database);
-        AopProblemsets = u.GetMathProblemsets();
+        Problemsets = u.GetMathProblemsets();
     }
 
     public enum Actions

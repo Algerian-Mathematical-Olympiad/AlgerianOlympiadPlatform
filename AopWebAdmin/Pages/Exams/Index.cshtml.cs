@@ -1,21 +1,19 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
-public class UsersModel : PageModel
+public class ExamsModel : PageModel
 {
     private readonly IMongoDatabase _database;
-    
-    private readonly ILogger<UsersModel> _logger;
+    private readonly ILogger<ExamsModel> _logger;
 
-    public List<DetailedUser> Users { get; set; }
+    public List<Exam> Exams { get; set; }
 
-    public UsersModel(ILogger<UsersModel> logger, IMongoDatabase database)
+    public ExamsModel(ILogger<ExamsModel> logger, IMongoDatabase database)
     {
         _logger = logger;
         _database = database;
@@ -23,19 +21,17 @@ public class UsersModel : PageModel
 
     public void OnGet()
     {
-        GetUsers();
+        GetExams();
     }
 
-    private void GetUsers()
+    private void GetExams()
     {
-        var u = new UserManager(_database);
-
-        var users = u.GetUsersWithDetails();
-        Users = users;
+        var manager = new ExamManager(_database);
+        Exams = manager.GetAllExams();
     }
-    
+
     [BindProperty]
-    public string UserEmailToAffect { get; set; }
+    public string ExamToAffect { get; set; }
     [BindProperty]
     public Actions Action { get; set; }
 
@@ -44,14 +40,13 @@ public class UsersModel : PageModel
         switch (Action)
         {
             case Actions.Delete:
-                var u = new UserManager(_database);
-                u.DeleteUser(UserEmailToAffect);
+                var manager = new ExamManager(_database);
+                manager.DeleteExam(ExamToAffect);
                 break;
         }
-        
-        return RedirectToPage("/Users/Index"); 
-    }
 
+        return Redirect("/Exams");
+    }
 
     public enum Actions
     {

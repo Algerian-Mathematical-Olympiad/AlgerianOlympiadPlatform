@@ -16,33 +16,45 @@
 
     <table class="table table-striped table-bordered">
         <tbody>
-            <tr>
-                <th scope="row">User</th>
-                <td><a href="/Users/@Model.Submission.User">@Model.Submission.User</a></td>
-            </tr>
-            <tr>
-                <th scope="row">Problem</th>
-                <td><a href="/Problems/@Model.Submission.Problem">@Model.Submission.Problem</a></td>
-            </tr>
-            <tr>
-                <th scope="row">Group</th>
-                <td><a href="/Groups/@Model.Submission.Group">@Model.Submission.Group</a></td>
-            </tr>
-            <tr>
-                <th scope="row">Timestamp</th>
-                <td>@Model.Submission.Timestamp.ToString("f")</td>
-            </tr>
-            <tr>
-                <th scope="row">Attachments</th>
-                <td>
-                    <ul class="list-unstyled">
-                        @foreach (var att in Model.Submission.Attachments)
-                        {
-                            <li><a href="@(CloudStorage.GetUrlPrefix() + att)" target="_blank" class="text-primary">@att</a></li>
-                        }
-                    </ul>
-                </td>
-            </tr>
+        <tr>
+            <th scope="row">User</th>
+            <td>
+                <a href="/Users/@Model.Submission.User">@Model.Submission.User</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Problem</th>
+            <td>
+                <a href="/Problems/@Model.Submission.Problem">@Model.Submission.Problem</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Group</th>
+            <td>
+                <a href="/Groups/@Model.Submission.Group">@Model.Submission.Group</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Timestamp</th>
+            <td>@Model.Submission.Timestamp.ToString("f")</td>
+        </tr>
+        <tr>
+            <th scope="row">Lanuage</th>
+            <td>@Model.Submission.Description.Language</td>
+        </tr>
+        <tr>
+            <th scope="row">Attachments</th>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach (var att in Model.Submission.Attachments)
+                    {
+                        <li>
+                            <a href="@(CloudStorage.GetUrlPrefix() + att)" target="_blank" class="text-primary">@att</a>
+                        </li>
+                    }
+                </ul>
+            </td>
+        </tr>
         </tbody>
     </table>
 

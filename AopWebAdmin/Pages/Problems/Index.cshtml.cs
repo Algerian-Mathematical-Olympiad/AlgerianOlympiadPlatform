@@ -12,7 +12,7 @@ public class ProblemsModel : PageModel
     
     private readonly ILogger<ProblemsModel> _logger;
 
-    public List<Problem> AopProblems { get; set; }
+    public List<Problem> Problems { get; set; }
 
     public ProblemsModel(ILogger<ProblemsModel> logger, IMongoDatabase database)
     {
@@ -28,7 +28,7 @@ public class ProblemsModel : PageModel
     private void GetProblems()
     {
         var u = new ProblemManager(_database);
-        AopProblems = u.GetAllProblems();
+        Problems = u.GetAllProblems();
         
     }
     
