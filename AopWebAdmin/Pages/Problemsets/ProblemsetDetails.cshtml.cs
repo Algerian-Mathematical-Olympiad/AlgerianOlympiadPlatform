@@ -76,7 +76,10 @@ public class ProblemsetDetails : PageModel
 
     private void GetProblemset()
     {
-        Problemset = new ProblemsetManager(_database).GetProblemsetById(RequestedProblemset);
+        if (RequestedProblemset != "new")
+        {
+            Problemset = new ProblemsetManager(_database).GetProblemsetById(RequestedProblemset);
+        }
     }
 
     private void FillAvailableProblems()

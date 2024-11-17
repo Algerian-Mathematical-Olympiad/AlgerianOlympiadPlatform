@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace DatabaseConnector.Models;
@@ -5,6 +6,7 @@ namespace DatabaseConnector.Models;
 [BsonIgnoreExtraElements]
 public class User
 {
+    [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
     public string Id { get; set; }
     public UserName EnglishName { get; set; }
     public UserName ArabicName { get; set; }

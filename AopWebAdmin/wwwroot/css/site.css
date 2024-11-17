@@ -23,4 +23,9 @@ body {
 
 .katex{
   display: inline-block;
+  direction: ltr;
+}
+
+.rtl{
+  direction: rtl;
 }

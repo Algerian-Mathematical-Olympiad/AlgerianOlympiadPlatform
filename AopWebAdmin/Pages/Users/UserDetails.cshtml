@@ -8,7 +8,7 @@ ViewData["Title"] = Model.RequestedUser == "new" ? "Add User" : "User " + Model.
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary">@ViewData["Title"]</h2>
-        @if (Model.RequestedUser != "new")
+        @if (Model.RequestedUser != "new" && Model.RequestedUser != "admin")
         {
         <form method="post" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
