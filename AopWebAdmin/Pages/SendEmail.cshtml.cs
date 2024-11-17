@@ -9,13 +9,13 @@ namespace AopWebAdmin.Pages;
 public class SendEmailModel : PageModel
 {
     [BindProperty]
-    public string? ToEmail { get; set; }
+    public required string ToEmail { get; set; }
     [BindProperty]
-    public string? Subject { get; set; }
+    public required string Subject { get; set; }
     [BindProperty]
-    public string? Message { get; set; }
-    
-    public List<User>? Users { get; set; }
+    public required string Message { get; set; }
+
+    public List<User> Users { get; set; } = [];
 
     public string? ErrorMessage { get; set; }
 

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Users;
 
 public class AuthentificationEditionModel : PageModel
 {
@@ -16,8 +16,9 @@ public class AuthentificationEditionModel : PageModel
     }
     
     [BindProperty(SupportsGet = true)]
-    public string RequestedUser { get; set; }
-    [BindProperty] public UserAuthInfo AuthInfo { get; set; }
+    public required string RequestedUser { get; set; }
+
+    [BindProperty] public UserAuthInfo AuthInfo { get; set; } = new();
 
     public void OnGet()
     {
@@ -25,7 +26,7 @@ public class AuthentificationEditionModel : PageModel
         AuthInfo.PasswordHash = "";
     }
 
-    public async Task<IActionResult?> OnPostAsync()
+    public IActionResult OnPost()
     {
         var manager = new UserManager(_database);
         
@@ -34,9 +35,5 @@ public class AuthentificationEditionModel : PageModel
 
         return Page();
     }
-
-
-
-
     
 }

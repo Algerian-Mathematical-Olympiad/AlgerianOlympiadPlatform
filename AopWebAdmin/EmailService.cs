@@ -19,7 +19,7 @@ namespace AopWebAdmin
             emailMessage.Body = new TextPart("plain") { Text = message };
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(_configuration["SmtpSettings:Server"], int.Parse(_configuration["SmtpSettings:Port"]), MailKit.Security.SecureSocketOptions.StartTls);
+                await client.ConnectAsync(_configuration["SmtpSettings:Server"], int.Parse(_configuration["SmtpSettings:Port"]!), MailKit.Security.SecureSocketOptions.StartTls);
                 await client.AuthenticateAsync(_configuration["SmtpSettings:Username"], _configuration["SmtpSettings:Password"]);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);

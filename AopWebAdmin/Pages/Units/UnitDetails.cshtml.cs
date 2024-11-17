@@ -10,22 +10,22 @@ public class UnitDetails : PageModel
 {
     private readonly IMongoDatabase _database;
 
+    [BindProperty(SupportsGet = true)]
+    public required string RequestedUnit { get; set; }
+
+    [BindProperty(SupportsGet = false)] 
+    public Unit Unit { get; set; } = new();
+    [BindProperty(SupportsGet = false)]
+    public Actions Action { get; set; }
+
+    public List<IdOnly> AvailableProblemsets { get; set; } = [];
+    public List<IdOnly> AvailableLessons { get; set; } = [];
+    public List<IdOnly> AvailableQuizzes { get; set; } = [];
+
     public UnitDetails(IMongoDatabase database)
     {
         _database = database;
     }
-
-    [BindProperty(SupportsGet = true)]
-    public string RequestedUnit { get; set; }
-
-    [BindProperty(SupportsGet = false)] public Unit Unit { get; set; } = new();
-    [BindProperty(SupportsGet = false)]
-    public Actions Action { get; set; }
-
-    public List<IdOnly> AvailableProblemsets { get; set; } = new();
-    public List<IdOnly> AvailableLessons { get; set; } = new();
-    public List<IdOnly> AvailableQuizzes { get; set; } = new();
-
     public void OnGet()
     {
         if (RequestedUnit == "new")

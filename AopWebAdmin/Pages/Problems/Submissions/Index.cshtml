@@ -37,7 +37,7 @@ ViewData["Title"] = "Submissions";
                     <td>
                         <a href="/Problems/Submissions/@submission.Id" class="btn btn-sm btn-info">Edit</a>
                         <form method="post" class="d-inline">
-                            <input type="hidden" asp-for="SubmissionToAffect" value="@submission.Id"/>
+                            <input type="hidden" asp-for="RequestedSubmission" value="@submission.Id"/>
                             <input type="hidden" asp-for="Action" value="@SubmissionsModel.Actions.Delete"/>
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>

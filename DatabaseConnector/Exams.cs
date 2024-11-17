@@ -8,7 +8,7 @@ public class ExamManager(IMongoDatabase database) : DatabaseManager(database)
 
     public Exam GetExamById(string id)
     {
-        var exams = Database.GetCollection<Exam>("Exams") ?? throw new ArgumentNullException("Database.GetCollection<Exam>(\"Exams\")");
+        var exams = Database.GetCollection<Exam>("Exams") ?? throw new ArgumentNullException("id");
         var exam = exams.Find(new ExpressionFilterDefinition<Exam>(x => x.Id == id)).ToList();
         if(exam == null || exam.Count == 0) throw new InvalidOperationException($"Exam does not exist");
         return exam[0];

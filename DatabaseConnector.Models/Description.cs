@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace DatabaseConnector.Models;
 
 public class Description
@@ -17,7 +15,7 @@ public class Description
 
     public bool IsRtl { get; set; }
     public Language Language { get; set; }
-    public string? Content { get; set; } = "";
+    public string Content { get; set; } = "";
 
     protected bool Equals(Description other)
     {
@@ -34,7 +32,9 @@ public class Description
 
     public override int GetHashCode()
     {
+        // ReSharper disable NonReadonlyMemberInGetHashCode
         return HashCode.Combine(IsRtl, (int)Language, Content);
+        // ReSharper restore NonReadonlyMemberInGetHashCode
     }
 
     

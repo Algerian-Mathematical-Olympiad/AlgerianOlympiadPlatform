@@ -1,30 +1,29 @@
 using AopsUtilities;
-using AopWebAdmin.CloudStorage;
 using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
-using OpenQA.Selenium.Interactions;
 
 namespace AopWebAdmin.Pages;
 
 public class AopsImporter : PageModel
 {
-    private static ProblemSearcher _problemSearcher;
-    private static ProblemImporter _problemScraper;
+    private static ProblemSearcher? _problemSearcher;
+    private static ProblemImporter? _problemScraper;
     private readonly IMongoDatabase _database;
-    
 
 
-    public static void Init()
+
+    public static void Init(bool initScraper = false)
     {
         _problemSearcher = new();
-        //_problemScraper = new(true);
+        if(initScraper)
+            _problemScraper = new(true);
     }
     public Problem? Problem { get; set; }
 
-    public bool DidntFindProblem { get; set; } = false;
+    public bool DidntFindProblem { get; set; } 
     
     [BindProperty]
     public string Search { get; set; } = string.Empty;
@@ -61,7 +60,7 @@ public class AopsImporter : PageModel
         return ImportWholeContest();
     }
 
-    private RedirectToPageResult? ImportWholeContest()
+    private RedirectToPageResult ImportWholeContest()
     {
         var manager = new ProblemManager(_database);
         for (int year = FirstYear; year <= LastYear; year++)
@@ -70,9 +69,13 @@ public class AopsImporter : PageModel
             {
                 try
                 {
-                    var pb = _problemSearcher.GetFromAops(ContestName + " " + year + " P" + p, new FromSourceIdGenerator());
-                    manager.CreateProblem(pb);
-                }catch{}
+                    var pb = _problemSearcher?.GetFromAops(ContestName + " " + year + " P" + p, new FromSourceIdGenerator());
+                    if (pb != null) manager.CreateProblem(pb);
+                }
+                catch
+                {
+                    // ignore if problem not found
+                }
             }
         }
         
@@ -85,14 +88,9 @@ public class AopsImporter : PageModel
         {
             try
             {
-                if(Search.Contains("http"))
-                {
-                    Problem = _problemScraper.ScrapProblemFromAops(Search, new FromSourceIdGenerator());
-                }
-                else
-                {
-                    Problem = _problemSearcher.GetFromAops(Search, new FromSourceIdGenerator());
-                }
+                Problem = Search.Contains("http") && _problemScraper != null
+                    ? _problemScraper.ScrapProblemFromAops(Search, new FromSourceIdGenerator()) 
+                    : _problemSearcher?.GetFromAops(Search, new FromSourceIdGenerator());
             }
             catch(Exception e)
             {
@@ -104,8 +102,11 @@ public class AopsImporter : PageModel
             {
                 try
                 {
-                    new ProblemManager(_database).CreateProblem(Problem);
-                    return Redirect("/Problems/" + Problem.Id);
+                    if (Problem != null)
+                    {
+                        new ProblemManager(_database).CreateProblem(Problem);
+                        return Redirect("/Problems/" + Problem.Id);
+                    }
                 }
                 catch(InvalidOperationException)
                 {   

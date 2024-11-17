@@ -8,6 +8,11 @@ namespace AopWebAdmin.Pages.Groups;
 
 public class GroupsModel(IMongoDatabase database) : PageModel
 {
+    [BindProperty]
+    public required string RequestedGroup { get; set; }
+    [BindProperty]
+    public Actions Action { get; set; }
+    
     public List<Group> Groups { get; set; } = [];
 
     public void OnGet()
@@ -22,18 +27,13 @@ public class GroupsModel(IMongoDatabase database) : PageModel
         
     }
     
-    [BindProperty]
-    public required string GroupToAffect { get; set; }
-    [BindProperty]
-    public Actions Action { get; set; }
-
-    public IActionResult OnPostAsync()
+    public IActionResult OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
                 var u = new GroupManager(database);
-                u.DeleteGroup(GroupToAffect);
+                u.DeleteGroup(RequestedGroup);
                 break;
         }
         

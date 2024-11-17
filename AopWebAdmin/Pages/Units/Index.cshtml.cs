@@ -4,18 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Units;
 
 public class UnitsModel : PageModel
 {
     private readonly IMongoDatabase _database;
-    private readonly ILogger<UnitsModel> _logger;
 
-    public List<Unit> Units { get; set; }
+    public List<Unit> Units { get; set; } = [];
+    
+    [BindProperty]
+    public required string RequestedUnit { get; set; }
+    [BindProperty]
+    public Actions Action { get; set; }
 
-    public UnitsModel(ILogger<UnitsModel> logger, IMongoDatabase database)
+
+    public UnitsModel(IMongoDatabase database)
     {
-        _logger = logger;
         _database = database;
     }
 
@@ -29,19 +33,14 @@ public class UnitsModel : PageModel
         var unitManager = new UnitManager(_database);
         Units = unitManager.GetUnits();
     }
-
-    [BindProperty]
-    public string UnitToAffect { get; set; }
-    [BindProperty]
-    public Actions Action { get; set; }
-
-    public async Task<IActionResult> OnPostAsync()
+    
+    public IActionResult OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
                 var unitManager = new UnitManager(_database);
-                unitManager.DeleteUnit(UnitToAffect);
+                unitManager.DeleteUnit(RequestedUnit);
                 break;
         }
 

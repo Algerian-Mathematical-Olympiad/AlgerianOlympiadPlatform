@@ -7,16 +7,16 @@ namespace AopWebAdmin.Pages.Problemsets;
 public class ProblemsetsModel : PageModel
 {
     private readonly IMongoDatabase _database;
+
+    public List<MathProblemset> Problemsets { get; set; } = [];
+    public required string RequestedProblemset { get; set; }
+    
+    public Actions Action { get; set; }
     
     public ProblemsetsModel(IMongoDatabase database)
     {
         _database = database;
     }
-
-    public List<MathProblemset> Problemsets { get; set; }
-    public string ProblemsetToAffect { get; set; }
-    
-    public Actions Action { get; set; }
 
     public void OnGet()
     {

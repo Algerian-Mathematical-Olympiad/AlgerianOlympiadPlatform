@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using AopWebAdmin;
 using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -7,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
+
+namespace AopWebAdmin.Pages;
 
 [AllowAnonymous]
 public class LoginModel : PageModel
@@ -18,15 +19,14 @@ public class LoginModel : PageModel
         _database = database;
     }
 
-    [BindProperty]
-    public InputModel Input { get; set; }
+    [BindProperty] public required InputModel Input { get; set; }
 
-    public string ErrorMessage { get; set; }
+    public string? ErrorMessage { get; set; }
 
     public class InputModel
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public required string Email { get; set; }
+        public required string Password { get; set; }
     }
 
     public async Task<IActionResult> OnPostAsync()

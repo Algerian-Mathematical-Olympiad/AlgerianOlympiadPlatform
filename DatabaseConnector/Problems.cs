@@ -41,15 +41,7 @@ public class ProblemManager(IMongoDatabase database) : DatabaseManager(database)
     {
         Database.GetCollection<Problem>("problems").DeleteOne(pb => pb.Id == id);
     }
-
-    private bool DoesProblemWithSourceLinkExist(string sourceLink)
-    {
-        var problems = Database.GetCollection<Problem>("problems");
-        var problem = problems.Find(new ExpressionFilterDefinition<Problem>(pb => pb.Source.Url == sourceLink)).ToList();
-        if (problem == null || problem.Count == 0) return false;
-        return true;
-    }
-
+    
     public List<Problem> GetAllProblems()
     {
         var problems = Database.GetCollection<Problem>("problems");

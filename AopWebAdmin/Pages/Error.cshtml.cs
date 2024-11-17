@@ -25,5 +25,6 @@ public class ErrorModel : PageModel
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         if(HttpContext.Request.Query.ContainsKey("errorMessage"))
             ErrorMessage = HttpContext.Request.Query["errorMessage"]!;
+        _logger.LogError(ErrorMessage);
     }
 }

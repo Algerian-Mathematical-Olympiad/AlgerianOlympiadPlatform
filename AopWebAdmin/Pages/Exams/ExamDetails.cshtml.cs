@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Exams;
 
 public class ExamDetails : PageModel
 {
@@ -16,9 +16,10 @@ public class ExamDetails : PageModel
     }
 
     [BindProperty(SupportsGet = true)]
-    public string RequestedExam { get; set; }
-    [BindProperty(SupportsGet = false)]
-    public Exam Exam { get; set; }
+    public required string RequestedExam { get; set; }
+
+    [BindProperty(SupportsGet = false)] 
+    public Exam Exam { get; set; } = new();
 
     [BindProperty(SupportsGet = false)]
     public Actions Action { get; set; }
@@ -79,11 +80,7 @@ public class ExamDetails : PageModel
 
     private void GetExam()
     {
-        if (RequestedExam == "new")
-        {
-            Exam = new Exam();
-        }
-        else
+        if (RequestedExam != "new")
         {
             Exam = new ExamManager(_database).GetExamById(RequestedExam);
         }

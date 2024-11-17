@@ -15,7 +15,7 @@ ViewData["Title"] = "AoPS Problem Scraping";
             <form method="post" class="mb-4">
                 <input asp-for="Batch" class="form-control" type="hidden" value="@false" />
                 <div class="form-group mb-3">
-                    <label for="Search" class="form-label">Source Name of the Problem</label>
+                    <label asp-for="Search" class="form-label">Source Name of the Problem</label>
                     <input asp-for="Search" class="form-control" placeholder="Enter problem name" />
                     <span asp-validation-for="Search" class="text-danger"></span>
                 </div>
@@ -45,25 +45,25 @@ ViewData["Title"] = "AoPS Problem Scraping";
                 <input asp-for="Batch" class="form-control" type="hidden" value="@true" />
 
                 <div class="form-group mb-3">
-                    <label for="ContestName" class="form-label">Contest Name</label>
+                    <label asp-for="ContestName" class="form-label">Contest Name</label>
                     <input asp-for="ContestName" class="form-control" placeholder="Enter contest name" />
                     <span asp-validation-for="ContestName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="FirstYear" class="form-label">First Year</label>
+                    <label asp-for="FirstYear" class="form-label">First Year</label>
                     <input asp-for="FirstYear" type="number" class="form-control" placeholder="Enter first year" />
                     <span asp-validation-for="FirstYear" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="LastYear" class="form-label">Last Year</label>
+                    <label asp-for="LastYear" class="form-label">Last Year</label>
                     <input asp-for="LastYear" type="number" class="form-control" placeholder="Enter last year" />
                     <span asp-validation-for="LastYear" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="NumberOfProblemsPerContest" class="form-label">Number of Problems per Contest</label>
+                    <label asp-for="NumberOfProblemsPerContest" class="form-label">Number of Problems per Contest</label>
                     <input asp-for="NumberOfProblemsPerContest" type="number" class="form-control" placeholder="Enter number of problems" />
                     <span asp-validation-for="NumberOfProblemsPerContest" class="text-danger"></span>
                 </div>
@@ -73,3 +73,6 @@ ViewData["Title"] = "AoPS Problem Scraping";
         </div>
     </div>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

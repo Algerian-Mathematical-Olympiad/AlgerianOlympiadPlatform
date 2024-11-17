@@ -4,27 +4,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Users;
 
 public class PermissionsModel : PageModel
 {
     private readonly IMongoDatabase _database;
     
+    [BindProperty(SupportsGet = true)]
+    public required string RequestedUser { get; set; }
+
+    [BindProperty] public UserPermissions Permissions { get; set; } = new();
+    
     public PermissionsModel(IMongoDatabase database)
     {
         _database = database;
     }
-    
-    [BindProperty(SupportsGet = true)]
-    public string RequestedUser { get; set; }
-    [BindProperty] public UserPermissions Permissions { get; set; }
+
 
     public void OnGet()
     {
         Permissions = new UserPermissionsManager(_database).GetUserPermissionsById(RequestedUser);
     }
 
-    public async Task<IActionResult?> OnPostAsync()
+    public IActionResult OnPost()
     {
         var manager = new UserPermissionsManager(_database);
         
@@ -32,9 +34,5 @@ public class PermissionsModel : PageModel
 
         return Page();
     }
-
-
-
-
     
 }

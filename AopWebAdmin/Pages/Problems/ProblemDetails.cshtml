@@ -1,7 +1,5 @@
 @page "/Problems/{RequestedProblem}"
-@using DatabaseConnector.Models
-@using ProblemDetails = AopWebAdmin.Pages.ProblemDetails
-@model AopWebAdmin.Pages.ProblemDetails
+@model AopWebAdmin.Pages.Problems.ProblemDetails
 @{
 ViewData["Title"] = Model.RequestedProblem == "new" ? "New Problem" : "Problem : " + Model.RequestedProblem;
 }

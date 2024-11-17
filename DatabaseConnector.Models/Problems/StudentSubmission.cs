@@ -6,7 +6,8 @@ namespace DatabaseConnector.Models;
 public class StudentSubmission{
     
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; }
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public string? Id { get; set; }
     
     public DateTime Timestamp { get; set; }
 
@@ -18,8 +19,9 @@ public class StudentSubmission{
     
     public Description Description { get; set; } = new();
 
-    public List<string> Attachments { get; set; } = new();
+    // ReSharper disable once CollectionNeverUpdated.Global
+    public List<string> Attachments { get; set; } = [];
 
-    public List<Message> Conversation { get; set; } = new();
+    public List<Message> Conversation { get; set; } = [];
 
 }

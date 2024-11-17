@@ -4,31 +4,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Lessons;
 
 public class LessonDetails : PageModel
 {
     private readonly IMongoDatabase _database;
     
+    [BindProperty(SupportsGet = true)]
+    public required string RequestedLesson { get; set; }
+
+    [BindProperty(SupportsGet = false)] 
+    public Lesson Lesson { get; set; } = new();
+    
+    [BindProperty(SupportsGet = false)]
+    public Actions Action { get; set; }
+
+    public List<Asset> AvailableAttachments { get; set; } = [];
+
     public LessonDetails(IMongoDatabase database)
     {
         _database = database;
     }
     
-    [BindProperty(SupportsGet = true)]
-    public string RequestedLesson { get; set; }
-    [BindProperty(SupportsGet = false)]
-    public Lesson Lesson { get; set; }
-    
-    [BindProperty(SupportsGet = false)]
-    public Actions Action { get; set; }
-
-    public List<Asset> AvailableAttachements { get; set; } = [];
-
-    
     public void OnGet()
     {
-        FillAvailableAttachements();
+        GetLesson();
+        FillAvailableAttachments();
     }
 
     public IActionResult? OnPost()
@@ -57,7 +58,7 @@ public class LessonDetails : PageModel
         if (RequestedLesson == Lesson.Id)
         {
             new LessonManager(_database).UpdateLesson(Lesson, RequestedLesson);
-            FillAvailableAttachements();
+            FillAvailableAttachments();
             return null;
         }
         else
@@ -72,19 +73,21 @@ public class LessonDetails : PageModel
             return Redirect("/Lessons/"+Lesson.Id);
         }
     }
+
+    private void GetLesson()
+    {
+        Lesson = new LessonManager(_database).GetLessonById(RequestedLesson);
+    }
     
-    private void FillAvailableAttachements()
+    private void FillAvailableAttachments()
     {
         if (RequestedLesson == "new")
         {
-            Lesson = new();
-            AvailableAttachements = new CloudAssetManager(_database).GetAllAssets();
+            AvailableAttachments = new CloudAssetManager(_database).GetAllAssets() ?? throw new InvalidOperationException();
             return;
         }
         
-        Lesson = new LessonManager(_database).GetLessonById(RequestedLesson);
-
-        AvailableAttachements = new CloudAssetManager(_database).GetAllAssets().Where(only => !Lesson.Attachments.Contains(only.Id)).ToList();
+        AvailableAttachments = (new CloudAssetManager(_database).GetAllAssets() ?? throw new InvalidOperationException()).Where(only => !Lesson.Attachments.Contains(only.Id)).ToList();
     }
 
     public enum Actions

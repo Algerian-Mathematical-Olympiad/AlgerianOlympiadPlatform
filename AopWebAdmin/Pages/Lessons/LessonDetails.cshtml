@@ -1,5 +1,5 @@
 @page "/Lessons/{RequestedLesson}"
-@model AopWebAdmin.Pages.LessonDetails
+@model LessonDetails
 @{
     ViewData["Title"] = Model.RequestedLesson == "new" ? "New Lesson" : "Lesson : " + Model.RequestedLesson;
 }
@@ -96,7 +96,7 @@ else
             <label>Available Attachements</label>
             <input type="text" id="searchAvailableItems" class="form-control mb-2" placeholder="Search...">
             <select id="availableItems" data-val="false" multiple="multiple" class="form-control" size="8">
-                @foreach (var item in Model.AvailableAttachements)
+                @foreach (var item in Model.AvailableAttachments)
                 {
                     <option value="@item.Id">@item.Id</option>
                 }

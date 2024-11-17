@@ -4,19 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Lessons;
 
 public class LessonsModel : PageModel
 {
     private readonly IMongoDatabase _database;
     
-    private readonly ILogger<LessonsModel> _logger;
+    
+    [BindProperty]
+    public required string RequestedLesson { get; set; }
+    [BindProperty]
+    public Actions Action { get; set; }
 
-    public List<Lesson> Lessons { get; set; }
 
-    public LessonsModel(ILogger<LessonsModel> logger, IMongoDatabase database)
+    public List<Lesson> Lessons { get; set; } = [];
+
+    public LessonsModel(IMongoDatabase database)
     {
-        _logger = logger;
         _database = database;
     }
 
@@ -32,18 +36,13 @@ public class LessonsModel : PageModel
         
     }
     
-    [BindProperty]
-    public string LessonToAffect { get; set; }
-    [BindProperty]
-    public Actions Action { get; set; }
-
-    public async Task<IActionResult> OnPostAsync()
+    public IActionResult OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
                 var u = new LessonManager(_database);
-                u.DeleteLesson(LessonToAffect);
+                u.DeleteLesson(RequestedLesson);
                 break;
         }
         

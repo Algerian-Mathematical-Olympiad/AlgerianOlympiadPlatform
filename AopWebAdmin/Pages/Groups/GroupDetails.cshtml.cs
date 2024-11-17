@@ -4,21 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Groups;
 
 public class GroupDetails : PageModel
 {
     private readonly IMongoDatabase _database;
     
-    public GroupDetails(IMongoDatabase database)
-    {
-        _database = database;
-    }
-    
     [BindProperty(SupportsGet = true)]
-    public string RequestedGroup { get; set; }
-    [BindProperty(SupportsGet = false)]
-    public Group Group { get; set; }
+    public required string RequestedGroup { get; set; }
+
+    [BindProperty(SupportsGet = false)] 
+    public Group Group { get; set; } = new();
     
     [BindProperty(SupportsGet = false)]
     public Actions Action { get; set; }
@@ -28,9 +24,14 @@ public class GroupDetails : PageModel
     
     public List<IdOnly> AvailableUnits { get; set; } = [];
 
+    public GroupDetails(IMongoDatabase database)
+    {
+        _database = database;
+    }
     
     public void OnGet()
     {
+        GetGroup();
         FillAvailableUsers();
         FillAvailableUnits();
     }
@@ -77,20 +78,18 @@ public class GroupDetails : PageModel
             return Redirect("/Groups/"+Group.Id);
         }
     }
+
+    private void GetGroup()
+    {
+        if (RequestedGroup != "new")
+        {
+            Group = new GroupManager(_database).GetGroupById(RequestedGroup);
+        }
+    }
     
     private void FillAvailableUsers()
     {
         var permissionsManager = new UserPermissionsManager(_database);
-        if (RequestedGroup == "new")
-        {
-            Group = new();
-        }
-        else
-        {
-            Group = new GroupManager(_database).GetGroupById(RequestedGroup);
-        }
-        
-        
         AvailableStudents = permissionsManager.GetStudents().Where(x => !Group.Students.Contains(x.Id)).ToList();
         AvailableStaff = permissionsManager.GetStaff().Where(x => !Group.Coaches.Contains(x.Id)).ToList();
 

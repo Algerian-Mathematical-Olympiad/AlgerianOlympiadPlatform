@@ -1,23 +1,23 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Users;
 
 public class UsersModel : PageModel
 {
     private readonly IMongoDatabase _database;
-    
-    private readonly ILogger<UsersModel> _logger;
+    public List<DetailedUser> Users { get; set; } = [];
+    [BindProperty]
+    public required string RequestedUserEmail { get; set; }
+    [BindProperty]
+    public Actions Action { get; set; }
 
-    public List<DetailedUser> Users { get; set; }
 
-    public UsersModel(ILogger<UsersModel> logger, IMongoDatabase database)
+    public UsersModel(IMongoDatabase database)
     {
-        _logger = logger;
         _database = database;
     }
 
@@ -34,18 +34,13 @@ public class UsersModel : PageModel
         Users = users;
     }
     
-    [BindProperty]
-    public string UserEmailToAffect { get; set; }
-    [BindProperty]
-    public Actions Action { get; set; }
-
-    public async Task<IActionResult> OnPostAsync()
+    public IActionResult OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
                 var u = new UserManager(_database);
-                u.DeleteUser(UserEmailToAffect);
+                u.DeleteUser(RequestedUserEmail);
                 break;
         }
         

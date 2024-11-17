@@ -4,18 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Quizzes;
 
 public class QuizzesModel : PageModel
 {
     private readonly IMongoDatabase _database;
-    private readonly ILogger<QuizzesModel> _logger;
 
-    public List<Quiz> Quizzes { get; set; }
+    public List<Quiz> Quizzes { get; set; } = [];
+    
+    [BindProperty]
+    public required string RequestedQuiz { get; set; }
+    [BindProperty]
+    public Actions Action { get; set; }
 
-    public QuizzesModel(ILogger<QuizzesModel> logger, IMongoDatabase database)
+    public QuizzesModel(IMongoDatabase database)
     {
-        _logger = logger;
         _database = database;
     }
 
@@ -29,19 +32,14 @@ public class QuizzesModel : PageModel
         var manager = new QuizManager(_database);
         Quizzes = manager.GetAllQuizzes();
     }
-
-    [BindProperty]
-    public string QuizToAffect { get; set; }
-    [BindProperty]
-    public Actions Action { get; set; }
-
-    public async Task<IActionResult> OnPostAsync()
+    
+    public IActionResult OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
                 var manager = new QuizManager(_database);
-                manager.DeleteQuiz(QuizToAffect);
+                manager.DeleteQuiz(RequestedQuiz);
                 break;
         }
 

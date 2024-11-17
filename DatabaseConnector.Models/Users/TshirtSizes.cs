@@ -1,3 +1,4 @@
+// ReSharper disable InconsistentNaming
 namespace DatabaseConnector.Models;
 
 public enum TshirtSize

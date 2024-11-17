@@ -33,7 +33,7 @@
                 <td>
                     <a href="/Lessons/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                     <form method="post" class="d-inline">
-                        <input type="hidden" asp-for="LessonToAffect" value="@p.Id"/>
+                        <input type="hidden" asp-for="RequestedLesson" value="@p.Id"/>
                         <input type="hidden" asp-for="Action" value="@LessonsModel.Actions.Delete"/>
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>

@@ -4,46 +4,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Users;
 
 public class UserModel : PageModel
 {
     private readonly IMongoDatabase _database;
     
+    [BindProperty(SupportsGet = true)]
+    public required string RequestedUser { get; set; }
+
+    [BindProperty] public DetailedUser UserInput { get; set; } = new();
+    [BindProperty] public Actions Action { get; set; }
+
     public UserModel(IMongoDatabase database)
     {
         _database = database;
     }
     
-    [BindProperty(SupportsGet = true)]
-    public string RequestedUser { get; set; }
-    [BindProperty] public DetailedUser UserInput { get; set; }
-    [BindProperty] public Actions Action { get; set; }
-
     public void OnGet()
     {
-        if(RequestedUser == "new") UserInput = new DetailedUser();
-        else
+        if(RequestedUser != "new") 
         {
             UserInput = new UserManager(_database).GetUserDetails(RequestedUser);
         }
     }
 
-    public async Task<IActionResult?> OnPostAsync()
+    public IActionResult? OnPost()
     {
 
         switch (Action)
         {
             case Actions.Update:
-                if (RequestedUser == "new")
-                {
-                    return Create();
-                }
-                else
-                {
-                    return Update();
-                }
-                break;
+                return RequestedUser == "new" ? Create() : Update();
             case Actions.Delete:
                 Delete();
                 break;
@@ -58,7 +50,7 @@ public class UserModel : PageModel
         manager.DeleteUser(RequestedUser);
     }
 
-    private IActionResult? Create()
+    private IActionResult Create()
     {
         var manager = new UserManager(_database);
         if (IsUsernameUsed(manager)) throw new Exception("Username is already used");

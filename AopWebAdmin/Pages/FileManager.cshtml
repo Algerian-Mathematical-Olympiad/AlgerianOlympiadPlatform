@@ -9,11 +9,11 @@ ViewData["Title"] = "Manage Stored Files";
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="file">Choose file:</label>
+        <label asp-for="File">Choose file:</label>
         <input type="file" asp-for="File" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="file">Name:</label>
+        <label asp-for="FileTitle">Name:</label>
         <input asp-for="FileTitle" class="form-control" />
     </div>
     <input type="hidden" asp-for="Action" value="@FileManagerModel.Actions.Create"/>
@@ -37,7 +37,7 @@ ViewData["Title"] = "Manage Stored Files";
         </td>
         <td>
             <form method="post" class="d-inline">
-                <input type="hidden" asp-for="AssetToAffect" value="@asset.Id"/>
+                <input type="hidden" asp-for="RequestedAsset" value="@asset.Id"/>
                 <input type="hidden" asp-for="Action" value="@FileManagerModel.Actions.Delete"/>
                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
             </form>
@@ -51,3 +51,8 @@ ViewData["Title"] = "Manage Stored Files";
 {
     <p class="text-success">@Model.UploadResult</p>
 }
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
+

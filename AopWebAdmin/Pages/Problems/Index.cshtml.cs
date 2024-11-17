@@ -4,19 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
-namespace AopWebAdmin.Pages;
+namespace AopWebAdmin.Pages.Problems;
 
 public class ProblemsModel : PageModel
 {
     private readonly IMongoDatabase _database;
+
+    public List<Problem> Problems { get; set; } = [];
     
-    private readonly ILogger<ProblemsModel> _logger;
+    [BindProperty]
+    public required string RequestedProblem { get; set; }
+    
+    [BindProperty]
+    public Actions Action { get; set; }
 
-    public List<Problem> Problems { get; set; }
 
-    public ProblemsModel(ILogger<ProblemsModel> logger, IMongoDatabase database)
+    public ProblemsModel(IMongoDatabase database)
     {
-        _logger = logger;
         _database = database;
     }
 
@@ -32,18 +36,13 @@ public class ProblemsModel : PageModel
         
     }
     
-    [BindProperty]
-    public string ProblemToAffect { get; set; }
-    [BindProperty]
-    public Actions Action { get; set; }
-
-    public async Task<IActionResult> OnPostAsync()
+    public IActionResult OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
                 var u = new ProblemManager(_database);
-                u.DeleteProblem(ProblemToAffect);
+                u.DeleteProblem(RequestedProblem);
                 break;
         }
         

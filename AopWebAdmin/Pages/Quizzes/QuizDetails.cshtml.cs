@@ -1,4 +1,3 @@
-using System.Text.Json;
 using DatabaseConnector;
 using DatabaseConnector.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,39 +9,32 @@ namespace AopWebAdmin.Pages.Quizzes;
 public class QuizDetails : PageModel
 {
     private readonly IMongoDatabase _database;
+    
+    [BindProperty(SupportsGet = true)]
+    public required string RequestedQuiz { get; set; }
+
+    [BindProperty(SupportsGet = false)] 
+    public Quiz Quiz { get; set; } = new();
+    
+    [BindProperty(SupportsGet = false)]
+    public Actions Action { get; set; }
 
     public QuizDetails(IMongoDatabase database)
     {
         _database = database;
     }
-    
-    [BindProperty(SupportsGet = true)]
-    public string RequestedQuiz { get; set; }
-    [BindProperty(SupportsGet = false)]
-    public Quiz Quiz { get; set; }
-    
-    [BindProperty(SupportsGet = false)]
-    public Actions Action { get; set; }
-
 
     public void OnGet()
     {
-        if (RequestedQuiz == "new")
-        {
-            Quiz = new()
-            {
-                Id = "",
-                //Answers = [],
-                Name = new(),
-                Points = 10,
-                Statement = new(),
-                //CorrectAnswers = []
-            };
-            return;
-        }
-        
-        Quiz = new QuizManager(_database).GetQuizById(RequestedQuiz);
+        GetQuiz();
+    }
 
+    private void GetQuiz()
+    {
+        if (RequestedQuiz != "new")
+        {
+            Quiz = new QuizManager(_database).GetQuizById(RequestedQuiz);
+        }
     }
 
     public IActionResult? OnPost()

@@ -33,7 +33,7 @@ ViewData["Title"] = "Groups";
             <td>
                 <a href="/Groups/@p.Id" type="submit" class="btn btn-sm btn-info d-inline">Edit</a>
                 <form method="post" class="d-inline">
-                    <input type="hidden" asp-for="GroupToAffect" value="@p.Id"/>
+                    <input type="hidden" asp-for="RequestedGroup" value="@p.Id"/>
                     <input type="hidden" asp-for="Action" value="@GroupsModel.Actions.Delete"/>
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>

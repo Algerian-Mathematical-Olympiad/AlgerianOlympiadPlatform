@@ -6,17 +6,17 @@ public class CloudAssetManager(IMongoDatabase database) : DatabaseManager(databa
 {
     public List<Asset> GetAllAssets()
     {
-        return database.GetCollection<Asset>("assets").AsQueryable().ToList();
+        return Database.GetCollection<Asset>("assets").AsQueryable().ToList();
     }
 
     public void AddAsset(string assetName)
     {
-        database.GetCollection<Asset>("assets").InsertOne(new(assetName));
+        Database.GetCollection<Asset>("assets").InsertOne(new(assetName));
     }
 
-    public void RemoveAsset(string assetName)
+    public void RemoveAsset(string? assetName)
     {
-        database.GetCollection<Asset>("assets").DeleteOne(x => x.Id == assetName);
+        Database.GetCollection<Asset>("assets").DeleteOne(x => x.Id == assetName);
     }
 }
 

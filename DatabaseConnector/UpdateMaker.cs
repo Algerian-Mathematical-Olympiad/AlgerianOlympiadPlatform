@@ -1,4 +1,3 @@
-using DatabaseConnector.Models;
 using MongoDB.Driver;
 
 namespace DatabaseConnector;

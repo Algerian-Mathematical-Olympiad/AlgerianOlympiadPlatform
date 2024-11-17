@@ -46,7 +46,7 @@ ViewData["Title"] = "Users";
                     <a href="/Users/@u.Id" class="btn btn-sm btn-info">Edit</a>
                     <a href="/Users/Permissions/@u.Id" class="btn btn-sm btn-secondary">Permissions</a>
                     <form method="post" class="d-inline">
-                        <input type="hidden" asp-for="UserEmailToAffect" value="@u.Email" />
+                        <input type="hidden" asp-for="RequestedUserEmail" value="@u.Email" />
                         <input type="hidden" asp-for="Action" value="@UsersModel.Actions.Delete" />
                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                     </form>

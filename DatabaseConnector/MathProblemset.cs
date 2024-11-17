@@ -10,7 +10,7 @@ public class MathProblemset : IProblemset
     public DescriptionCollection Description { get; set; } = new();
     public List<string> ProblemsIds { get; set; } = [];
 
-    private IMongoDatabase _database;
+    private IMongoDatabase? _database;
 
     public void SetDatabase(IMongoDatabase database)
     {
@@ -19,6 +19,8 @@ public class MathProblemset : IProblemset
     
     public List<Problem> GetProblems()
     {
+        if(_database == null)
+            throw new NullReferenceException("Database is not set");
         var problems = _database.GetCollection<Problem>("problems");
         return problems.Find(Builders<Problem>.Filter.In(doc => doc.Id, ProblemsIds)).ToList();
     }
