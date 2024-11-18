@@ -1,0 +1,10 @@
+@page
+@model Index
+@{
+    ViewData["Title"] = "My Groups";
+}
+
+@foreach (var g in Model.Groups)
+{
+    <a href="/Groups/@g.Id">@g.Name.EnglishDescription.Content</a>
+}

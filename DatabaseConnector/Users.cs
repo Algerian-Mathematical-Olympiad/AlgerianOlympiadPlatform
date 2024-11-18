@@ -74,10 +74,10 @@ public class UserManager(IMongoDatabase database) : DatabaseManager(database)
         users.DeleteOne(new ExpressionFilterDefinition<User>(details => details.Email == emailOrUsername || details.Id == emailOrUsername));
     }
 
-    public bool DoesUserExist(string id)
+    public bool DoesUserExist(string emailOrUsername)
     {
         var users = Database.GetCollection<User>("users");
-        var user = users.Find(new ExpressionFilterDefinition<User>(u => u.Id == id)).ToList();
+        var user = users.Find(new ExpressionFilterDefinition<User>(u => u.Id == emailOrUsername || u.Email == emailOrUsername)).ToList();
         if (user == null || user.Count == 0) return false;
         return true;
 

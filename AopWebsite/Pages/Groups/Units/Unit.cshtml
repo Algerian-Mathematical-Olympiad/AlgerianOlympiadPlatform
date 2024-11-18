@@ -1,0 +1,23 @@
+@page "/Groups/{RequestedGroup}/{RequestedUnit}"
+@model UnitModel
+
+@{
+    ViewData["Title"] = "Unit " + Model.Unit;
+}
+
+<h3>Problems</h3>
+@for (int i = 0; i < Model.Problems.Count; i++)
+{
+    <h4>
+        <a href="/Groups/@Model.RequestedGroup/@Model.RequestedUnit/@Model.Problems[i].Id">Problem @(i + 1)</a>
+    </h4>
+    <p id="pb-@i">
+        @Model.Problems[i].Descriptions.EnglishDescription.Content
+    </p>
+}
+
+<script>
+    let pbs = @Json.Serialize(Model.Problems.Select(x=>x.Descriptions.EnglishDescription.Content).ToList());
+    for (let i = 0; i < pbs.length; i++)
+        SetContent(document.getElementById(`pb-${i}`), pbs[i]);    
+</script>
