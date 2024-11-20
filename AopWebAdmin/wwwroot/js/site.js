@@ -14,6 +14,18 @@ function setupSearchAndMove(searchInputId, availableListId, selectedListId, addB
             option.style.display = text.includes(filter) ? "" : "none";
         });
     });
+    
+    let selectedList = document.getElementById(selectedListId);
+    
+    for (let f of document.getElementsByTagName("form")) {
+        f.addEventListener("submit", () => {
+            const options = [...selectedList.options];
+            for (let opt of options) {
+                opt.selected = true;
+            }
+        });
+        
+    }
 
     document.getElementById(addButtonId).addEventListener("click", function () {
         moveItems(availableListId, selectedListId);
