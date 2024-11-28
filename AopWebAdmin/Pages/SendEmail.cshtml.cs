@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
-[Authorize(Policy = "SendEmails")]
+[Authorize(Policy = "AddEmails")]
 public class SendEmailModel : PageModel
 {
     [BindProperty]
