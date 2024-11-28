@@ -40,7 +40,7 @@ public class SendEmailModel : PageModel
     
     public async Task<IActionResult> OnPost()
     {
-        var result = await _authorizationService.AuthorizeAsync(User, "SendEmails");
+        var result = await _authorizationService.AuthorizeAsync(User, "AddEmails");
         if (ModelState.IsValid && result.Succeeded)
         {
             await _emailService.SendEmailAsync(ToEmail, Subject, Message);

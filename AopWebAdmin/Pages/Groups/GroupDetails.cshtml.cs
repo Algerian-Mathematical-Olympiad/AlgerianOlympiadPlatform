@@ -7,6 +7,7 @@ using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Groups;
 
+[Authorize(Policy = "ViewGroups")]
 public class GroupDetails : PageModel
 {
     private readonly IMongoDatabase _database;

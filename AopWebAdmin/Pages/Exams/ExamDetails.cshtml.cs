@@ -7,6 +7,7 @@ using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Exams;
 
+[Authorize(Policy = "ViewExams")]
 public class ExamDetails : PageModel
 {
     private readonly IMongoDatabase _database;
@@ -50,7 +51,7 @@ public class ExamDetails : PageModel
                 }
                 return Update();
             case Actions.Delete:
-                var result1 = await _authorizationService.AuthorizeAsync(User, "EditExams");
+                var result1 = await _authorizationService.AuthorizeAsync(User, "DeleteExams");
                 if(!result1.Succeeded)
                 {
                     return Redirect("/");

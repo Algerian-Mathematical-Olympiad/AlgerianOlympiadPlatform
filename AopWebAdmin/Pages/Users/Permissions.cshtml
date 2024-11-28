@@ -1,4 +1,5 @@
 @page "/Users/Permissions/{RequestedUser}"
+@using DatabaseConnector.Models
 @model PermissionsModel
 @{
 ViewData["Title"] = "User Permissions - " + Model.RequestedUser;
@@ -30,6 +31,15 @@ ViewData["Title"] = "User Permissions - " + Model.RequestedUser;
                 <option value="true" selected="@(Model.Permissions.IsSuperUser)">Yes</option>
             </select>
             <span asp-validation-for="Permissions.IsSuperUser" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Permissions.Permissions">Permissions :</label>
+            
+            @foreach (var permission in Enum.GetNames(typeof(Permission)))
+            {
+                <input type="checkbox" onchange="() => UpdatePermission(permission)"> <label>@permission</label>
+            }
         </div>
     </form>
 </div>

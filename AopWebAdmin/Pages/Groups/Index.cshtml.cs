@@ -8,6 +8,7 @@ using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Groups;
 
+[Authorize(Policy = "ViewGroups")]
 public class GroupsModel(IMongoDatabase database, IAuthorizationService authorizationService) : PageModel
 {
     [BindProperty]

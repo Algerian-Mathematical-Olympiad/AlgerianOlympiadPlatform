@@ -1,0 +1,32 @@
+@page
+@model ForbiddenModel
+
+@{
+ViewData["Title"] = "You don't have access";
+}
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        },
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+</style>
+
+<h1>403 - Forbidden</h1>
+<p>You do not have permission to access this resource.</p>
+
+<button onclick="@GoHome">Go Back to Homepage</button>

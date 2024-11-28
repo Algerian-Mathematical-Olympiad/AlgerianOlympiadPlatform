@@ -18,7 +18,7 @@ builder.Services.AddSingleton(new MongoDbProvider()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.AccessDeniedPath = "/";
+        options.AccessDeniedPath = "/Forbidden";
         options.LoginPath = "/Login";
         options.LogoutPath = "/Logout";
     });

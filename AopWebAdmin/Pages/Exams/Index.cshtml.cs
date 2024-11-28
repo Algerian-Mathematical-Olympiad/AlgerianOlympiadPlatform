@@ -42,7 +42,7 @@ public class ExamsModel : PageModel
         switch (Action)
         {
             case Actions.Delete:
-                var result = await _authorizationService.AuthorizeAsync(User, "SendEmails");
+                var result = await _authorizationService.AuthorizeAsync(User, "DeleteExams");
                 if(result.Succeeded)
                 {
                     var manager = new ExamManager(_database);
