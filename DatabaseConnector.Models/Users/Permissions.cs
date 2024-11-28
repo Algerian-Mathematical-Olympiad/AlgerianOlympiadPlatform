@@ -45,5 +45,6 @@ public enum Permission
     ViewExams,
     EditExams,
     DeleteExams,
-    AddExams
+    AddExams,
+    FileManager
 }

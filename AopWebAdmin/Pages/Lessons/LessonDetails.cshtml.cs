@@ -41,7 +41,7 @@ public class LessonDetails : PageModel
         switch (Action)
         {
             case Actions.Update:
-                var result = await _authorizationService.AuthorizeAsync(User, "UpdateLessons");
+                var result = await _authorizationService.AuthorizeAsync(User, "EditLessons");
                 if(!result.Succeeded)
                 {
                     return Redirect("/");
@@ -90,7 +90,10 @@ public class LessonDetails : PageModel
 
     private void GetLesson()
     {
-        Lesson = new LessonManager(_database).GetLessonById(RequestedLesson);
+        if(RequestedLesson != "new")
+        {
+            Lesson = new LessonManager(_database).GetLessonById(RequestedLesson);
+        }
     }
     
     private void FillAvailableAttachments()

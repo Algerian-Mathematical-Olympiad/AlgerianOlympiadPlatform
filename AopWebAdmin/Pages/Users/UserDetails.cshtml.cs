@@ -40,7 +40,7 @@ public class UserModel : PageModel
         switch (Action)
         {
             case Actions.Update:
-                var result = await _authorizationService.AuthorizeAsync(User, "UpdateUsers");
+                var result = await _authorizationService.AuthorizeAsync(User, "EditUsers");
                 if(!result.Succeeded)
                 {
                     return Redirect("/");

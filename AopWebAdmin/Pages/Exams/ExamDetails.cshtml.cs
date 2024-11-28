@@ -43,14 +43,14 @@ public class ExamDetails : PageModel
         switch (Action)
         {
             case Actions.Update:
-                var result = await _authorizationService.AuthorizeAsync(User, "UpdateExams");
+                var result = await _authorizationService.AuthorizeAsync(User, "EditExams");
                 if(!result.Succeeded)
                 {
                     return Redirect("/");
                 }
                 return Update();
             case Actions.Delete:
-                var result1 = await _authorizationService.AuthorizeAsync(User, "UpdateExams");
+                var result1 = await _authorizationService.AuthorizeAsync(User, "EditExams");
                 if(!result1.Succeeded)
                 {
                     return Redirect("/");

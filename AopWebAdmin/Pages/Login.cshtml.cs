@@ -49,9 +49,9 @@ public class LoginModel : PageModel
             return Page();
         }
         
-        if (!user.IsSuperUser)
+        if (!user.IsStaff)
         {
-            ErrorMessage = "User is not a superuser.";
+            ErrorMessage = "User is not a staff member.";
             return Page();
         }
 
@@ -62,11 +62,21 @@ public class LoginModel : PageModel
             new Claim(ClaimTypes.Name, user.Id),
         };
 
-        var permissions = new UserPermissionsManager(_database).GetUserPermissionsById(user.Id).Permissions;
+        var permissions = new UserPermissionsManager(_database).GetUserPermissionsById(user.Id);
 
-        foreach (var item in permissions)
+        if (permissions.IsSuperUser)
         {
-            claims.Add(new Claim(item.ToString(), item.ToString()));
+            foreach (var item in Enum.GetNames(typeof(Permission)))
+            {
+                claims.Add(new Claim(item, item));
+            }
+        }
+        else
+        {
+            foreach (var item in permissions.Permissions)
+            {
+                claims.Add(new Claim(item.ToString(), item.ToString()));
+            }
         }
 
         var identity = new ClaimsIdentity(claims, "Cookie");

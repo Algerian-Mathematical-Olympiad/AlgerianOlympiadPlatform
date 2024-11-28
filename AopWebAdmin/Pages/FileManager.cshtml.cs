@@ -1,11 +1,13 @@
 using AopWebAdmin.CloudStorage;
 using DatabaseConnector;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
+[Authorize(Policy = "FileManager")]
 public class FileManagerModel : PageModel
 {
     private readonly ICloudStorage _storageClient;

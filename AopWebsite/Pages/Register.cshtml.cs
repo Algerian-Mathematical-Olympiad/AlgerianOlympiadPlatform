@@ -62,7 +62,7 @@ public class Register : PageModel
             Email = UserInput.Email,
             Id = UserInput.Id,
             PasswordHash = PasswordHasher.HashPassword(Password),
-            IsSuperUser = false
+            IsStaff = false
         });
         
         return RedirectToPage("/Login");

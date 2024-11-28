@@ -48,7 +48,7 @@ public class UnitDetails : PageModel
         switch (Action)
         {
             case Actions.Update:
-                var result = await _authorizationService.AuthorizeAsync(User, "UpdateUnits");
+                var result = await _authorizationService.AuthorizeAsync(User, "EditUnits");
                 if(!result.Succeeded)
                 {
                     return Redirect("/");

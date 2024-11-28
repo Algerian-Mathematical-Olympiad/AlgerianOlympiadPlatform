@@ -42,7 +42,7 @@ public class ProblemDetails : PageModel
         switch (Action)
         {
             case Actions.Update:
-                var result = await _authorizationService.AuthorizeAsync(User, "UpdateProblems");
+                var result = await _authorizationService.AuthorizeAsync(User, "EditProblems");
                 if(!result.Succeeded)
                 {
                     return Redirect("/");
