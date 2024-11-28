@@ -1,14 +1,17 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Exams;
 
+[Authorize("ViewExams")]
 public class ExamsModel : PageModel
 {
     private readonly IMongoDatabase _database;
+    private readonly IAuthorizationService _authorizationService;
     
     [BindProperty]
     public required string RequestedExam { get; set; }
@@ -17,8 +20,9 @@ public class ExamsModel : PageModel
 
     public List<Exam> Exams { get; set; } = [];
 
-    public ExamsModel(IMongoDatabase database)
+    public ExamsModel(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
 
@@ -33,13 +37,21 @@ public class ExamsModel : PageModel
         Exams = manager.GetAllExams();
     }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
-                var manager = new ExamManager(_database);
-                manager.DeleteExam(RequestedExam);
+                var result = await _authorizationService.AuthorizeAsync(User, "SendEmails");
+                if(result.Succeeded)
+                {
+                    var manager = new ExamManager(_database);
+                    manager.DeleteExam(RequestedExam);
+                }
+                else
+                {
+                    return Redirect("/Exams");
+                }
                 break;
         }
 

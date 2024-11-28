@@ -28,7 +28,7 @@ public class LoginModel : PageModel
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
-
+    
     public async Task<IActionResult> OnPostAsync()
     {
         UserAuthInfo user;
@@ -61,6 +61,14 @@ public class LoginModel : PageModel
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.Id),
         };
+
+        var permissions = new UserPermissionsManager(_database).GetUserPermissionsById(user.Id).Permissions;
+
+        foreach (var item in permissions)
+        {
+            claims.Add(new Claim(item.ToString(), item.ToString()));
+        }
+
         var identity = new ClaimsIdentity(claims, "Cookie");
         var principal = new ClaimsPrincipal(identity);
         await HttpContext.SignInAsync(principal);

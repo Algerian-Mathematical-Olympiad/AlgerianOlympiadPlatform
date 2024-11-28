@@ -8,4 +8,5 @@ public class UserPermissions
     public string Id { get; set; } = "";
     public bool IsStaff { get; set; }
     public bool IsSuperUser { get; set; }
+    public List<Permission> Permissions {get; set;} = new();
 }

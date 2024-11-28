@@ -1,11 +1,13 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Problems;
 
+[Authorize(Policy = "ViewProblems")]
 public class ProblemsModel : PageModel
 {
     private readonly IMongoDatabase _database;
@@ -18,9 +20,11 @@ public class ProblemsModel : PageModel
     [BindProperty]
     public Actions Action { get; set; }
 
+    private readonly IAuthorizationService _authorizationService;
 
-    public ProblemsModel(IMongoDatabase database)
+    public ProblemsModel(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
 
@@ -36,11 +40,16 @@ public class ProblemsModel : PageModel
         
     }
     
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         switch (Action)
         {
             case Actions.Delete:
+                var result = await _authorizationService.AuthorizeAsync(User, "DeleteProblems");
+                if(!result.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 var u = new ProblemManager(_database);
                 u.DeleteProblem(RequestedProblem);
                 break;

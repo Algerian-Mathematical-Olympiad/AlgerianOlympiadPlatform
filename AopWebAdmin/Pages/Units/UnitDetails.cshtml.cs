@@ -1,11 +1,13 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Units;
 
+[Authorize(Policy = "ViewUnits")]
 public class UnitDetails : PageModel
 {
     private readonly IMongoDatabase _database;
@@ -22,8 +24,11 @@ public class UnitDetails : PageModel
     public List<IdOnly> AvailableLessons { get; set; } = [];
     public List<IdOnly> AvailableQuizzes { get; set; } = [];
 
-    public UnitDetails(IMongoDatabase database)
+    private readonly IAuthorizationService _authorizationService;
+
+    public UnitDetails(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
     public void OnGet()
@@ -38,13 +43,23 @@ public class UnitDetails : PageModel
         FillFieldsOptions();
     }
 
-    public IActionResult? OnPost()
+    public async Task<IActionResult?> OnPostAsync()
     {
         switch (Action)
         {
             case Actions.Update:
+                var result = await _authorizationService.AuthorizeAsync(User, "UpdateUnits");
+                if(!result.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return Update();
             case Actions.Delete:
+                var result1 = await _authorizationService.AuthorizeAsync(User, "DeleteUnits");
+                if(!result1.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return Delete();
         }
 

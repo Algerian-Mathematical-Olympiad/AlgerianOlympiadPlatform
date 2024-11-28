@@ -1,5 +1,6 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
@@ -23,9 +24,11 @@ public class GroupDetails : PageModel
     public List<UserPermissions> AvailableStudents { get; set; } = [];
     
     public List<IdOnly> AvailableUnits { get; set; } = [];
+    private readonly IAuthorizationService _authorizationService;
 
-    public GroupDetails(IMongoDatabase database)
+    public GroupDetails(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
     
@@ -36,13 +39,23 @@ public class GroupDetails : PageModel
         FillAvailableUnits();
     }
 
-    public IActionResult? OnPost()
+    public async Task<IActionResult?> OnPost()
     {
         switch (Action)
         {
             case Actions.Update:
+                var result = await _authorizationService.AuthorizeAsync(User, "UpdateGroups");
+                if(!result.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return Update();
             case Actions.Delete:
+                var result1 = await _authorizationService.AuthorizeAsync(User, "DeleteGroups");
+                if(!result1.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return Delete();
         }
 

@@ -1,11 +1,13 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages;
 
+[Authorize(Policy = "SendEmails")]
 public class SendEmailModel : PageModel
 {
     [BindProperty]
@@ -19,13 +21,14 @@ public class SendEmailModel : PageModel
 
     public string? ErrorMessage { get; set; }
 
-
+    private readonly IAuthorizationService _authorizationService;
     private readonly EmailService _emailService;
     
     private IMongoDatabase _database;
 
-    public SendEmailModel(EmailService emailService, IMongoDatabase database)
+    public SendEmailModel(EmailService emailService, IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _emailService = emailService;
         _database = database;
     }
@@ -37,10 +40,15 @@ public class SendEmailModel : PageModel
     
     public async Task<IActionResult> OnPost()
     {
-        if (ModelState.IsValid)
+        var result = await _authorizationService.AuthorizeAsync(User, "SendEmails");
+        if (ModelState.IsValid && result.Succeeded)
         {
             await _emailService.SendEmailAsync(ToEmail, Subject, Message);
             ErrorMessage = "Email sent successfully!";
+        }
+        else if (ModelState.IsValid)
+        {
+            ErrorMessage = "You are not allowed to send emails";
         }
         GetUsers();
         return Page();

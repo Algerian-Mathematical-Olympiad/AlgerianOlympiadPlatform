@@ -1,11 +1,13 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Users;
 
+[Authorize(Policy = "ViewUsers")]
 public class UserModel : PageModel
 {
     private readonly IMongoDatabase _database;
@@ -16,8 +18,11 @@ public class UserModel : PageModel
     [BindProperty] public DetailedUser UserInput { get; set; } = new();
     [BindProperty] public Actions Action { get; set; }
 
-    public UserModel(IMongoDatabase database)
+    private readonly IAuthorizationService _authorizationService;
+
+    public UserModel(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
     
@@ -29,14 +34,24 @@ public class UserModel : PageModel
         }
     }
 
-    public IActionResult? OnPost()
+    public async Task<IActionResult?> OnPostAsync()
     {
 
         switch (Action)
         {
             case Actions.Update:
+                var result = await _authorizationService.AuthorizeAsync(User, "UpdateUsers");
+                if(!result.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return RequestedUser == "new" ? Create() : Update();
             case Actions.Delete:
+                var result1 = await _authorizationService.AuthorizeAsync(User, "DeleteUsers");
+                if(!result1.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 Delete();
                 break;
         }

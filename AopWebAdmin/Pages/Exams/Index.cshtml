@@ -1,6 +1,8 @@
 @page
 @model ExamsModel
 @using DatabaseConnector.Models
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService Authorization
 @{
 ViewData["Title"] = "Exams";
 }
@@ -8,11 +10,9 @@ ViewData["Title"] = "Exams";
 <div class="text-center">
     <h1 class="display-4">Exams</h1>
     <a class="text-end" href="/Exams/new" style="margin-right: 10px;">Add an Exam</a>
-
     <div class="mb-3">
         <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control" placeholder="Search..."/>
     </div>
-
     <table class="table table-bordered table-hover" id="ExamsTable">
         <thead class="thead-dark">
         <tr>

@@ -1,11 +1,13 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Lessons;
 
+[Authorize(Policy = "ViewLessons")]
 public class LessonDetails : PageModel
 {
     private readonly IMongoDatabase _database;
@@ -20,9 +22,11 @@ public class LessonDetails : PageModel
     public Actions Action { get; set; }
 
     public List<Asset> AvailableAttachments { get; set; } = [];
+    private readonly IAuthorizationService _authorizationService;
 
-    public LessonDetails(IMongoDatabase database)
+    public LessonDetails(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
     
@@ -32,13 +36,23 @@ public class LessonDetails : PageModel
         FillAvailableAttachments();
     }
 
-    public IActionResult? OnPost()
+    public async Task<IActionResult?> OnPost()
     {
         switch (Action)
         {
             case Actions.Update:
+                var result = await _authorizationService.AuthorizeAsync(User, "UpdateLessons");
+                if(!result.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return Update();
             case Actions.Delete:
+                var result1 = await _authorizationService.AuthorizeAsync(User, "DeleteLessons");
+                if(!result1.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 return Delete();
         }
 

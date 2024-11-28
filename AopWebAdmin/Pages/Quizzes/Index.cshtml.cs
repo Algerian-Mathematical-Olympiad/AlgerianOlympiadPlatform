@@ -1,11 +1,13 @@
 using DatabaseConnector;
 using DatabaseConnector.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
 
 namespace AopWebAdmin.Pages.Quizzes;
 
+[Authorize(Policy = "ViewQuizzes")]
 public class QuizzesModel : PageModel
 {
     private readonly IMongoDatabase _database;
@@ -17,8 +19,10 @@ public class QuizzesModel : PageModel
     [BindProperty]
     public Actions Action { get; set; }
 
-    public QuizzesModel(IMongoDatabase database)
+    private readonly IAuthorizationService _authorizationService;
+    public QuizzesModel(IMongoDatabase database, IAuthorizationService authorizationService)
     {
+        _authorizationService = authorizationService;
         _database = database;
     }
 
@@ -33,11 +37,16 @@ public class QuizzesModel : PageModel
         Quizzes = manager.GetAllQuizzes();
     }
     
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         switch (Action)
         {
             case Actions.Delete:
+                var result = await _authorizationService.AuthorizeAsync(User, "DeleteQuizzes");
+                if(!result.Succeeded)
+                {
+                    return Redirect("/");
+                }
                 var manager = new QuizManager(_database);
                 manager.DeleteQuiz(RequestedQuiz);
                 break;
